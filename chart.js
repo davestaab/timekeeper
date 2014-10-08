@@ -4,12 +4,11 @@
 		// defaults
 		var width = 720, height = 80;
 		
-		function my() {
+		function my(selection) {
 			
 		}
 
-		 my.width = function(value) {
-		    if (!arguments.length) return width;
+		 my.width = function(value) { 
 		    width = value;
 		    return my;
 		  };

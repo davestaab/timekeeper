@@ -7,17 +7,31 @@
     
     
     <title>Time Keeper &middot; Home</title>
-    <!-- <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
-    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-114.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-144.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144.png"> -->
+    
 </head>
 <body>
-	<h1>Hello World</h1>
+	<h1>Time Keeper</h1>
+	<p id="chart">
+
+	</p>
+
+
 
 	<script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
 	<script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
+	<script type="text/javascript" src="time-series-chart.js"></script>
+	<script type="text/javascript">
+		var chart = timeSeriesChart()
+	    .x(function(d) { return formatDate.parse(d.date); })
+	    .y(function(d) { return +d.price; });
+
+		var formatDate = d3.time.format("%b %Y");
+
+		d3.csv("sp500.csv", function(data) {
+  			d3.select("#chart")
+      			.datum(data)
+      			.call(chart);
+		});
+	</script>
 </body>
 </html>
