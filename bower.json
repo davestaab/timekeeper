@@ -1,0 +1,21 @@
+{
+  "name": "timekeeper",
+  "version": "0.0.0",
+  "homepage": "https://github.com/davestaab/timekeeper",
+  "authors": [
+    "Dave Staab <dave.staab@cadre5.com>"
+  ],
+  "description": "personal timekeeper app",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
