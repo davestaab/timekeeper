@@ -7,13 +7,20 @@
     
     
     <title>Time Keeper &middot; Home</title>
-    
+    <style type="text/css">
+    	.line {
+    		stroke: red;
+			fill: none;
+			stroke-linejoin: round;
+			stroke-width: 5px;
+			stroke-linecap: round;
+    	}
+	</style>
 </head>
 <body>
 	<h1>Time Keeper</h1>
-	<p id="chart">
-
-	</p>
+	<div id="chart">
+	</div>
 
 
 
@@ -22,16 +29,53 @@
 	<script type="text/javascript" src="time-series-chart.js"></script>
 	<script type="text/javascript">
 		var chart = timeSeriesChart()
-	    .x(function(d) { return formatDate.parse(d.date); })
-	    .y(function(d) { return +d.price; });
+	    .x(function(d) { return d.date; })
+	    .y(function(d) { return d.task; });
 
 		var formatDate = d3.time.format("%b %Y");
 
-		d3.csv("sp500.csv", function(data) {
-  			d3.select("#chart")
-      			.datum(data)
-      			.call(chart);
-		});
+
+
+		// d3.csv("sp500.csv", function(data) {
+		// 	console.log("data: ", data);
+  // 			d3.select("#chart")
+  //     			.datum(data)
+  //     			.call(chart);
+		// });
+		var timeFormat = d3.time.format('%Y-%m-%d %I:%M');
+		var today = pointFactory('2014-10-08');
+		var data = [
+			today('8:00', 1),
+			// today('11:00',1),
+			today('11:00',2),
+			// today('12:00',2),
+			today('12:00',1),
+			// today('15:00', 1),
+			today('15:00', 3),
+			today('17:00', 3)
+		];
+		d3.select("#chart")
+			.datum(data)
+			.on('click', click)
+			.call(chart);
+
+		
+		function click(a,b,c,d) {
+			console.log(a,b,c,d);
+
+		}
+		function pointFactory(date) {
+			var offset = new Date().getTimezoneOffset() * 60 * 1000;
+			return function createPoint(time, task) {
+				return {
+					date: timeFormat.parse(date + ' ' + time),
+					task: task
+				}
+			}	
+		}
+		
+
+		
 	</script>
 </body>
 </html>

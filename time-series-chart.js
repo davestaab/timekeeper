@@ -1,14 +1,14 @@
 function timeSeriesChart() {
-  var margin = {top: 20, right: 20, bottom: 20, left: 20},
+  var margin = {top: 25, right: 25, bottom: 25, left: 25},
       width = 760,
-      height = 120,
+      height = 200,
       xValue = function(d) { return d[0]; },
       yValue = function(d) { return d[1]; },
       xScale = d3.time.scale(),
       yScale = d3.scale.linear(),
       xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
-      area = d3.svg.area().x(X).y1(Y),
-      line = d3.svg.line().x(X).y(Y);
+      // area = d3.svg.area().x(X).y1(Y),
+      line = d3.svg.line().x(X).y(Y).interpolate('step-after');
 
   function chart(selection) {
     selection.each(function(data) {
@@ -26,7 +26,7 @@ function timeSeriesChart() {
 
       // Update the y-scale.
       yScale
-          .domain([0, d3.max(data, function(d) { return d[1]; })])
+          .domain([d3.max(data, function(d) { return d[1]; }), 0])
           .range([height - margin.top - margin.bottom, 0]);
 
       // Select the svg element, if it exists.
@@ -34,7 +34,7 @@ function timeSeriesChart() {
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("path").attr("class", "area");
+      // gEnter.append("path").attr("class", "area");
       gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
 
@@ -47,8 +47,8 @@ function timeSeriesChart() {
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       // Update the area path.
-      g.select(".area")
-          .attr("d", area.y0(yScale.range()[0]));
+      // g.select(".area")
+      //     .attr("d", area.y0(yScale.range()[0]));
 
       // Update the line path.
       g.select(".line")
