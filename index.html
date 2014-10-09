@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="timekeeperApp">
 <meta charset="utf-8">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,30 +9,39 @@
     <title>Time Keeper &middot; Home</title>
     <style type="text/css">
     	.line {
-    		stroke: red;
+    		stroke: blueviolet;
 			fill: none;
 			stroke-linejoin: round;
 			stroke-width: 5px;
 			stroke-linecap: round;
     	}
+    	svg {
+    		background: lightcyan;
+    		border: thin solid darkcyan;
+    	}
 	</style>
 </head>
-<body>
+<body ng-controller="MainCtrl">
 	<h1>Time Keeper</h1>
 	<div id="chart">
 	</div>
+	<span ng-bind="msg"></span>
+
+	<div ng-controller="DataCtrl">
+		<span ng-bind="msg"></span>
+		<pre>
+{{service | json}}
+		</pre>
+	</div>
 
 
-
-	<script type="text/javascript" src="bower_components/angularjs/angular.min.js"></script>
-	<script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
-	<script type="text/javascript" src="time-series-chart.js"></script>
+	<script type="text/javascript" src="dist/app.js"></script>
 	<script type="text/javascript">
 		var chart = timeSeriesChart()
 	    .x(function(d) { return d.date; })
 	    .y(function(d) { return d.task; });
 
-		var formatDate = d3.time.format("%b %Y");
+		
 
 
 
@@ -49,7 +58,7 @@
 			// today('11:00',1),
 			today('11:00',2),
 			// today('12:00',2),
-			today('12:00',1),
+			today('12:00',1), 
 			// today('15:00', 1),
 			today('15:00', 3),
 			today('17:00', 3)
@@ -61,7 +70,7 @@
 
 		
 		function click(a,b,c,d) {
-			console.log(a,b,c,d);
+			console.log(a,b,c,date);
 
 		}
 		function pointFactory(date) {
