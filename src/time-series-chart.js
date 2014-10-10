@@ -1,12 +1,18 @@
 function timeSeriesChart() {
-  var margin = {top: 25, right: 25, bottom: 25, left: 25},
+  var margin = {top: 50, right: 50, bottom: 50, left: 75},
       width = 760,
       height = 200,
+      duration = 500, 
+      ease = 'cubic-out',
       xValue = function(d) { return d[0]; },
       yValue = function(d) { return d[1]; },
       xScale = d3.time.scale(),
-      yScale = d3.scale.linear(),
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
+      // yScale = d3.scale.linear(),
+      categories = ['red','blue','one','two'],
+      yScale = d3.scale.ordinal(),
+      // catScale = d3.scale.ordinal(),
+      xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(8),
+      yAxis = d3.svg.axis().scale(yScale).orient("left"),
       // area = d3.svg.area().x(X).y1(Y),
       line = d3.svg.line().x(X).y(Y).interpolate('step-after');
 
@@ -26,8 +32,8 @@ function timeSeriesChart() {
 
       // Update the y-scale.
       yScale
-          .domain([d3.max(data, function(d) { return d[1]; }), 0])
-          .range([height - margin.top - margin.bottom, 0]);
+          .domain(categories)
+          .rangePoints([height - margin.top - margin.bottom, 0], 1);
 
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([data]);
@@ -37,9 +43,10 @@ function timeSeriesChart() {
       // gEnter.append("path").attr("class", "area");
       gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
+      gEnter.append("g").attr("class", "y axis");
 
       // Update the outer dimensions.
-      svg .attr("width", width)
+      svg.attr("width", width)
           .attr("height", height);
 
       // Update the inner dimensions.
@@ -55,9 +62,20 @@ function timeSeriesChart() {
           .attr("d", line);
 
       // Update the x-axis.
-      g.select(".x.axis")
-          .attr("transform", "translate(0," + yScale.range()[0] + ")")
+      svg
+          .select(".x.axis")
+          .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
+          .transition()
+          .duration(duration)
+          .ease(ease)
           .call(xAxis);
+
+      // update y axis
+      svg.select(".y.axis")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(yAxis);
     });
   }
 
@@ -99,6 +117,18 @@ function timeSeriesChart() {
     if (!arguments.length) return yValue;
     yValue = _;
     return chart;
+  };
+
+  chart.categories = function(_) {
+    if (!arguments.length) return categories;
+    categories= _;
+    return chart;
+  };
+
+  chart.debug = function() {
+    return {
+      yScale: yScale
+    };
   };
 
   return chart;

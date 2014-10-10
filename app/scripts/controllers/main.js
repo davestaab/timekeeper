@@ -9,8 +9,8 @@
 	 * Controller of the timekeeperApp
 	 */
 	angular.module('timekeeperApp')
-	  .controller('MainCtrl', function ($scope) {
-	    $scope.msg = "Hello World";
-	  });
+	  .controller('MainCtrl', ['$scope', 'dataService', function ($scope, dataService) {
+	    $scope.service = dataService;
+	  }]);
 
 })();

@@ -32205,9 +32205,23 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 	 * Controller of the timekeeperApp
 	 */
 	angular.module('timekeeperApp')
-	  .controller('DataCtrl', ['$scope', 'dataService', function ($scope, dataService) {
-	    $scope.msg= 'hello data world';
+	  .controller('DataCtrl', ['$scope', 'dataService', '$log', function ($scope, dataService, $log) {
 	    $scope.service = dataService;
+	    $scope.addTime = function() {
+	    	// dataService.data
+    		$log.debug('add time scope: ', $scope);
+    		dataService.addTime($scope.time, $scope.category);
+	    };
+	    $scope.deleteTime = function(item) {
+	    	dataService.deleteTime(item);
+	    };
+	    $scope.addCategory = function() {
+	    	if($scope.newCategory !== '' && angular.isDefined($scope.newCategory)){
+		    	dataService.currentDay.categories.push($scope.newCategory);
+		    	dataService.updateCount++;
+		    	$scope.newCategory = '';	
+	    	}
+	    };
 	  }]);
 
 })();
@@ -32222,10 +32236,48 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 	 * Controller of the timekeeperApp
 	 */
 	angular.module('timekeeperApp')
-	  .controller('MainCtrl', function ($scope) {
-	    $scope.msg = "Hello World";
-	  });
+	  .controller('MainCtrl', ['$scope', 'dataService', function ($scope, dataService) {
+	    $scope.service = dataService;
+	  }]);
 
+})();
+;(function() {
+	'use strict';
+
+	/**
+	 * @ngdoc directive
+	 * @name timekeeperApp.directive:timeChart
+	 * @description
+	 * # timeChart
+	 */
+	angular.module('timekeeperApp')
+	  .directive('timeChart', ['$log', function ($log) {
+	    return {
+	      template: '<div id="chart"></div>',
+	      restrict: 'E',
+	      scope: {
+	      	day: '=',
+	      	refresh: '='
+	      },
+	      link: function postLink(scope, element, attrs) {
+	      	// $log.debug("scope is", scope);
+	      	var chart = timeSeriesChart()
+	    			.x(function(d) { return d.date; })
+	    			.y(function(d) { return d.category; });
+			var chartEl = d3.select(element[0]);
+
+			$log.debug('debug yscale', chart.debug());
+
+	        scope.$watch('refresh', function(newVal, oldVal) {
+    			$log.debug('chart day:', newVal);
+    			chart.categories(scope.day.categories);
+    			chartEl
+    				.datum(scope.day.timeEntries)
+					.call(chart);
+	        });
+	      }
+	    };
+	  }]);
 })();
 ;(function() {
 	'use strict';
@@ -32247,7 +32299,9 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 	    	data: [],
 	    	addDay: addDay,
 	    	addTime: addTime,
-	    	currentDay: null
+	    	deleteTime: deleteTime,
+	    	currentDay: null,
+	    	updateCount: 0 // is incremented everytime the data is updated
 	    };
 
 	    /**
@@ -32277,6 +32331,15 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 	     */
 	    function addTime(startTime, category) {
 	    	service.currentDay.timeEntries.push(createTimeEntry(service.currentDay, startTime, category));
+	    	service.updateCount++;
+	    }
+
+	    function deleteTime(item) {
+	    	var i = service.data.indexOf(item);
+	    	if(i > -1) {
+	    		service.data.indexOf.splice(i, 1);
+	    	}
+	    	service.updateCount++;
 	    }
 
 	    
@@ -32298,12 +32361,10 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 	    	};
 	    }
 	    
-	    // load test data
+	    // create test data
 		addDay('2014-10-08');
-	    ['8:00', '12:00', '1:00', '5:00'].map(function(e, i) {
-	    	var j = Math.floor(Math.random() * service.currentDay.categories.length);
-	    	var category = service.currentDay.categories[j];
-	    	addTime(e, category);
+	    ['8:00', '12:00', '13:00', '17:00'].map(function(e, i) {
+	    	addTime(e, service.currentDay.categories[i]);
 	    });
 
 	    return service;
@@ -32327,14 +32388,20 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })();
 ;function timeSeriesChart() {
-  var margin = {top: 25, right: 25, bottom: 25, left: 25},
+  var margin = {top: 50, right: 50, bottom: 50, left: 75},
       width = 760,
       height = 200,
+      duration = 500, 
+      ease = 'cubic-out',
       xValue = function(d) { return d[0]; },
       yValue = function(d) { return d[1]; },
       xScale = d3.time.scale(),
-      yScale = d3.scale.linear(),
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
+      // yScale = d3.scale.linear(),
+      categories = ['red','blue','one','two'],
+      yScale = d3.scale.ordinal(),
+      // catScale = d3.scale.ordinal(),
+      xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(8),
+      yAxis = d3.svg.axis().scale(yScale).orient("left"),
       // area = d3.svg.area().x(X).y1(Y),
       line = d3.svg.line().x(X).y(Y).interpolate('step-after');
 
@@ -32354,8 +32421,8 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
       // Update the y-scale.
       yScale
-          .domain([d3.max(data, function(d) { return d[1]; }), 0])
-          .range([height - margin.top - margin.bottom, 0]);
+          .domain(categories)
+          .rangePoints([height - margin.top - margin.bottom, 0], 1);
 
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([data]);
@@ -32365,9 +32432,10 @@ function ngViewFillContentFactory($compile, $controller, $route) {
       // gEnter.append("path").attr("class", "area");
       gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
+      gEnter.append("g").attr("class", "y axis");
 
       // Update the outer dimensions.
-      svg .attr("width", width)
+      svg.attr("width", width)
           .attr("height", height);
 
       // Update the inner dimensions.
@@ -32383,9 +32451,20 @@ function ngViewFillContentFactory($compile, $controller, $route) {
           .attr("d", line);
 
       // Update the x-axis.
-      g.select(".x.axis")
-          .attr("transform", "translate(0," + yScale.range()[0] + ")")
+      svg
+          .select(".x.axis")
+          .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
+          .transition()
+          .duration(duration)
+          .ease(ease)
           .call(xAxis);
+
+      // update y axis
+      svg.select(".y.axis")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(yAxis);
     });
   }
 
@@ -32427,6 +32506,18 @@ function ngViewFillContentFactory($compile, $controller, $route) {
     if (!arguments.length) return yValue;
     yValue = _;
     return chart;
+  };
+
+  chart.categories = function(_) {
+    if (!arguments.length) return categories;
+    categories= _;
+    return chart;
+  };
+
+  chart.debug = function() {
+    return {
+      yScale: yScale
+    };
   };
 
   return chart;

@@ -18,7 +18,9 @@
 	    	data: [],
 	    	addDay: addDay,
 	    	addTime: addTime,
-	    	currentDay: null
+	    	deleteTime: deleteTime,
+	    	currentDay: null,
+	    	updateCount: 0 // is incremented everytime the data is updated
 	    };
 
 	    /**
@@ -48,6 +50,15 @@
 	     */
 	    function addTime(startTime, category) {
 	    	service.currentDay.timeEntries.push(createTimeEntry(service.currentDay, startTime, category));
+	    	service.updateCount++;
+	    }
+
+	    function deleteTime(item) {
+	    	var i = service.data.indexOf(item);
+	    	if(i > -1) {
+	    		service.data.indexOf.splice(i, 1);
+	    	}
+	    	service.updateCount++;
 	    }
 
 	    
@@ -69,12 +80,10 @@
 	    	};
 	    }
 	    
-	    // load test data
+	    // create test data
 		addDay('2014-10-08');
-	    ['8:00', '12:00', '1:00', '5:00'].map(function(e, i) {
-	    	var j = Math.floor(Math.random() * service.currentDay.categories.length);
-	    	var category = service.currentDay.categories[j];
-	    	addTime(e, category);
+	    ['8:00', '12:00', '13:00', '17:00'].map(function(e, i) {
+	    	addTime(e, service.currentDay.categories[i]);
 	    });
 
 	    return service;
