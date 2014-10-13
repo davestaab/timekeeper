@@ -41,8 +41,9 @@
 		<h1>Time Line</h1>
 		<h2>{{service.currentDay.dateStr | date:'fullDate'}}</h2>
         <div>
-            <button class="btn btn-primary" ng-click="previousDay"><i class="glyphicon glyphicon-arrow-left"></i></button>
-            <button class="btn btn-primary" ng-click="nextDay"><i class="glyphicon glyphicon-arrow-right"></i></button>
+            <button class="btn btn-primary" ng-click="service.previous()"><i class="glyphicon glyphicon-arrow-left"></i></button>
+            <button class="btn btn-primary" ng-click="service.today()"><i class="glyphicon glyphicon-time"></i></button>
+            <button class="btn btn-primary" ng-click="service.next()"><i class="glyphicon glyphicon-arrow-right"></i></button>
         </div>
 		<time-chart day="service.currentDay" refresh="service.updateCount"></time-chart>
 	</div>
@@ -70,6 +71,13 @@
 {{service | json}}
 		</pre>
 	</div>
+	
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.12/d3.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+	
 	<script type="text/javascript" src="dist/app.js"></script>
 </body>
 </html>
