@@ -40,6 +40,10 @@
 	<div class="row">
 		<h1>Time Line</h1>
 		<h2>{{service.currentDay.dateStr | date:'fullDate'}}</h2>
+        <div>
+            <button class="btn btn-primary" ng-click="previousDay"><i class="glyphicon glyphicon-arrow-left"></i></button>
+            <button class="btn btn-primary" ng-click="nextDay"><i class="glyphicon glyphicon-arrow-right"></i></button>
+        </div>
 		<time-chart day="service.currentDay" refresh="service.updateCount"></time-chart>
 	</div>
 	<div ng-controller="DataCtrl" class="row">
@@ -66,58 +70,6 @@
 {{service | json}}
 		</pre>
 	</div>
-
-
 	<script type="text/javascript" src="dist/app.js"></script>
-	<script type="text/javascript">
-		// var chart = timeSeriesChart()
-	 //    .x(function(d) { return d.date; })
-	 //    .y(function(d) { return d.task; });
-
-		
-
-
-
-		// // d3.csv("sp500.csv", function(data) {
-		// // 	console.log("data: ", data);
-  // // 			d3.select("#chart")
-  // //     			.datum(data)
-  // //     			.call(chart);
-		// // });
-		// var timeFormat = d3.time.format('%Y-%m-%d %I:%M');
-		// var today = pointFactory('2014-10-08');
-		// var data = [
-		// 	today('8:00', 1),
-		// 	// today('11:00',1),
-		// 	today('11:00',2),
-		// 	// today('12:00',2),
-		// 	today('12:00',1), 
-		// 	// today('15:00', 1),
-		// 	today('15:00', 3),
-		// 	today('17:00', 3)
-		// ];
-		// d3.select("#chart")
-		// 	.datum(data)
-		// 	.on('click', click)
-		// 	.call(chart);
-
-		
-		// function click(a,b,c,d) {
-		// 	console.log(a,b,c,d);
-
-		// }
-		// function pointFactory(date) {
-		// 	var offset = new Date().getTimezoneOffset() * 60 * 1000;
-		// 	return function createPoint(time, task) {
-		// 		return {
-		// 			date: timeFormat.parse(date + ' ' + time),
-		// 			task: task
-		// 		}
-		// 	}	
-		// }
-		
-
-		
-	</script>
 </body>
 </html>
