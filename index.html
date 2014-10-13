@@ -47,7 +47,7 @@
 				<li class="list-group-item" ng-repeat="entry in service.currentDay.timeEntries">
 					{{entry.category}}
 					{{entry.date | date:'H:mm'}}
-					<button ng-click="deleteTime(entry)" class="btn btn-danger btn-sm">Delete</button>
+					<button ng-click="deleteTime($index)" class="btn btn-danger btn-sm">Delete</button>
 				</li>
 				<li class="list-group-item">
 					Time: <input type="text" placeholder="HH:mm" ng-model="time"></input>
