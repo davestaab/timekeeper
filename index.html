@@ -6,8 +6,9 @@
     <meta http-equiv="Content-Language" content="en">
     
     
-    <title>Time Keeper &middot; Home</title>
-    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"> 
+    <title>Time Line &middot; Home</title>
+    <!--<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"> -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
     <style type="text/css">
     	.line {
     		stroke: blueviolet;
@@ -37,7 +38,7 @@
 </head>
 <body ng-controller="MainCtrl" class="container">
 	<div class="row">
-		<h1>Time Keeper</h1>
+		<h1>Time Line</h1>
 		<h2>{{service.currentDay.dateStr | date:'fullDate'}}</h2>
 		<time-chart day="service.currentDay" refresh="service.updateCount"></time-chart>
 	</div>
