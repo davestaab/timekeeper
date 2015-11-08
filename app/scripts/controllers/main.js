@@ -9,7 +9,7 @@
 	 * Controller of the timekeeperApp
 	 */
 	angular.module('timekeeperApp')
-	  .controller('MainCtrl', ['$scope', 'dataService', function ($scope, dataService) {
+	  .controller('MainCtrl', ['$scope', 'dataService', '$log', function ($scope, dataService, $log) {
 	    $scope.service = dataService;
 	  }]);
 
