@@ -9,8 +9,9 @@
    * Controller of the timekeeperApp
    */
   angular.module('timekeeperApp')
-    .controller('DataCtrl', ['$scope', 'dataService', '$log', function ($scope, dataService, $log) {
+    .controller('DataCtrl', ['$scope', 'dataService', '$log', '$localStorage', function ($scope, dataService, $log, $localStorage) {
       $scope.service = dataService;
+      $scope.storage = $localStorage;
       $scope.addTime = function () {
         // dataService.data
         $log.debug('add time scope: ', $scope);
@@ -26,6 +27,11 @@
           $scope.newCategory = '';
         }
       };
+
+      $scope.deleteCategory = function(cat) {
+        dataService.deleteCategory(cat);
+      };
+
     }]);
 
 })();

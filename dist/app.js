@@ -1,13 +1,194 @@
 (function() {
 	'use strict';
 
-	angular.module('timekeeperApp', ['ngRoute'])
+	angular.module('timekeeperApp', ['ngRoute', 'ngStorage'])
 	.config(['$routeProvider', function($routeProvider) {
 		
 	}]); 
 
 
-})();;(function () {
+})();;function timeSeriesChart() {
+  var margin = {
+      top: 50,
+      right: 50,
+      bottom: 50,
+      left: 75
+    },
+    width = 760,
+    height = 200,
+    chartWidth = width - margin.left - margin.right,
+    chartHeight = height - margin.top - margin.bottom,
+    duration = 500,
+    ease = 'cubic-out',
+    xValue = function(d) {
+      return d[0];
+    }, // default accessor
+    yValue = function(d) {
+      return d[1];
+    }, // default accessor
+    categories = ['red', 'blue', 'one', 'two'],
+    xScale = d3.time.scale(),
+    yScale = d3.scale.ordinal(),
+    xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(d3.time.minutes, 15),
+    yAxis = d3.svg.axis().scale(yScale).orient("left"),
+    line = d3.svg.line().x(X).y(Y).interpolate('step-after');
+  // constructor
+  function chart(selection) {
+    selection.each(function(data) {
+
+      // Convert data to standard representation greedily;
+      // this is needed for nondeterministic accessors.
+      data = data.map(function(d, i) {
+        return [xValue.call(data, d, i), yValue.call(data, d, i)];
+      });
+
+      // Update the x-scale.
+      xScale
+        .domain(d3.extent(data, function(d) {
+          return d[0];
+        }))
+        .range([0, width - margin.left - margin.right]);
+
+      // Update the y-scale.
+      yScale
+        .domain(categories)
+        .rangePoints([height - margin.top - margin.bottom, 0], 1);
+
+      // Select the svg element, if it exists.
+      var svg = d3.select(this).selectAll("svg").data([data]);
+
+      // Otherwise, create the skeletal chart.
+      var gEnter = svg.enter().append("svg").append("g");
+
+
+
+      gEnter.append("path").attr("class", "line");
+
+      gEnter.selectAll('.point')
+        .data(function(d) {
+          return d;
+        })
+        .enter()
+        .append("circle")
+        .attr('class', 'point')
+        .attr('cx', function(d) {
+          return xScale(d[0]);
+        })
+        .attr('cy', function(d) {
+          return yScale(d[1]);
+        })
+        .attr('r', 6);
+
+      gEnter.append("g").attr("class", "x axis");
+      gEnter.append("g").attr("class", "y axis");
+
+      var hover = gEnter.append('circle').attr('class', 'hover').attr('r', '6');
+
+      var overlay = svg.append('g').append('rect')
+        .attr('class', 'overlay').attr('width', width).attr('height', height).attr('opacity', 0);
+      overlay.on('mousemove', moveListener(hover));
+      // Update the outer dimensions.
+      svg.attr("width", width)
+        .attr("height", height);
+
+      // Update the inner dimensions.
+      var g = svg.select("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // Update the line path.
+      g.select(".line")
+        .attr("d", line);
+
+      // Update the x-axis.
+      svg
+        .select(".x.axis")
+        .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(xAxis);
+
+      // update y axis
+      svg.select(".y.axis")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(yAxis);
+    });
+  }
+
+  // The x-accessor for the path generator; xScale ∘ xValue.
+  function X(d) {
+    return xScale(d[0]);
+  }
+
+  // The x-accessor for the path generator; yScale ∘ yValue.
+  function Y(d) {
+    return yScale(d[1]);
+  }
+
+  /**
+   *
+   */
+  function moveListener(hover) {
+    return function(d, i) {
+      console.log('mouse move', d, d3.event);
+      hover.attr('cx', roundX(d3.event.offsetX - margin.left))
+        .attr('cy', d3.event.offsetY - margin.top);
+    };
+  }
+
+  function roundX(x) {
+    var m = moment(xScale.invert(x));
+    m.minutes(Math.round(m.minutes() / 15) * 15).second(0);
+    return xScale(m.toDate());
+  }
+
+  chart.margin = function(_) {
+    if (!arguments.length) return margin;
+    margin = _;
+    return chart;
+  };
+
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.x = function(_) {
+    if (!arguments.length) return xValue;
+    xValue = _;
+    return chart;
+  };
+
+  chart.y = function(_) {
+    if (!arguments.length) return yValue;
+    yValue = _;
+    return chart;
+  };
+
+  chart.categories = function(_) {
+    if (!arguments.length) return categories;
+    categories = _;
+    return chart;
+  };
+
+  chart.debug = function() {
+    return {
+      yScale: yScale
+    };
+  };
+
+  return chart;
+}
+;(function () {
   'use strict';
 
   /**
@@ -18,8 +199,9 @@
    * Controller of the timekeeperApp
    */
   angular.module('timekeeperApp')
-    .controller('DataCtrl', ['$scope', 'dataService', '$log', function ($scope, dataService, $log) {
+    .controller('DataCtrl', ['$scope', 'dataService', '$log', '$localStorage', function ($scope, dataService, $log, $localStorage) {
       $scope.service = dataService;
+      $scope.storage = $localStorage;
       $scope.addTime = function () {
         // dataService.data
         $log.debug('add time scope: ', $scope);
@@ -35,6 +217,11 @@
           $scope.newCategory = '';
         }
       };
+
+      $scope.deleteCategory = function(cat) {
+        dataService.deleteCategory(cat);
+      };
+
     }]);
 
 })();
@@ -55,42 +242,42 @@
 
 })();
 ;(function() {
-	'use strict';
+  'use strict';
 
-	/**
-	 * @ngdoc directive
-	 * @name timekeeperApp.directive:timeChart
-	 * @description
-	 * # timeChart
-	 */
-	angular.module('timekeeperApp')
-	  .directive('timeChart', ['$log', function ($log) {
-	    return {
-	      template: '<div id="chart"></div>',
-	      restrict: 'E',
-	      scope: {
-	      	day: '=',
-	      	refresh: '='
-	      },
-	      link: function postLink(scope, element, attrs) {
-	      	// $log.debug("scope is", scope);
-	      	var chart = timeSeriesChart()
-	    			.x(function(d) { return d.date; })
-	    			.y(function(d) { return d.category; });
-			var chartEl = d3.select(element[0]);
+  /**
+   * @ngdoc directive
+   * @name timekeeperApp.directive:timeChart
+   * @description
+   * # timeChart
+   */
+  angular.module('timekeeperApp')
+    .directive('timeChart', ['$log', function($log) {
+      return {
+        restrict: 'E',
+        scope: {},
+        link: function postLink(scope, element, attrs) {
+          // $log.debug("scope is", scope);
+          var chart = timeSeriesChart()
+            .x(function(d) {
+              return d.date;
+            })
+            .y(function(d) {
+              return d.category;
+            });
+          var chartEl = d3.select(element[0]);
 
-			$log.debug('debug yscale', chart.debug());
+          $log.debug('debug yscale', chart.debug());
 
-	        scope.$watch('refresh', function(newVal, oldVal) {
-    			$log.debug('chart day:', newVal);
-    			chart.categories(scope.day.categories);
-    			chartEl
-    				.datum(scope.day.timeEntries)
-					.call(chart);
-	        });
-	      }
-	    };
-	  }]);
+          scope.$watch('refresh', function(newVal, oldVal) {
+            $log.debug('chart day:', newVal);
+            chart.categories(scope.day.categories);
+            chartEl
+              .datum(scope.day.timeEntries)
+              .call(chart);
+          });
+        }
+      };
+    }]);
 })();
 ;(function () {
   'use strict';
@@ -103,21 +290,23 @@
    * Service in the timekeeperApp.
    */
   angular.module('timekeeperApp')
-    .service('dataService', ['dateTimeFormat', 'dateFormat', '$log', 'dateKeyFormat', function data(dateTimeFormat, dateFormat, $log, dateKeyFormat) {
+    .service('dataService', ['dateTimeFormat', 'dateFormat', '$log', 'dateKeyFormat', '$localStorage', function data(dateTimeFormat, dateFormat, $log, dateKeyFormat, $localStorage) {
       var dateFormatter = d3.time.format(dateFormat);
       var dateKeyFormatter = d3.time.format(dateKeyFormat);
       var dateTimeFormatter = d3.time.format(dateTimeFormat);
+      var index = 0;
+
+      // set local storage defaults
+      $localStorage.$default({index: 0, data: []  });
 
       var service = {
-        data: [],
-        // addDay: addDay,
         addTime: addTime,
         deleteTime: deleteTime,
-        currentDay: null,
-        next: next,
-        today: today,
-        previous: previous,
-        updateCount: 0 // is incremented everytime the data is updated
+        next: next, //  move to the next day (adds a new one if it's missing)
+        today: today, // move to the current day in real time (today)
+        previous: previous, // move to the previous day (yesterday)
+        currentDay: null, // the day currently being displayed
+        updateCount: 0 // incremented everytime the data is updated
       };
 
       /**
@@ -157,13 +346,13 @@
         $log.debug("found a day: ", foundDay);
         if(foundDay === null) {
           foundDay = createDay(moment(dateStr).format('YYYYMMDD'), dateStr);
-        } 
+        }
         return foundDay;
       }
 
       /**
        * find the next day in the list or display a new day if it doesn't exist
-       */ 
+       */
       function next() {
         var day = service.currentDay.dateStr;
         day = moment(day).add(1, 'd').format('YYYY-MM-DD');
@@ -173,7 +362,7 @@
       }
 
       /*
-       * Sets the timeline to the current day 
+       * Sets the timeline to the current day
        */
       function today() {
         var day = moment().format('YYYY-MM-DD');
@@ -187,8 +376,12 @@
         day = moment(day).add(-1, 'd').format('YYYY-MM-DD');
         var foundDay = find(day);
         service.currentDay = foundDay;
-        service.updateCount++; 
+        service.updateCount++;
       }
+
+      // function currentDay() {
+      //   $localStorage.data[
+      // }
 
       /**
        * adds the gives time & category to the current day
@@ -233,11 +426,12 @@
         return a.date.getTime() - b.date.getTime();
       }
 
-     
+
       return service;
 
     }]);
-})();;(function(){
+})();
+;(function(){
 	'use strict';
 
 	/**
@@ -254,138 +448,3 @@
 	  ;
 
 })();
-;function timeSeriesChart() {
-  var margin = {top: 50, right: 50, bottom: 50, left: 75},
-      width = 760,
-      height = 200,
-      duration = 500, 
-      ease = 'cubic-out',
-      xValue = function(d) { return d[0]; },
-      yValue = function(d) { return d[1]; },
-      xScale = d3.time.scale(),
-      // yScale = d3.scale.linear(),
-      categories = ['red','blue','one','two'],
-      yScale = d3.scale.ordinal(),
-      // catScale = d3.scale.ordinal(),
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(8),
-      yAxis = d3.svg.axis().scale(yScale).orient("left"),
-      // area = d3.svg.area().x(X).y1(Y),
-      line = d3.svg.line().x(X).y(Y).interpolate('step-after');
-
-  function chart(selection) {
-    selection.each(function(data) {
-
-      // Convert data to standard representation greedily;
-      // this is needed for nondeterministic accessors.
-      data = data.map(function(d, i) {
-        return [xValue.call(data, d, i), yValue.call(data, d, i)];
-      });
-
-      // Update the x-scale.
-      xScale
-          .domain(d3.extent(data, function(d) { return d[0]; }))
-          .range([0, width - margin.left - margin.right]);
-
-      // Update the y-scale.
-      yScale
-          .domain(categories)
-          .rangePoints([height - margin.top - margin.bottom, 0], 1);
-
-      // Select the svg element, if it exists.
-      var svg = d3.select(this).selectAll("svg").data([data]);
-
-      // Otherwise, create the skeletal chart.
-      var gEnter = svg.enter().append("svg").append("g");
-      // gEnter.append("path").attr("class", "area");
-      gEnter.append("path").attr("class", "line");
-      gEnter.append("g").attr("class", "x axis");
-      gEnter.append("g").attr("class", "y axis");
-
-      // Update the outer dimensions.
-      svg.attr("width", width)
-          .attr("height", height);
-
-      // Update the inner dimensions.
-      var g = svg.select("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Update the area path.
-      // g.select(".area")
-      //     .attr("d", area.y0(yScale.range()[0]));
-
-      // Update the line path.
-      g.select(".line")
-          .attr("d", line);
-
-      // Update the x-axis.
-      svg
-          .select(".x.axis")
-          .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
-          .transition()
-          .duration(duration)
-          .ease(ease)
-          .call(xAxis);
-
-      // update y axis
-      svg.select(".y.axis")
-        .transition()
-        .duration(duration)
-        .ease(ease)
-        .call(yAxis);
-    });
-  }
-
-  // The x-accessor for the path generator; xScale ∘ xValue.
-  function X(d) {
-    return xScale(d[0]);
-  }
-
-  // The x-accessor for the path generator; yScale ∘ yValue.
-  function Y(d) {
-    return yScale(d[1]);
-  }
-
-  chart.margin = function(_) {
-    if (!arguments.length) return margin;
-    margin = _;
-    return chart;
-  };
-
-  chart.width = function(_) {
-    if (!arguments.length) return width;
-    width = _;
-    return chart;
-  };
-
-  chart.height = function(_) {
-    if (!arguments.length) return height;
-    height = _;
-    return chart;
-  };
-
-  chart.x = function(_) {
-    if (!arguments.length) return xValue;
-    xValue = _;
-    return chart;
-  };
-
-  chart.y = function(_) {
-    if (!arguments.length) return yValue;
-    yValue = _;
-    return chart;
-  };
-
-  chart.categories = function(_) {
-    if (!arguments.length) return categories;
-    categories= _;
-    return chart;
-  };
-
-  chart.debug = function() {
-    return {
-      yScale: yScale
-    };
-  };
-
-  return chart;
-}

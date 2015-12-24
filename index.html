@@ -4,8 +4,8 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="en">
-    
-    
+
+
     <title>Time Line &middot; Home</title>
     <!--<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"> -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
@@ -48,7 +48,7 @@
 		<time-chart day="service.currentDay" refresh="service.updateCount"></time-chart>
 	</div>
 	<div ng-controller="DataCtrl" class="row">
-		
+
 			<ul class="list-group">
 				<li class="list-group-item" ng-repeat="entry in service.currentDay.timeEntries">
 					{{entry.category}}
@@ -61,7 +61,7 @@
 					<button class="btn btn-success btn-sm" ng-click="addTime()">Add Time</button>
 				</li>
 			</ul>
-			
+
 			<div class="">
 				Categories: <input type="text" placeholder="project 1" ng-model="newCategory"></input>
 				<button class="btn btn-success btn-sm" ng-click="addCategory()">Add Category</button>
@@ -71,13 +71,14 @@
 {{service | json}}
 		</pre>
 	</div>
-	
+
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.12/d3.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.12/d3.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
-	
+	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.js"></script> -->
+	<script src="bower_components/ngstorage/ngStorage.js"></script>
 	<script type="text/javascript" src="dist/app.js"></script>
 </body>
 </html>

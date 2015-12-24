@@ -1,5 +1,5 @@
-timekeeper
-==========
+Time Line
+=========
 
 personal time tracker application
 

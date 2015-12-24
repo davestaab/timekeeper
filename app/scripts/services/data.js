@@ -9,21 +9,23 @@
    * Service in the timekeeperApp.
    */
   angular.module('timekeeperApp')
-    .service('dataService', ['dateTimeFormat', 'dateFormat', '$log', 'dateKeyFormat', function data(dateTimeFormat, dateFormat, $log, dateKeyFormat) {
+    .service('dataService', ['dateTimeFormat', 'dateFormat', '$log', 'dateKeyFormat', '$localStorage', function data(dateTimeFormat, dateFormat, $log, dateKeyFormat, $localStorage) {
       var dateFormatter = d3.time.format(dateFormat);
       var dateKeyFormatter = d3.time.format(dateKeyFormat);
       var dateTimeFormatter = d3.time.format(dateTimeFormat);
+      var index = 0;
+
+      // set local storage defaults
+      $localStorage.$default({index: 0, data: []  });
 
       var service = {
-        data: [],
-        // addDay: addDay,
         addTime: addTime,
         deleteTime: deleteTime,
-        currentDay: null,
-        next: next,
-        today: today,
-        previous: previous,
-        updateCount: 0 // is incremented everytime the data is updated
+        next: next, //  move to the next day (adds a new one if it's missing)
+        today: today, // move to the current day in real time (today)
+        previous: previous, // move to the previous day (yesterday)
+        currentDay: null, // the day currently being displayed
+        updateCount: 0 // incremented everytime the data is updated
       };
 
       /**
@@ -63,13 +65,13 @@
         $log.debug("found a day: ", foundDay);
         if(foundDay === null) {
           foundDay = createDay(moment(dateStr).format('YYYYMMDD'), dateStr);
-        } 
+        }
         return foundDay;
       }
 
       /**
        * find the next day in the list or display a new day if it doesn't exist
-       */ 
+       */
       function next() {
         var day = service.currentDay.dateStr;
         day = moment(day).add(1, 'd').format('YYYY-MM-DD');
@@ -79,7 +81,7 @@
       }
 
       /*
-       * Sets the timeline to the current day 
+       * Sets the timeline to the current day
        */
       function today() {
         var day = moment().format('YYYY-MM-DD');
@@ -93,8 +95,12 @@
         day = moment(day).add(-1, 'd').format('YYYY-MM-DD');
         var foundDay = find(day);
         service.currentDay = foundDay;
-        service.updateCount++; 
+        service.updateCount++;
       }
+
+      // function currentDay() {
+      //   $localStorage.data[
+      // }
 
       /**
        * adds the gives time & category to the current day
@@ -139,7 +145,7 @@
         return a.date.getTime() - b.date.getTime();
       }
 
-     
+
       return service;
 
     }]);
