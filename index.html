@@ -1,84 +1,83 @@
-	<!DOCTYPE html>
-<html ng-app="timekeeperApp">
+<!DOCTYPE html>
+<html>
 <meta charset="utf-8">
+
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Language" content="en">
+  <title>Time Line &middot; Home</title>
+  <!--<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"> -->
+  <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"> -->
+  <style type="text/css">
+    .line {
+      stroke: blueviolet;
+      fill: none;
+      stroke-linejoin: round;
+      stroke-width: 5px;
+      stroke-linecap: round;
+    }
 
+    svg {
+      background: lightcyan;
+      border: thin solid darkcyan;
+    }
 
-    <title>Time Line &middot; Home</title>
-    <!--<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"> -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
-    <style type="text/css">
-    	.line {
-    		stroke: blueviolet;
-			fill: none;
-			stroke-linejoin: round;
-			stroke-width: 5px;
-			stroke-linecap: round;
-    	}
-    	svg {
-    		background: lightcyan;
-    		border: thin solid darkcyan;
-    	}
-    	.tick line {
-    		stroke: black;
-    	}
-    	.axis line, .axis path {
-			fill: none;
-			stroke: black;
-			shape-rendering: crispEdges;
+    .tick line {
+      stroke: black;
+    }
 
-    	}
-    	.axis text {
-    		font-family: sans-serif;
-    		font-size: 11px;
-    	}
-	</style>
+    .axis line,
+    .axis path {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+
+    .point {
+      stroke: blueviolet;
+      fill: rgba(33, 33, 33, .1);
+    }
+
+    .hover {
+      stroke: blueviolet;
+      fill: rgba(66, 66, 66, .3);
+    }
+  </style>
 </head>
-<body ng-controller="MainCtrl" class="container">
-	<div class="row">
-		<h1>Time Line</h1>
-		<h2>{{service.currentDay.dateStr | date:'fullDate'}}</h2>
-        <div>
-            <button class="btn btn-primary" ng-click="service.previous()"><i class="glyphicon glyphicon-arrow-left"></i></button>
-            <button class="btn btn-primary" ng-click="service.today()"><i class="glyphicon glyphicon-time"></i></button>
-            <button class="btn btn-primary" ng-click="service.next()"><i class="glyphicon glyphicon-arrow-right"></i></button>
-        </div>
-		<time-chart day="service.currentDay" refresh="service.updateCount"></time-chart>
-	</div>
-	<div ng-controller="DataCtrl" class="row">
 
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="entry in service.currentDay.timeEntries">
-					{{entry.category}}
-					{{entry.date | date:'H:mm'}}
-					<button ng-click="deleteTime($index)" class="btn btn-danger btn-sm">Delete</button>
-				</li>
-				<li class="list-group-item">
-					Time: <input type="text" placeholder="HH:mm" ng-model="time"></input>
-					Category: <select ng-model="category" ng-options="cat for cat in service.currentDay.categories"></select>
-					<button class="btn btn-success btn-sm" ng-click="addTime()">Add Time</button>
-				</li>
-			</ul>
-
-			<div class="">
-				Categories: <input type="text" placeholder="project 1" ng-model="newCategory"></input>
-				<button class="btn btn-success btn-sm" ng-click="addCategory()">Add Category</button>
-			</div>
-		<br/>
-		<pre>
-{{service | json}}
-		</pre>
-	</div>
+<body class="container">
 
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.12/d3.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
-	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.js"></script> -->
-	<script src="bower_components/ngstorage/ngStorage.js"></script>
-	<script type="text/javascript" src="dist/app.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script> -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.12/d3.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.js"></script> -->
+  <!-- <script src="bower_components/ngstorage/ngStorage.js"></script> -->
+  <!-- <script type="text/javascript" src="dist/app.js"></script> -->
+  <script type="text/javascript" src="app/scripts/charts/time-series-chart.js"></script>
+  <script type="text/javascript">
+    // use the chart
+    var chart = timeSeriesChart()
+      .categories(['one', 'two', 'three']);;
+
+    var start = moment().minutes(Math.round(moment().minutes() / 15) * 15).second(0);
+    var chartEl = d3.select('body');
+
+    chartEl
+      .datum([
+        [start.toDate(), 'one'],
+        [moment(start).add(15, 'minutes').toDate(), 'three'],
+        [moment(start).add(30, 'minutes').toDate(), 'two'],
+        [moment(start).add(45, 'minutes').toDate(), 'two']
+      ])
+      .call(chart);
+  </script>
 </body>
+
 </html>
