@@ -1,4 +1,4 @@
-function timeSeriesChart() {
+function timeLineChart() {
   var margin = {
       top: 50,
       right: 50,

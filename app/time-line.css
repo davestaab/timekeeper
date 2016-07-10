@@ -1,0 +1,50 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #EEEEEE;
+}
+.title {
+    font-size: 40px;
+    font-family: fantasy;
+    font-weight: 500;
+    padding: 20px 0;
+}
+.line {
+    stroke: blueviolet;
+    fill: none;
+    stroke-linejoin: round;
+    stroke-width: 5px;
+    stroke-linecap: round;
+}
+
+svg {
+    background: lightcyan;
+    border: thin solid darkcyan;
+}
+
+.tick line {
+    stroke: black;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.point {
+    stroke: blueviolet;
+    fill: rgba(33, 33, 33, .1);
+}
+
+.hover {
+    stroke: blueviolet;
+    fill: rgba(66, 66, 66, .3);
+}
