@@ -15,21 +15,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
     <script type="text/javascript" src="app/time-line.js"></script>
     <script type="text/javascript">
-        // use the chart
-        var chart = timeLineChart()
-        .categories(['one', 'two', 'three']);;
-
-        var start = moment().minutes(Math.round(moment().minutes() / 15) * 15).second(0);
-        var chartEl = d3.select('body');
-
-        chartEl
-        .datum([
-            [start.toDate(), 'one'],
-            [moment(start).add(15, 'minutes').toDate(), 'three'],
-            [moment(start).add(30, 'minutes').toDate(), 'two'],
-            [moment(start).add(45, 'minutes').toDate(), 'two']
-        ])
-        .call(chart);
+        // bootstrap the chart with some defaults
+        var chart = bootstrapTimeline('body');
     </script>
 </body>
 
