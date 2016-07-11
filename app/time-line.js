@@ -12,21 +12,22 @@ function TimeLineChart() {
     // default accessor
     yValue = function(d) {
         return d[1];
+    },
+    margin = {
+        top: 50,
+        right: 50,
+        bottom: 50,
+        left: 75
     };
 
     /***************************
     * Internal Variables
     ****************************/
-    var margin = {
-        top: 50,
-        right: 50,
-        bottom: 50,
-        left: 75
-    },
-    chartWidth = width - margin.left - margin.right,
+    var chartWidth = width - margin.left - margin.right,
     chartHeight = height - margin.top - margin.bottom,
     duration = 500,
-    ease = 'cubic-out'
+    ease = 'cubic-out',
+    svg = null
     ;
 
     /***************************
@@ -41,6 +42,7 @@ function TimeLineChart() {
 
     // constructor
     function chart(selection) {
+
         selection.each(function(data) {
 
             // Convert data to standard representation greedily;
@@ -48,10 +50,11 @@ function TimeLineChart() {
             data = data.map(function(d, i) {
                 return [xValue.call(data, d, i), yValue.call(data, d, i)];
             });
+            chart.data = data;
 
             // Update the x-scale.
             xScale
-            .domain(d3.extent(data, xValue))
+            .domain([moment().hours(6).minutes(0).second(0), moment().hours(10).minutes(0).second(0)])
             .range([0, chartWidth]);
 
             // Update the y-scale.
@@ -59,69 +62,81 @@ function TimeLineChart() {
             .domain(categories)
             .rangePoints([chartHeight, 0]);
 
-            // Select the svg element, if it exists.
-            var svg = d3.select(this).selectAll("svg").data([data]);
+            // setup
+            svg = d3.select(this).append('svg')
+                .attr("width", width)
+                .attr("height", height);
 
-            // Otherwise, create the skeletal chart.
-            var gEnter = svg.enter().append("svg").append("g");
+            var chartGrp = svg.append('g').attr('class', 'all')
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
+            chartGrp.append('path').attr('class', "line");
 
-            gEnter.append("path").attr("class", "line");
+            chartGrp.append("g").attr("class", "x axis");
+            chartGrp.append("g").attr("class", "y axis");
 
-            gEnter.selectAll('.point')
-            .data(function(d) {
-                return d;
-            })
-            .enter()
-            .append("circle")
-            .attr('class', 'point')
-            .attr('cx', function(d) {
-                return xScale(d[0]);
-            })
-            .attr('cy', function(d) {
-                return yScale(d[1]);
-            })
-            .attr('r', 6);
+            var hover = chartGrp.append('circle').attr('class', 'hover').attr('r', '6');
+            // overlay
+            svg.append('g').append('rect')
+                .attr('class', 'overlay')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('opacity', 0)
+                .on('mousemove', moveListener(hover))
+                .on('click', clickListener());
 
-            gEnter.append("g").attr("class", "x axis");
-            gEnter.append("g").attr("class", "y axis");
-
-            var hover = gEnter.append('circle').attr('class', 'hover').attr('r', '6');
-
-            var overlay = svg.append('g').append('rect')
-            .attr('class', 'overlay').attr('width', width).attr('height', height).attr('opacity', 0);
-            overlay.on('mousemove', moveListener(hover));
-            // Update the outer dimensions.
-            svg.attr("width", width)
-            .attr("height", height);
-
-            // Update the inner dimensions.
-            var g = svg.select("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            // Update the line path.
-            g.select(".line")
-            .attr("d", line);
-
-            // Update the x-axis.
-            svg
-            .select(".x.axis")
-            .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
-            .transition()
-            .duration(duration)
-            .ease(ease)
-            .call(xAxis);
-
-            // update y axis
-            svg.select(".y.axis")
-            .transition()
-            .duration(duration)
-            .ease(ease)
-            .call(yAxis);
+            updateChart(data);
         });
     }
 
+    function updateChart(data) {
+        updatePoints(data);
+        updateScales(data);
+        updateLine(data);
+    }
+
+    function updatePoints(data) {
+        var circles = svg.select('.all').selectAll('.point').data(data);
+
+        circles.data(function(d) {
+            return d;
+        })
+        .enter()
+        .append("circle")
+        .attr('class', 'point')
+        .attr('cx', function(d) {
+            return xScale(d[0]);
+        })
+        .attr('cy', function(d) {
+            return yScale(d[1]);
+        })
+        .attr('r', 6);
+    }
+
+    function updateScales(data) {
+        // update x axis
+        svg.select(".x.axis")
+        .attr("transform", "translate(0," + chartHeight + ")")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(xAxis);
+
+        // update y axis
+        svg.select(".y.axis")
+        .transition()
+        .duration(duration)
+        .ease(ease)
+        .call(yAxis);
+    }
+
+    function updateLine(data) {
+        svg.select('.all')
+            .select(".line")
+            .data([data])
+            .attr("d", line);
+    }
     // The x-accessor for the path generator; xScale ∘ xValue.
     function X(d) {
         return xScale(d[0]);
@@ -137,21 +152,40 @@ function TimeLineChart() {
     */
     function moveListener(hover) {
         return function(d, i) {
-            console.log('mouse move', d, d3.event);
-            hover.attr('cx', roundX(d3.event.offsetX - margin.left))
-            .attr('cy', roundY(d3.event.offsetY - margin.top));
+            // console.log('mouse move', d, d3.event);
+            hover.attr('cx', xScale(invertX(d3.event.offsetX - margin.left)))
+                .attr('cy', yScale(invertY(d3.event.offsetY - margin.top)));
         };
     }
 
-    function roundX(x) {
-        var m = moment(xScale.invert(x));
-        m.minutes(Math.round(m.minutes() / 15) * 15).second(0);
-        return xScale(m.toDate());
+    function clickListener(chart) {
+        return function (data,i) {
+            console.log('click', data, d3.mouse(this), d3.event);
+            var coords = d3.mouse(this);
+            data.push([invertX(coords[0] - margin.left), invertY(coords[1] - margin.top)]);
+            updateChart(data);
+        }
     }
 
-    function roundY(y) {
-        // debugger;
-        return y;
+    /**
+     * given pixels inverts it to the nearest 15 minutes as a Date
+     * @param  {ind}  x pixels on the chart to convert
+     * @return {Date}   Date representing the nearest date to clicked on the x axis.
+     */
+    function invertX(x) {
+        var m = moment(xScale.invert(x));
+        m.minutes(Math.round(m.minutes() / 15) * 15).second(0);
+        return m.toDate();
+    }
+
+    /**
+     * given pixels inverts it to the nearest category
+     * @param  {int}    y pixels on the chart to convert
+     * @return {string}   the nearest category
+     */
+    function invertY(y) {
+        // TODO: round the y value to nearest category
+        return 'two';
     }
 
     chart.margin = function(_) {
@@ -192,7 +226,9 @@ function TimeLineChart() {
 
     chart.debug = function() {
         return {
-            yScale: yScale
+            yScale: yScale,
+            xScale: xScale,
+            data: chart.data
         };
     };
 
@@ -205,7 +241,7 @@ function TimeLineChart() {
 function bootstrapTimeline(elementSelector) {
     var chart = TimeLineChart().categories(['one', 'two', 'three']);
 
-    var start = moment().minutes(Math.round(moment().minutes() / 15) * 15).second(0);
+    var start = moment().hours(8).minutes(0).second(0);
     var chartEl = d3.select(elementSelector)
 
     chartEl
