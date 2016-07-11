@@ -27,7 +27,8 @@ function TimeLineChart() {
     chartHeight = height - margin.top - margin.bottom,
     duration = 500,
     ease = 'cubic-out',
-    svg = null
+    svg = null,
+    _data = null
     ;
 
     /***************************
@@ -50,7 +51,7 @@ function TimeLineChart() {
             data = data.map(function(d, i) {
                 return [xValue.call(data, d, i), yValue.call(data, d, i)];
             });
-            chart.data = data;
+            _data = data;
 
             // Update the x-scale.
             xScale
@@ -184,8 +185,15 @@ function TimeLineChart() {
      * @return {string}   the nearest category
      */
     function invertY(y) {
-        // TODO: round the y value to nearest category
-        return 'two';
+        var min = Infinity, minData;
+        yScale.domain().forEach(function (d) {
+            var minDistance = Math.abs(yScale(d) - y);
+            if( minDistance < min) {
+                min = minDistance;
+                minData = d;
+            }
+        });
+        return minData;
     }
 
     chart.margin = function(_) {
@@ -228,7 +236,7 @@ function TimeLineChart() {
         return {
             yScale: yScale,
             xScale: xScale,
-            data: chart.data
+            data: _data
         };
     };
 
