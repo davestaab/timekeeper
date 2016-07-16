@@ -68,7 +68,7 @@ function TimeLineChart() {
                 .attr("width", width)
                 .attr("height", height);
 
-            var chartGrp = svg.append('g').attr('class', 'all')
+            var chartGrp = svg.append('g').attr('class', 'chart')
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
@@ -92,13 +92,13 @@ function TimeLineChart() {
     }
 
     function updateChart(data) {
-        updatePoints(data);
         updateScales(data);
+        updatePoints(data);
         updateLine(data);
     }
 
     function updatePoints(data) {
-        var circles = svg.select('.all').selectAll('.point').data(data);
+        var circles = svg.select('.chart').selectAll('.point').data(data);
 
         circles.data(function(d) {
             return d;
@@ -133,7 +133,7 @@ function TimeLineChart() {
     }
 
     function updateLine(data) {
-        svg.select('.all')
+        svg.select('.chart')
             .select(".line")
             .data([data])
             .attr("d", line);
