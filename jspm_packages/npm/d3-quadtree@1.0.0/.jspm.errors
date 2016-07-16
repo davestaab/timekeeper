@@ -1,0 +1,141 @@
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:1:25: Unexpected token d
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:50:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/add.js:50:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/cover.js:1:25: Unexpected token x
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/extent.js:1:25: Unexpected token _
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:1:25: Unexpected token )
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:2:7: Unexpected token data
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:2:12: Unexpected token =
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:2:14: Unexpected token [
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:2:15: Unexpected token ]
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/data.js:2:16: Unexpected token ;
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:1:13: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:1:18: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/find.js:3:25: Unexpected token x
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quadtree.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quadtree.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quadtree.js:1:26: Unexpected token as
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quadtree.js:1:29: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quadtree.js:1:40: Unexpected token }
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/quad.js:1:25: Unexpected token node
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:1:25: Unexpected token d
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:59:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/remove.js:59:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:1:25: Unexpected token )
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:2:10: Unexpected token this
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:2:14: Unexpected token .
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:2:15: Unexpected token _root
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:2:20: Unexpected token ;
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:3:1: Unexpected token }
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/root.js:4:1: Unexpected token End of File
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:1:25: Unexpected token )
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:2:7: Unexpected token size
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:2:12: Unexpected token =
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:2:14: Unexpected token 0
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:2:15: Unexpected token ;
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:3:3: Unexpected token this
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:3:7: Unexpected token .
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/size.js:3:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:1:13: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:1:18: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visitAfter.js:3:25: Unexpected token callback
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:1:13: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:1:18: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/visit.js:3:25: Unexpected token callback
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/x.js:5:25: Unexpected token _
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:24: Unexpected token (
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/src/y.js:5:25: Unexpected token _
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:9: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:17: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:20: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-quadtree@1.0.0/index.js:1:35: Semi-colon expected

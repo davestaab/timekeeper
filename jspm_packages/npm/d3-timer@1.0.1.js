@@ -1,0 +1,1 @@
+module.exports = require("npm:d3-timer@1.0.1/build/d3-timer.js");
