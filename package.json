@@ -2,9 +2,14 @@
   "jspm": {
     "registry": "npm",
     "dependencies": {
-      "d3": "^4.1.1"
+      "d3": "^4.1.1",
+      "d3-selection": "^1.0.0",
+      "moment": "^2.14.1"
     },
     "devDependencies": {
+      "babel": "babel-core@^5.8.24",
+      "babel-runtime": "^5.8.24",
+      "core-js": "^1.1.4",
       "jspm": "^0.16.39"
     }
   },
