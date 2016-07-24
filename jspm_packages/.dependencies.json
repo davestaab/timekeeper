@@ -238,5 +238,23 @@
   "npm:d3-geo@1.1.1": {
     "d3-array": "npm:d3-array@^1.0.0",
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
-  }
+  },
+  "npm:babel-runtime@5.8.38": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:core-js@1.2.6": {
+    "systemjs-json": "github:systemjs/plugin-json@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "path": "github:jspm/nodelibs-path@^0.1.0"
+  },
+  "npm:path-browserify@0.0.0": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:babel-core@5.8.38": {},
+  "github:jspm/nodelibs-path@0.1.0": {
+    "path-browserify": "npm:path-browserify@0.0.0"
+  },
+  "github:systemjs/plugin-json@0.1.2": {},
+  "npm:moment@2.14.1": {}
 }
