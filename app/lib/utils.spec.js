@@ -8,6 +8,16 @@ describe('utils', () => {
             expect(cleanData).toBeDefined();
         });
 
+        it('should sort data by ')
+
+    });
+
+    describe('invertX', () => {
+
+    });
+
+    describe('invertY', () => {
+
     });
 
 });

@@ -11,7 +11,7 @@ import {
         curveStepAfter,
         timeMinute
     } from 'd3';
-import { cleanData } from './utils';
+import { cleanData, invertX, invertY } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -63,7 +63,10 @@ function TimeLineChart() {
         })
         ,
     yAxis = axisLeft(yScale),
-    chartLine = line().x(X).y(Y).curve(curveStepAfter);
+    chartLine = line().x(X).y(Y).curve(curveStepAfter),
+    invertYScale = invertY(yScale),
+    invertXScale = invertX(xScale)
+    ;
 
     // constructor
     function chart(selection) {
@@ -184,8 +187,8 @@ function TimeLineChart() {
         return function(d, i) {
             // debugger;
             // console.log('mouse move', d, currentEvent, event);
-            hover.attr('cx', xScale(invertX(event.offsetX - margin.left)))
-                .attr('cy', yScale(invertY(event.offsetY - margin.top)));
+            hover.attr('cx', xScale(invertXScale(event.offsetX - margin.left)))
+                .attr('cy', yScale(invertYScale(event.offsetY - margin.top)));
         };
     }
 
@@ -193,38 +196,11 @@ function TimeLineChart() {
         return function (data,i) {
             // console.log('click', data, mouse(this), event);
             let coords = mouse(this);
-            data.push([invertX(coords[0] - margin.left), invertY(coords[1] - margin.top)]);
+            data.push([invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top)]);
             updateChart(cleanData(data));
         }
     }
 
-    /**
-     * given pixels inverts it to the nearest 15 minutes as a Date
-     * @param  {ind}  x pixels on the chart to convert
-     * @return {Date}   Date representing the nearest date to clicked on the x axis.
-     */
-    function invertX(x) {
-        let m = moment(xScale.invert(x));
-        m.minutes(Math.round(m.minutes() / 15) * 15).second(0);
-        return m.toDate();
-    }
-
-    /**
-     * given pixels inverts it to the nearest category
-     * @param  {int}    y pixels on the chart to convert
-     * @return {string}   the nearest category
-     */
-    function invertY(y) {
-        let min = Infinity, minData;
-        yScale.domain().forEach(function (d) {
-            let minDistance = Math.abs(yScale(d) - y);
-            if( minDistance < min) {
-                min = minDistance;
-                minData = d;
-            }
-        });
-        return minData;
-    }
 
     chart.margin = function(_) {
         if (!arguments.length) return margin;

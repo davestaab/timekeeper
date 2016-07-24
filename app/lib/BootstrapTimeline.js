@@ -13,9 +13,9 @@ function BootstrapTimeline(elementSelector) {
     chartEl
     .datum([
         [start.toDate(), 'one'],
-        [moment(start).add(15, 'minutes').toDate(), 'three'],
-        [moment(start).add(30, 'minutes').toDate(), 'two'],
-        [moment(start).add(45, 'minutes').toDate(), 'two']
+        [moment(start).add(30, 'minutes').toDate(), 'three'],
+        [moment(start).add(60, 'minutes').toDate(), 'two'],
+        [moment(start).add(120, 'minutes').toDate(), 'two']
     ])
     .call(chart);
     return chart;
