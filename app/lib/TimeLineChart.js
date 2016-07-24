@@ -11,6 +11,7 @@ import {
         curveStepAfter,
         timeMinute
     } from 'd3';
+import { cleanData } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -89,7 +90,11 @@ function TimeLineChart() {
             // setup
             svg = select(this).append('svg')
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                // .attr('viewbox', [0, 0, width, height].join(' '))
+                // .attr('preserveAspectRatio', 'xMidYMid meet')
+            ;
+
 
             let chartGrp = svg.append('g').attr('class', 'all')
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -189,7 +194,7 @@ function TimeLineChart() {
             // console.log('click', data, mouse(this), event);
             let coords = mouse(this);
             data.push([invertX(coords[0] - margin.left), invertY(coords[1] - margin.top)]);
-            updateChart(data);
+            updateChart(cleanData(data));
         }
     }
 

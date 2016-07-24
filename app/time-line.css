@@ -21,6 +21,7 @@
 svg {
     background: lightcyan;
     border: thin solid darkcyan;
+    display: block;
 }
 
 .tick line {
