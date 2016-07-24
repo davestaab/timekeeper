@@ -1,3 +1,3 @@
-import d3  from 'd3'
+import BootstrapTimeline from './lib/BootstrapTimeline';
 
-console.log('it works!');
+BootstrapTimeline('.container');
