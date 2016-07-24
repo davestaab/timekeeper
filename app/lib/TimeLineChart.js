@@ -1,7 +1,7 @@
 import {
         select,
         selectAll,
-        // event,
+        event as currentEvent,
         mouse,
         axisBottom,
         axisLeft,
@@ -108,7 +108,7 @@ function TimeLineChart() {
                 .attr('height', height)
                 .attr('opacity', 0)
                 .on('mousemove', moveListener(hover))
-                // .on('click', clickListener())
+                .on('click', clickListener())
                 ;
 
             updateChart(data);
@@ -177,8 +177,8 @@ function TimeLineChart() {
     */
     function moveListener(hover) {
         return function(d, i) {
-            debugger;
-            console.log('mouse move', d, event);
+            // debugger;
+            // console.log('mouse move', d, currentEvent, event);
             hover.attr('cx', xScale(invertX(event.offsetX - margin.left)))
                 .attr('cy', yScale(invertY(event.offsetY - margin.top)));
         };
