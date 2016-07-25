@@ -42,4 +42,20 @@ function invertY(yScale) {
     };
 }
 
-export { cleanData, invertX, invertY};
+/**
+ * Creates a data structure for our internal data
+ * @param  {[type]} x [description]
+ * @param  {[type]} y [description]
+ * @return {[type]}   [description]
+ */
+function dataFormat(time, category) {
+    return {
+        time: time,
+        category: category,
+        createdAt: new Date()
+    };
+}
+
+function noop() {}
+
+export { cleanData, invertX, invertY, dataFormat, noop };

@@ -1,7 +1,6 @@
 import {
         select,
         selectAll,
-        event as currentEvent,
         mouse,
         axisBottom,
         axisLeft,
@@ -11,7 +10,7 @@ import {
         curveStepAfter,
         timeMinute
     } from 'd3';
-import { cleanData, invertX, invertY } from './utils';
+import { cleanData, invertX, invertY, dataFormat, noop } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -34,7 +33,8 @@ function TimeLineChart() {
         right: 50,
         bottom: 50,
         left: 75
-    };
+    },
+    data = [];
 
     /***************************
     * Internal Variables
@@ -43,72 +43,45 @@ function TimeLineChart() {
     chartHeight = height - margin.top - margin.bottom,
     duration = 500,
     ease = 'cubic-out',
-    svg = null,
-    _data = null
-    ;
-
-    /***************************
-    * Chart components
-    ****************************/
-    // console.log(axisBottom);
-
-    let xScale = scaleTime(),
-    yScale = scalePoint();
-
-    let xAxis = axisBottom(xScale)
-        .ticks(timeMinute.every(15))
-        .tickFormat(function (d, i) {
-            return moment(d).minute() === 0 ? moment(d).format('hh') : '';
-            // return i % 4 === 0 ? moment(d).format('hh') : '';
-        })
-        ,
-    yAxis = axisLeft(yScale),
-    chartLine = line().x(X).y(Y).curve(curveStepAfter),
-    invertYScale = invertY(yScale),
-    invertXScale = invertX(xScale)
-    ;
+    svg = null, yScale, xScale, xAxis, yAxis, chartLine, invertYScale, invertXScale, chartGrp, hover;
+    // update functions
+    let updateCategories = noop,
+        updateData = noop;
 
     // constructor
     function chart(selection) {
 
-        selection.each(function(data) {
+        selection.each(function() {
+            xScale = scaleTime()
+                .domain([moment().hours(6).minutes(0).second(0).toDate(), moment().hours(17).minutes(0).second(0).toDate()])
+                .range([0, chartWidth]);
+            yScale = scalePoint()
+                .domain(categories)
+                .rangeRound([chartHeight, 0]);
+            xAxis = axisBottom(xScale)
+                .ticks(timeMinute.every(15))
+                .tickFormat(function (d, i) {
+                    return moment(d).minute() === 0 ? moment(d).format('hh') : '';
+                    // return i % 4 === 0 ? moment(d).format('hh') : '';
+                });
+            yAxis = axisLeft(yScale);
+            chartLine = line().x(X).y(Y).curve(curveStepAfter);
+            invertYScale = invertY(yScale);
+            invertXScale = invertX(xScale);
 
-            // Convert data to standard representation greedily;
-            // this is needed for nondeterministic accessors.
-            _data = data.map(function(d, i) {
-                return [xValue.call(data, d, i), yValue.call(data, d, i)];
-            });
-
-            // Update the x-scale.
-            xScale
-            .domain([moment().hours(6).minutes(0).second(0).toDate(), moment().hours(17).minutes(0).second(0).toDate()])
-            .range([0, chartWidth]);
-            // console.log(xScale.domain());
-
-            // Update the y-scale.
-            yScale
-            .domain(categories)
-            .rangeRound([chartHeight, 0]);
-
-            // setup
             svg = select(this).append('svg')
                 .attr("width", width)
                 .attr("height", height)
                 // .attr('viewbox', [0, 0, width, height].join(' '))
                 // .attr('preserveAspectRatio', 'xMidYMid meet')
             ;
-
-
-            let chartGrp = svg.append('g').attr('class', 'all')
+            svg.datum(data);
+            chartGrp = svg.append('g').attr('class', 'all')
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
             chartGrp.append('path').attr('class', "line");
-
             chartGrp.append("g").attr("class", "x axis");
             chartGrp.append("g").attr("class", "y axis");
-
-            let hover = chartGrp.append('circle').attr('class', 'hover').attr('r', '6');
+            hover = chartGrp.append('circle').attr('class', 'hover').attr('r', '6');
             // overlay
             svg.append('g').append('rect')
                 .attr('class', 'overlay')
@@ -118,7 +91,7 @@ function TimeLineChart() {
                 .on('mousemove', moveListener(hover))
                 .on('click', clickListener())
                 ;
-
+            updateCategories = liveUpdateCategories;
             updateChart(data);
         });
     }
@@ -130,20 +103,18 @@ function TimeLineChart() {
     }
 
     function updatePoints(data) {
+        // debugger;
         let circles = svg.select('.all').selectAll('.point').data(data);
 
-        circles.data(function(d) {
+        circles
+        .data(function(d) {
             return d;
         })
         .enter()
         .append("circle")
         .attr('class', 'point')
-        .attr('cx', function(d) {
-            return xScale(d[0]);
-        })
-        .attr('cy', function(d) {
-            return yScale(d[1]);
-        })
+        .attr('cx', X)
+        .attr('cy', Y)
         .attr('r', 6);
     }
 
@@ -165,19 +136,27 @@ function TimeLineChart() {
     }
 
     function updateLine(data) {
+        // debugger;
         svg.select('.all')
             .select(".line")
             .data([data])
             .attr("d", chartLine);
     }
+
+    function liveUpdateCategories( ) {
+        yScale.domain(categories);
+        svg.select('.y.axis').call(yAxis);
+        invertYScale = invertY(yScale);
+    }
     // The x-accessor for the path generator; xScale ∘ xValue.
     function X(d) {
-        return xScale(d[0]);
+        // debugger;
+        return xScale(d.time);
     }
 
     // The x-accessor for the path generator; yScale ∘ yValue.
     function Y(d) {
-        return yScale(d[1]);
+        return yScale(d.category);
     }
 
     /**
@@ -186,9 +165,9 @@ function TimeLineChart() {
     function moveListener(hover) {
         return function(d, i) {
             // debugger;
-            // console.log('mouse move', d, currentEvent, event);
-            hover.attr('cx', xScale(invertXScale(event.offsetX - margin.left)))
-                .attr('cy', yScale(invertYScale(event.offsetY - margin.top)));
+            let coords = mouse(this);
+            hover.attr('cx', xScale(invertXScale(coords[0] - margin.left)))
+                .attr('cy', yScale(invertYScale(coords[1] - margin.top)));
         };
     }
 
@@ -196,11 +175,22 @@ function TimeLineChart() {
         return function (data,i) {
             // console.log('click', data, mouse(this), event);
             let coords = mouse(this);
-            data.push([invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top)]);
+            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top)));
             updateChart(cleanData(data));
         }
     }
 
+    chart.data = function (_) {
+        // debugger;
+        if (!arguments.length) return data;
+        // Convert data to standard representation greedily;
+        // this is needed for nondeterministic accessors.
+        data = _.map(function(d, i) {
+            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i));
+        });
+
+        return chart;
+    }
 
     chart.margin = function(_) {
         if (!arguments.length) return margin;
@@ -235,6 +225,7 @@ function TimeLineChart() {
     chart.categories = function(_) {
         if (!arguments.length) return categories;
         categories = _;
+        updateCategories();
         return chart;
     };
 
@@ -242,7 +233,8 @@ function TimeLineChart() {
         return {
             yScale: yScale,
             xScale: xScale,
-            data: _data
+            data: data,
+            categories: categories
         };
     };
 
