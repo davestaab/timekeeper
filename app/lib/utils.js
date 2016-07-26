@@ -8,7 +8,22 @@ import moment from 'moment';
  */
 function cleanData(data) {
     // debugger;
-    return data;
+    return data.sort(function (a,b) {
+        let am = moment(a.time), bm = moment(b.time);
+        return am.isSameOrBefore(bm) ? -1 : 1;
+    }).reduce(removeDupTimes, []);
+}
+
+function removeDupTimes(result, d) {
+    let i = result.findIndex(function (elem, i) {
+        return moment(elem.time).isSame(moment(d.time));
+    });
+    if(i === -1) {
+        result.push(d);
+    } else if(moment(result[i].createdAt).isBefore(moment(d.createdAt))) {
+        result.splice(i, 1, d);
+    }
+    return result;
 }
 
 /**
