@@ -23,15 +23,15 @@ describe('utils', () => {
             expect(clean[2].category).toBe('two');
         });
 
-        it('should remove dups for same time', () => {
-            let time = moment();
+        it('should remove dups for same minute (different seconds)', () => {
+            let time = moment().second(0);
             let data = [
                 {
                     time: time.toDate(),
                     category: 'first',
                     id: 1
                 },{
-                    time: time.toDate(),
+                    time: time.second(15).toDate(),
                     category: 'second',
                     id: 2
                 }
@@ -60,7 +60,7 @@ describe('utils', () => {
     });
 
     describe('dataFormat', () => {
-        it('should create ', () => {
+        it('should create an object', () => {
             let time = moment();
             expect(dataFormat(time, 'one', 1)).toEqual({
                 time: time,

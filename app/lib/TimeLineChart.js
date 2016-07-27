@@ -43,7 +43,9 @@ function TimeLineChart() {
     chartHeight = height - margin.top - margin.bottom,
     duration = 500,
     ease = 'cubic-out',
+    dataIndex = 0,
     svg = null, yScale, xScale, xAxis, yAxis, chartLine, invertYScale, invertXScale, chartGrp, hover;
+
     // update functions
     let updateCategories = noop,
         updateData = noop,
@@ -186,7 +188,7 @@ function TimeLineChart() {
             // console.log('click', data, mouse(this), event);
             // debugger;
             let coords = mouse(this);
-            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), data.length));
+            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
             updateChart(cleanData(data));
         }
     }
@@ -196,7 +198,7 @@ function TimeLineChart() {
         // Convert data to standard representation greedily;
         // this is needed for nondeterministic accessors.
         data = _.map(function(d, i) {
-            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), i);
+            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), dataIndex++);
         });
         updateChart(data);
         return chart;

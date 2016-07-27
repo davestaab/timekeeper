@@ -8,16 +8,21 @@ import moment from 'moment';
  */
 function cleanData(data) {
     // debugger;
-    return data.sort(function (a,b) {
-        let am = moment(a.time), bm = moment(b.time);
-        return am.isSameOrBefore(bm) ? -1 : 1;
-    }).reduce(removeDupTimes, []);
+    return data
+        .sort(sortByTime)
+        .reduce(removeDupTimes, [])
+    ;
+}
+
+function sortByTime(a,b) {
+    let am = moment(a.time), bm = moment(b.time);
+    return am.isSameOrBefore(bm) ? -1 : 1;
 }
 
 function removeDupTimes(result, d) {
     // find any duplicate times for d
     let foundIndex = result.findIndex(function (elem) {
-        return moment(elem.time).isSame(moment(d.time), 'second');
+        return moment(elem.time).isSame(moment(d.time), 'minute');
     });
     // if none found, keep d
     if(foundIndex === -1) {
@@ -27,6 +32,10 @@ function removeDupTimes(result, d) {
         result.splice(foundIndex, 1, d);
     }
     return result;
+}
+
+function removeDupCategories(results, d) {
+    
 }
 
 /**
