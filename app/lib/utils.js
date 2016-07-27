@@ -15,13 +15,16 @@ function cleanData(data) {
 }
 
 function removeDupTimes(result, d) {
-    let i = result.findIndex(function (elem, i) {
-        return moment(elem.time).isSame(moment(d.time));
+    // find any duplicate times for d
+    let foundIndex = result.findIndex(function (elem) {
+        return moment(elem.time).isSame(moment(d.time), 'second');
     });
-    if(i === -1) {
+    // if none found, keep d
+    if(foundIndex === -1) {
         result.push(d);
-    } else if(moment(result[i].createdAt).isBefore(moment(d.createdAt))) {
-        result.splice(i, 1, d);
+    } else // if d is a newer createdAt time, replace found with d
+        if(result[foundIndex].id < d.id) {
+        result.splice(foundIndex, 1, d);
     }
     return result;
 }
@@ -59,18 +62,23 @@ function invertY(yScale) {
 
 /**
  * Creates a data structure for our internal data
- * @param  {[type]} x [description]
- * @param  {[type]} y [description]
+ * @param  {[type]} time [description]
+ * @param  {[type]} category [description]
+ * @param  {[type]} i [description]
  * @return {[type]}   [description]
  */
-function dataFormat(time, category) {
+function dataFormat(time, category, id) {
     return {
         time: time,
         category: category,
-        createdAt: new Date()
+        id: id
     };
 }
 
 function noop() {}
 
-export { cleanData, invertX, invertY, dataFormat, noop };
+function dataId(d) {
+    return d.id;
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, dataId };

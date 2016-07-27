@@ -1,4 +1,4 @@
-import { cleanData, dataFormat } from './utils';
+import { cleanData, dataFormat, dataId } from './utils';
 import moment from 'moment';
 
 describe('utils', () => {
@@ -12,9 +12,9 @@ describe('utils', () => {
         it('should sort data by time', () => {
             let start = moment().hours(8).minutes(0).second(0);
             let data = [
-                dataFormat(start.toDate(),                      'three'),
-                dataFormat(start.add(20, 'minutes').toDate(),   'one'),
-                dataFormat(start.add(60, 'minutes').toDate(),   'two')
+                dataFormat(start.toDate(),                      'three', 1),
+                dataFormat(start.add(20, 'minutes').toDate(),   'one', 2),
+                dataFormat(start.add(60, 'minutes').toDate(),   'two', 3)
 
             ];
             let clean = cleanData(data);
@@ -29,11 +29,11 @@ describe('utils', () => {
                 {
                     time: time.toDate(),
                     category: 'first',
-                    createdAt: moment().hours(8)
+                    id: 1
                 },{
                     time: time.toDate(),
                     category: 'second',
-                    createdAt: moment().hours(9)
+                    id: 2
                 }
             ];
             let clean = cleanData(data);
@@ -50,4 +50,23 @@ describe('utils', () => {
 
     });
 
+    describe('dataId', () => {
+        it('should return the id of the object', () => {
+            let data = { id: 1 };
+            expect(dataId(data)).toEqual(1);
+            data = { id: 2 };
+            expect(dataId(data)).toEqual(2);
+        });
+    });
+
+    describe('dataFormat', () => {
+        it('should create ', () => {
+            let time = moment();
+            expect(dataFormat(time, 'one', 1)).toEqual({
+                time: time,
+                category: 'one',
+                id: 1
+            });
+        });
+    });
 });

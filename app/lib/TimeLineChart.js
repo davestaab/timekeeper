@@ -10,7 +10,7 @@ import {
         curveStepAfter,
         timeMinute
     } from 'd3';
-import { cleanData, invertX, invertY, dataFormat, noop } from './utils';
+import { cleanData, invertX, invertY, dataFormat, noop, dataId } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -46,8 +46,8 @@ function TimeLineChart() {
     svg = null, yScale, xScale, xAxis, yAxis, chartLine, invertYScale, invertXScale, chartGrp, hover;
     // update functions
     let updateCategories = noop,
-        updateData = noop;
-
+        updateData = noop,
+        updateChart = noop;
     // constructor
     function chart(selection) {
 
@@ -92,11 +92,12 @@ function TimeLineChart() {
                 .on('click', clickListener())
                 ;
             updateCategories = liveUpdateCategories;
+            updateChart = liveUpdateChart;
             updateChart(data);
         });
     }
 
-    function updateChart(data) {
+    function liveUpdateChart(data) {
         updatePoints(data);
         updateScales(data);
         updateLine(data);
@@ -104,18 +105,27 @@ function TimeLineChart() {
 
     function updatePoints(data) {
         // debugger;
-        let circles = svg.select('.all').selectAll('.point').data(data);
+        let update = svg.select('.all')
+            .selectAll('.point').data(data, dataId)
+        ;
 
-        circles
-        .data(function(d) {
-            return d;
-        })
-        .enter()
-        .append("circle")
+            // convert the dataset into an array of items instead of one item
+
+        // enter
+        // debugger;
+        let enter = update
+            .enter()
+            // .data(function(d) {
+            //     return d;
+            // })
+        ;
+        enter.append("circle")
         .attr('class', 'point')
         .attr('cx', X)
         .attr('cy', Y)
         .attr('r', 6);
+        // exit
+        update.exit().remove();
     }
 
     function updateScales(data) {
@@ -172,23 +182,23 @@ function TimeLineChart() {
     }
 
     function clickListener(chart) {
-        return function (data,i) {
+        return function () {
             // console.log('click', data, mouse(this), event);
+            // debugger;
             let coords = mouse(this);
-            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top)));
+            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), data.length));
             updateChart(cleanData(data));
         }
     }
 
     chart.data = function (_) {
-        // debugger;
         if (!arguments.length) return data;
         // Convert data to standard representation greedily;
         // this is needed for nondeterministic accessors.
         data = _.map(function(d, i) {
-            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i));
+            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), i);
         });
-
+        updateChart(data);
         return chart;
     }
 
@@ -233,8 +243,8 @@ function TimeLineChart() {
         return {
             yScale: yScale,
             xScale: xScale,
-            data: data,
-            categories: categories
+            categories: categories,
+            data: data
         };
     };
 
