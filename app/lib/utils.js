@@ -11,6 +11,7 @@ function cleanData(data) {
     return data
         .sort(sortByTime)
         .reduce(removeDupTimes, [])
+        .reduce(removeDupCategories, [])
     ;
 }
 
@@ -34,8 +35,28 @@ function removeDupTimes(result, d) {
     return result;
 }
 
+/**
+ * Remove any duplicate categories that are next to each other sequentially.
+ * The higher key replaces the lower key.
+ * @param  {[type]} results [description]
+ * @param  {[type]} d       [description]
+ * @return {[type]}         [description]
+ */
 function removeDupCategories(results, d) {
-    
+    if(results.length === 0) {
+        results.push(d);
+        return results;
+    }
+    // if d category is the same category as the last
+    let lastData = results[results.length-1];
+    if(d.category === lastData.category) {
+        if(d.id > lastData.id){
+            results.splice(results.length-1, 1, d);
+        }
+    } else {
+        results.push(d);
+    }
+    return results;
 }
 
 /**

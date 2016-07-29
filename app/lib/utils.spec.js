@@ -40,6 +40,21 @@ describe('utils', () => {
             expect(clean.length).toBe(1);
             expect(clean[0].category).toBe('second');
         });
+
+        it('should remove dups categories', function () {
+            let id = 0;
+            let data = [
+                dataFormat(moment().hour(8).toDate(), 'one', id++),
+                dataFormat(moment().hour(9).toDate(), 'one', id++),
+                dataFormat(moment().hour(10).toDate(), 'two', id++)
+            ];
+            let clean = cleanData(data);
+            expect(clean.length).toBe(2);
+            expect(clean[0].category).toBe('one');
+            expect(clean[0].id).toBe(1);
+            expect(clean[1].category).toBe('two');
+            expect(clean[1].id).toBe(2);
+        });
     });
 
     describe('invertX', () => {

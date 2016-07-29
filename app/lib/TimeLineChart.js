@@ -8,7 +8,8 @@ import {
         scaleTime,
         scalePoint,
         curveStepAfter,
-        timeMinute
+        timeMinute,
+        easeCubicOut
     } from 'd3';
 import { cleanData, invertX, invertY, dataFormat, noop, dataId } from './utils';
 import moment from 'moment';
@@ -42,7 +43,8 @@ function TimeLineChart() {
     let chartWidth = width - margin.left - margin.right,
     chartHeight = height - margin.top - margin.bottom,
     duration = 500,
-    ease = 'cubic-out',
+    ease = easeCubicOut,
+    pointRadius = 6,
     dataIndex = 0,
     svg = null, yScale, xScale, xAxis, yAxis, chartLine, invertYScale, invertXScale, chartGrp, hover;
 
@@ -77,13 +79,12 @@ function TimeLineChart() {
                 // .attr('viewbox', [0, 0, width, height].join(' '))
                 // .attr('preserveAspectRatio', 'xMidYMid meet')
             ;
-            svg.datum(data);
             chartGrp = svg.append('g').attr('class', 'all')
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             chartGrp.append('path').attr('class', "line");
             chartGrp.append("g").attr("class", "x axis");
             chartGrp.append("g").attr("class", "y axis");
-            hover = chartGrp.append('circle').attr('class', 'hover').attr('r', '6');
+            hover = chartGrp.append('circle').attr('class', 'hover').attr('r', pointRadius);
             // overlay
             svg.append('g').append('rect')
                 .attr('class', 'overlay')
@@ -107,57 +108,60 @@ function TimeLineChart() {
 
     function updatePoints(data) {
         // debugger;
-        let update = svg.select('.all')
-            .selectAll('.point').data(data, dataId)
-        ;
-
-            // convert the dataset into an array of items instead of one item
+        let update = svg.select('.all').selectAll('.point').data(data, dataId);
 
         // enter
-        // debugger;
         let enter = update
             .enter()
-            // .data(function(d) {
-            //     return d;
-            // })
-        ;
-        enter.append("circle")
-        .attr('class', 'point')
-        .attr('cx', X)
-        .attr('cy', Y)
-        .attr('r', 6);
+            .append("circle")
+            .attr('class', 'point')
+            .attr('cx', X)
+            .attr('cy', Y)
+            .attr('r', 0)
+            .transition()
+            .duration(duration)
+            .ease(ease)
+            .attr('r', pointRadius);
+
         // exit
-        update.exit().remove();
+        update.exit()
+            .transition()
+            .duration(duration)
+            .ease(ease)
+            .attr('r', 0).remove();
     }
 
     function updateScales(data) {
         // update x axis
         svg.select(".x.axis")
-        .attr("transform", "translate(0," + chartHeight + ")")
-        // .transition()
-        // .duration(duration)
-        // .ease(ease)
-        .call(xAxis);
+            .attr("transform", "translate(0," + chartHeight + ")")
+            .transition()
+            .duration(duration)
+            .ease(ease)
+            .call(xAxis);
 
         // update y axis
         svg.select(".y.axis")
-        // .transition()
-        // .duration(duration)
-        // .ease(ease)
-        .call(yAxis);
+            .transition()
+            .duration(duration)
+            .ease(ease)
+            .call(yAxis);
     }
 
     function updateLine(data) {
         // debugger;
-        svg.select('.all')
-            .select(".line")
+        svg.select(".line")
             .data([data])
+            .transition()
+            .duration(duration)
+            .ease(ease)
             .attr("d", chartLine);
     }
 
     function liveUpdateCategories( ) {
         yScale.domain(categories);
         svg.select('.y.axis').call(yAxis);
+        // setup the invertYScale function as the yScale has changed
         invertYScale = invertY(yScale);
     }
     // The x-accessor for the path generator; xScale ∘ xValue.
@@ -189,17 +193,18 @@ function TimeLineChart() {
             // debugger;
             let coords = mouse(this);
             data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
-            updateChart(cleanData(data));
+            data = cleanData(data);
+            updateChart(data);
         }
     }
 
     chart.data = function (_) {
         if (!arguments.length) return data;
         // Convert data to standard representation greedily;
-        // this is needed for nondeterministic accessors.
         data = _.map(function(d, i) {
             return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), dataIndex++);
         });
+        data = cleanData(data);
         updateChart(data);
         return chart;
     }
