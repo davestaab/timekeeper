@@ -111,4 +111,19 @@ function dataId(d) {
     return d.id;
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, dataId };
+function addHourLater(timeScale, rightEdge) {
+    return (clickCoords) => {
+        let x = clickCoords[0];
+        if(x > rightEdge) {
+            let domain = timeScale.domain();
+            let laterTime = moment(domain[1]);
+            if(laterTime.hours() !== 0 ){
+                laterTime.add(1, 'hours');
+            }
+            domain[1] = laterTime.toDate();
+            timeScale.domain(domain);
+        }
+    }
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, dataId, addHourLater };

@@ -1,5 +1,6 @@
-import { cleanData, dataFormat, dataId } from './utils';
+import { cleanData, dataFormat, dataId, addHourLater } from './utils';
 import moment from 'moment';
+import { scaleTime } from 'd3';
 
 describe('utils', () => {
 
@@ -82,6 +83,32 @@ describe('utils', () => {
                 category: 'one',
                 id: 1
             });
+        });
+    });
+
+    describe('addHourLater', () => {
+        it('should add an hour if clicked past the right edge', () => {
+            let scale = scaleTime()
+                .domain(
+                    [
+                        moment().hours(6).minutes(0).second(0).toDate(),
+                        moment().hours(17).minutes(0).second(0).toDate()
+                    ]
+                );
+            addHourLater(scale, 500)([501, 0]);
+            expect(scale.domain()[1]).toEqual(moment().hours(18).minutes(0).second(0).toDate());
+        });
+
+        it('should not add an hour past midnight', () => {
+            let scale = scaleTime()
+                .domain(
+                    [
+                        moment().hours(6).minutes(0).second(0).toDate(),
+                        moment().hours(24).minutes(0).second(0).toDate()
+                    ]
+                );
+            addHourLater(scale, 500)([501, 0]);
+            expect(scale.domain()[1]).toEqual(moment().hours(24).minutes(0).second(0).toDate());
         });
     });
 });

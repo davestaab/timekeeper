@@ -11,7 +11,7 @@ import {
         timeMinute,
         easeCubicOut
     } from 'd3';
-import { cleanData, invertX, invertY, dataFormat, noop, dataId } from './utils';
+import { cleanData, invertX, invertY, dataFormat, noop, dataId, addHourLater } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -58,7 +58,8 @@ function TimeLineChart() {
         selection.each(function() {
             xScale = scaleTime()
                 .domain([moment().hours(6).minutes(0).second(0).toDate(), moment().hours(17).minutes(0).second(0).toDate()])
-                .range([0, chartWidth]);
+                .range([0, chartWidth])
+                .clamp(true);
             yScale = scalePoint()
                 .domain(categories)
                 .rangeRound([chartHeight, 0]);
@@ -76,7 +77,7 @@ function TimeLineChart() {
             svg = select(this).append('svg')
                 .attr("width", width)
                 .attr("height", height)
-                // .attr('viewbox', [0, 0, width, height].join(' '))
+                .attr('viewbox', [0, 0, width, height].join(' '))
                 // .attr('preserveAspectRatio', 'xMidYMid meet')
             ;
             chartGrp = svg.append('g').attr('class', 'all')
@@ -189,9 +190,12 @@ function TimeLineChart() {
 
     function clickListener(chart) {
         return function () {
-            // console.log('click', data, mouse(this), event);
+
             // debugger;
             let coords = mouse(this);
+            // console.log('click', chartWidth, chartHeight, margin, coords);
+            addHourLater(xScale, margin.left + chartWidth)(coords);
+
             data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
             data = cleanData(data);
             updateChart(data);
