@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, dataId, addHourLater } from './utils';
+import { cleanData, dataFormat, identity, addHourLater } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -66,12 +66,12 @@ describe('utils', () => {
 
     });
 
-    describe('dataId', () => {
+    describe('identity', () => {
         it('should return the id of the object', () => {
             let data = { id: 1 };
-            expect(dataId(data)).toEqual(1);
+            expect(identity(data)).toEqual(1);
             data = { id: 2 };
-            expect(dataId(data)).toEqual(2);
+            expect(identity(data)).toEqual(2);
         });
     });
 
@@ -88,27 +88,22 @@ describe('utils', () => {
 
     describe('addHourLater', () => {
         it('should add an hour if clicked past the right edge', () => {
-            let scale = scaleTime()
-                .domain(
-                    [
-                        moment().hours(6).minutes(0).second(0).toDate(),
-                        moment().hours(17).minutes(0).second(0).toDate()
-                    ]
-                );
-            addHourLater(scale, 500)([501, 0]);
-            expect(scale.domain()[1]).toEqual(moment().hours(18).minutes(0).second(0).toDate());
+            let domain =
+                [
+                    moment().hours(6).minutes(0).second(0).toDate(),
+                    moment().hours(17).minutes(0).second(0).toDate()
+                ];
+            let update = addHourLater(500, 60)(domain, [501, 0]);
+            expect(update[1]).toEqual(moment().hours(18).minutes(0).second(0).toDate());
         });
 
-        it('should not add an hour past midnight', () => {
-            let scale = scaleTime()
-                .domain(
-                    [
-                        moment().hours(6).minutes(0).second(0).toDate(),
-                        moment().hours(24).minutes(0).second(0).toDate()
-                    ]
-                );
-            addHourLater(scale, 500)([501, 0]);
-            expect(scale.domain()[1]).toEqual(moment().hours(24).minutes(0).second(0).toDate());
+        it('should not add time if days are different', () => {
+            let domain = [
+                moment().hours(6).minutes(0).second(0).toDate(),
+                moment().hours(24).minutes(0).second(0).toDate()
+            ];
+            let update = addHourLater(500, 60)(domain, [501, 0]);
+            expect(update).toBeUndefined();
         });
     });
 });

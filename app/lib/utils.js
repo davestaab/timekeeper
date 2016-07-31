@@ -107,23 +107,33 @@ function dataFormat(time, category, id) {
 
 function noop() {}
 
-function dataId(d) {
+/**
+ * Identity accessor for the chart data format.
+ * @param  {[type]} d [description]
+ * @return {[type]}   [description]
+ */
+function identity(d) {
     return d.id;
 }
 
-function addHourLater(timeScale, rightEdge) {
-    return (clickCoords) => {
+/**
+ * Closure to check if a click event should update the given domain.
+ * @param {[type]} rightEdge [description]
+ * @param {[type]} inc       [description]
+ */
+function addHourLater(rightEdge, inc) {
+    return (domain, clickCoords) => {
         let x = clickCoords[0];
         if(x > rightEdge) {
-            let domain = timeScale.domain();
             let laterTime = moment(domain[1]);
             if(laterTime.hours() !== 0 ){
-                laterTime.add(1, 'hours');
+                laterTime.add(inc, 'minutes');
+                domain[1] = laterTime.toDate();
+                return domain;
             }
-            domain[1] = laterTime.toDate();
-            timeScale.domain(domain);
         }
+        return;
     }
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, dataId, addHourLater };
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourLater };

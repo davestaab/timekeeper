@@ -11,7 +11,7 @@ import {
         timeMinute,
         easeCubicOut
     } from 'd3';
-import { cleanData, invertX, invertY, dataFormat, noop, dataId, addHourLater } from './utils';
+import { cleanData, invertX, invertY, dataFormat, noop, identity, addHourLater } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -46,6 +46,7 @@ function TimeLineChart() {
     ease = easeCubicOut,
     pointRadius = 6,
     dataIndex = 0,
+    timeInc = 60,
     svg = null, yScale, xScale, xAxis, yAxis, chartLine, invertYScale, invertXScale, chartGrp, hover;
 
     // update functions
@@ -109,7 +110,7 @@ function TimeLineChart() {
 
     function updatePoints(data) {
         // debugger;
-        let update = svg.select('.all').selectAll('.point').data(data, dataId);
+        let update = svg.select('.all').selectAll('.point').data(data, identity);
 
         // enter
         let enter = update
@@ -194,8 +195,8 @@ function TimeLineChart() {
             // debugger;
             let coords = mouse(this);
             // console.log('click', chartWidth, chartHeight, margin, coords);
-            addHourLater(xScale, margin.left + chartWidth)(coords);
-
+            let update = addHourLater(margin.left + chartWidth, timeInc)(xScale.domain(), coords);
+            if(update) xScale.domain(update);
             data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
             data = cleanData(data);
             updateChart(data);
