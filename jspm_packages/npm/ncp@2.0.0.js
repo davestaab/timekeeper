@@ -1,0 +1,1 @@
+module.exports = require("npm:ncp@2.0.0/lib/ncp.js");

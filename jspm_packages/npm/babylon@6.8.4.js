@@ -1,0 +1,1 @@
+module.exports = require("npm:babylon@6.8.4/lib/index.js");

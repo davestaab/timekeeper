@@ -1,0 +1,1 @@
+module.exports = require("npm:align-text@0.1.4/index.js");

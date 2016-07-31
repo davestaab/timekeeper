@@ -1,0 +1,1 @@
+module.exports = require("npm:rimraf@2.3.4/rimraf.js");

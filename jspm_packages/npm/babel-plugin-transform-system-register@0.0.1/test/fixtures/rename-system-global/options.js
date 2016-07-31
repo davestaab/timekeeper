@@ -1,0 +1,2 @@
+/* */ 
+module.exports = { systemGlobal: "SystemJS" };
