@@ -118,22 +118,41 @@ function identity(d) {
 
 /**
  * Closure to check if a click event should update the given domain.
- * @param {[type]} rightEdge [description]
- * @param {[type]} inc       [description]
+ * @param {int} rightEdge rightEdge to test the x click coords against
+ * @param {int} inc       amount to increment by (in minutes)
+ * @return function       returns a function that take a domain and click clickCoords
+ *                        and will return updated domain or undefined
  */
-function addHourLater(rightEdge, inc) {
+function addHourAfter(rightEdge, inc) {
     return (domain, clickCoords) => {
         let x = clickCoords[0];
         if(x > rightEdge) {
             let laterTime = moment(domain[1]);
-            if(laterTime.hours() !== 0 ){
-                laterTime.add(inc, 'minutes');
-                domain[1] = laterTime.toDate();
-                return domain;
+            laterTime.add(inc, 'minutes');
+            if(moment(domain[1]).date() !== laterTime.date() ){
+                // don't allow the incremented date to go to the next day
+                return ;
             }
+            return [domain[0], laterTime.toDate()];
         }
         return;
     }
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourLater };
+function addHourBefore(edge, inc) {
+    return (domain, clickCoords) => {
+        let x = clickCoords[0];
+        if(x < edge) {
+            let earlierTime = moment(domain[0]);
+            earlierTime.subtract(inc, 'minutes');
+            if(moment(domain[0]).date() !== earlierTime.date() ){
+                // don't allow the incremented date to go to the next day
+                return ;
+            }
+            return [earlierTime.toDate(), domain[1]];
+        }
+        return;
+    };
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore };

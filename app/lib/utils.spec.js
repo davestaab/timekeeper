@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, identity, addHourLater } from './utils';
+import { cleanData, dataFormat, identity, addHourAfter, addHourBefore } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -86,24 +86,68 @@ describe('utils', () => {
         });
     });
 
-    describe('addHourLater', () => {
+    describe('addHourAfter', () => {
+        function dateToString (d) {
+            return d.toString();
+        }
         it('should add an hour if clicked past the right edge', () => {
             let domain =
                 [
                     moment().hours(6).minutes(0).second(0).toDate(),
                     moment().hours(17).minutes(0).second(0).toDate()
                 ];
-            let update = addHourLater(500, 60)(domain, [501, 0]);
+            let copy = domain.slice();
+            expect(domain).toEqual(copy);
+            let update = addHourAfter(500, 60)(domain, [501, 0]);
             expect(update[1]).toEqual(moment().hours(18).minutes(0).second(0).toDate());
+            expect(domain.map(dateToString)).toEqual(copy.map(dateToString));
         });
 
         it('should not add time if days are different', () => {
             let domain = [
                 moment().hours(6).minutes(0).second(0).toDate(),
-                moment().hours(24).minutes(0).second(0).toDate()
+                moment().hours(23).minutes(59).second(0).toDate()
             ];
-            let update = addHourLater(500, 60)(domain, [501, 0]);
+            let copy = domain.slice();
+            let update = addHourAfter(500, 60)(domain, [501, 0]);
+            // no update
             expect(update).toBeUndefined();
+            expect(domain).toEqual(copy);
+        });
+
+        it('should increment by the given value', () => {
+            let domain = [
+                moment().hours(6).minutes(0).second(0).toDate(),
+                moment().hours(23).minutes(0).second(0).toDate()
+            ];
+            let update = addHourAfter(500, 1)(domain, [501, 0]);
+            expect(update).toEqual([domain[0], moment().hours(23).minutes(1).second(0).toDate()]);
+        });
+    });
+    describe('addHourBefore', () => {
+        it('should add an hour if clicked before left edge', () => {
+            let domain =
+                [
+                    moment().hours(6).minutes(0).second(0).toDate(),
+                    moment().hours(17).minutes(0).second(0).toDate()
+                ];
+            let copy = domain.slice();
+            expect(domain).toEqual(copy);
+            let update = addHourBefore(100, 60)(domain, [50, 0]);
+            expect(update[0]).toEqual(moment().hours(5).minutes(0).second(0).toDate());
+            expect(domain).toEqual(copy);
+        });
+
+        it('should not add time if days are different', () => {
+            let domain = [
+                moment().hours(0).minutes(0).second(0).toDate(),
+                moment().hours(23).minutes(59).second(0).toDate()
+            ];
+            let copy = domain.slice();
+            let update = addHourAfter(100, 1)(domain, [50, 0]);
+            // no update
+            expect(update).toBeUndefined();
+            expect(domain).toEqual(copy);
         });
     });
 });

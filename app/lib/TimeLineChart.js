@@ -11,7 +11,7 @@ import {
         timeMinute,
         easeCubicOut
     } from 'd3';
-import { cleanData, invertX, invertY, dataFormat, noop, identity, addHourLater } from './utils';
+import { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
@@ -166,13 +166,13 @@ function TimeLineChart() {
         // setup the invertYScale function as the yScale has changed
         invertYScale = invertY(yScale);
     }
-    // The x-accessor for the path generator; xScale ∘ xValue.
+    // The x-accessor for the path generator.
     function X(d) {
         // debugger;
         return xScale(d.time);
     }
 
-    // The x-accessor for the path generator; yScale ∘ yValue.
+    // The x-accessor for the path generator
     function Y(d) {
         return yScale(d.category);
     }
@@ -191,12 +191,13 @@ function TimeLineChart() {
 
     function clickListener(chart) {
         return function () {
-
-            // debugger;
             let coords = mouse(this);
             // console.log('click', chartWidth, chartHeight, margin, coords);
-            let update = addHourLater(margin.left + chartWidth, timeInc)(xScale.domain(), coords);
-            if(update) xScale.domain(update);
+            let updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(xScale.domain(), coords);
+            if(updateAfter) xScale.domain(updateAfter);
+            let updateBefore = addHourBefore(margin.left, timeInc)(xScale.domain(), coords);
+            if(updateBefore) xScale.domain(updateBefore);
+
             data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
             data = cleanData(data);
             updateChart(data);
