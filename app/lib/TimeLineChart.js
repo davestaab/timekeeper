@@ -86,9 +86,8 @@ function TimeLineChart() {
             invertXScale = invertX(xScale);
 
             svg = select(this).append('svg')
-                .attr("width", width)
-                .attr("height", height)
-                .attr('viewbox', [0, 0, width, height].join(' '))
+                .attr('viewBox', [0, 0, width, height].join(' '))
+                .classed('timeline', true)
                 // .attr('preserveAspectRatio', 'xMidYMid meet')
             ;
             chartGrp = svg.append('g').attr('class', 'all')
@@ -119,8 +118,14 @@ function TimeLineChart() {
     }
 
     function updatePoints(data) {
-        // debugger;
+        // update
         let update = svg.select('.all').selectAll('.point').data(data, identity);
+        update
+            .transition()
+            .duration(duration)
+            .ease(ease)
+            .attr('cx', X)
+            .attr('cy', Y);
 
         // enter
         let enter = update
@@ -207,9 +212,11 @@ function TimeLineChart() {
             if(updateAfter) xScale.domain(updateAfter);
             let updateBefore = addHourBefore(margin.left, timeInc)(xScale.domain(), coords);
             if(updateBefore) xScale.domain(updateBefore);
-
-            data.push(dataFormat(invertXScale(coords[0] - margin.left), invertYScale(coords[1] - margin.top), dataIndex++));
-            data = cleanData(data);
+            let newPoint = addPoint(margin, chartWidth, invertXScale, invertYScale)(coords, dataIndex++);
+            if(newPoint) {
+                data.push(newPoint);
+                data = cleanData(data);
+            }
             updateChart(data);
         }
     }

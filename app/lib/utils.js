@@ -139,10 +139,10 @@ function addHourAfter(rightEdge, inc) {
     }
 }
 
-function addHourBefore(edge, inc) {
+function addHourBefore(leftEdge, inc) {
     return (domain, clickCoords) => {
         let x = clickCoords[0];
-        if(x < edge) {
+        if(x < leftEdge) {
             let earlierTime = moment(domain[0]);
             earlierTime.subtract(inc, 'minutes');
             if(moment(domain[0]).date() !== earlierTime.date() ){
@@ -155,4 +155,23 @@ function addHourBefore(edge, inc) {
     };
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore };
+/**
+ * Checks the click coords and returns a datapoint if one is within
+ * the target area to be added.
+ *
+ * @param {[type]} margin     margin of the chart. used to translate
+ *                            	the click coords to the correct locations
+ * @param {[type]} chartWidth width of the chart. Use with the margin
+ *                            to determine the right edge of the click area
+ */
+function addPoint(margin, chartWidth, invertXScale, invertYScale) {
+    return (clickCoords, dataId) => {
+        let x = clickCoords[0];
+        if(x > margin.left && x < margin.left + chartWidth){
+            return dataFormat(invertXScale(clickCoords[0] - margin.left), invertYScale(clickCoords[1] - margin.top), dataId)
+        }
+        return;
+    }
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint };
