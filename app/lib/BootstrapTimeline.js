@@ -5,7 +5,6 @@ import moment from 'moment';
  * bootstrap the chart with default example data
  */
 function BootstrapTimeline(elementSelector) {
-    // debugger;
     var start = moment().hours(8).minutes(0).second(0);
     var chart = TimeLineChart()
         .categories(['one', 'two', 'three'])
@@ -13,9 +12,8 @@ function BootstrapTimeline(elementSelector) {
             [start.toDate(), 'one'],
             [moment(start).add(30, 'minutes').toDate(), 'three'],
             [moment(start).add(60, 'minutes').toDate(), 'two'],
-            [moment(start).add(120, 'minutes').toDate(), 'two']
+            [moment(start).add(120, 'minutes').toDate(), 'one']
         ]);
-    console.log(chart.debug());
 
     select(elementSelector)
         .call(chart);

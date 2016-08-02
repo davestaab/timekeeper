@@ -11,7 +11,17 @@ import {
         timeMinute,
         easeCubicOut
     } from 'd3';
-import { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore } from './utils';
+import {
+        cleanData,
+        invertX,
+        invertY,
+        dataFormat,
+        noop,
+        identity,
+        addHourAfter,
+        addHourBefore,
+        addPoint
+    } from './utils';
 import moment from 'moment';
 
 function TimeLineChart() {
