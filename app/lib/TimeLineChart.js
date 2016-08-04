@@ -95,7 +95,7 @@ function TimeLineChart() {
             chartGrp.append('path').attr('class', "line");
             chartGrp.append("g").attr("class", "x axis");
             chartGrp.append("g").attr("class", "y axis");
-            hover = chartGrp.append('circle').attr('class', 'hover').attr('r', pointRadius);
+            hover = chartGrp.append('circle').attr('class', 'hover').attr('r', pointRadius).classed('hover--off', true);
             // overlay
             svg.append('g').append('rect')
                 .attr('class', 'overlay')
@@ -104,6 +104,8 @@ function TimeLineChart() {
                 .attr('opacity', 0)
                 .on('mousemove', moveListener(hover))
                 .on('click', clickListener())
+                .on('mouseleave', moveEnterLeaveListener('leave', hover))
+                .on('mouseenter', moveEnterLeaveListener('enter', hover))
                 ;
             updateCategories = liveUpdateCategories;
             updateChart = liveUpdateChart;
@@ -202,6 +204,12 @@ function TimeLineChart() {
             hover.attr('cx', xScale(invertXScale(coords[0] - margin.left)))
                 .attr('cy', yScale(invertYScale(coords[1] - margin.top)));
         };
+    }
+
+    function moveEnterLeaveListener(type, hover) {
+        return function () {
+            hover.classed('hover--off', type === 'leave');
+        }
     }
 
     function clickListener(chart) {

@@ -52,4 +52,9 @@
 .hover {
     stroke: blueviolet;
     fill: rgba(66, 66, 66, .3);
+    opacity: 1;
+    transition: opacity .65s ease-out;
+}
+.hover--off {
+    opacity: 0
 }
