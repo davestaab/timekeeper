@@ -1,0 +1,9 @@
+/* */ 
+"format cjs";
+import Ember from 'ember';
+import layout from '../templates/components/ui-navbar-items';
+
+export default Ember.Component.extend({
+  layout: layout,
+  tagName: ''
+});

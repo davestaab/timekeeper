@@ -1,0 +1,1 @@
+module.exports = require("npm:mktemp@0.3.5/index.js");

@@ -1,0 +1,8 @@
+MultipleErrors: /Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:1:21: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:1:28: Semi-colon expected
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:1:34: Semi-colon expected
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:1:39: Semi-colon expected
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:83:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:83:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:83:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/ember-cli-stylist@0.4.1/addon/mixins/shared-stylist.js:83:16: Semi-colon expected

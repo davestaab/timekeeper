@@ -1,0 +1,1 @@
+module.exports = require("npm:quick-temp@0.1.5/index.js");

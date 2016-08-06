@@ -1,0 +1,1 @@
+module.exports = require("npm:binaryextensions@2.0.0/index.json");

@@ -1,0 +1,1 @@
+module.exports = require("npm:async-disk-cache@1.0.8/index");

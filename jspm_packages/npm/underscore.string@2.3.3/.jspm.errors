@@ -1,0 +1,5 @@
+MultipleErrors: /Users/dave/.jspm/packages/npm/underscore.string@2.3.3/test/speed.js:62:9: Unexpected token let
+/Users/dave/.jspm/packages/npm/underscore.string@2.3.3/test/speed.js:65:23: Unexpected reserved word let
+/Users/dave/.jspm/packages/npm/underscore.string@2.3.3/test/speed.js:66:13: Unexpected token =
+/Users/dave/.jspm/packages/npm/underscore.string@2.3.3/test/speed.js:66:15: Semi-colon expected
+/Users/dave/.jspm/packages/npm/underscore.string@2.3.3/test/speed.js:66:17: Unexpected reserved word let

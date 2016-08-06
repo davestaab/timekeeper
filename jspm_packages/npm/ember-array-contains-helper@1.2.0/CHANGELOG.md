@@ -1,0 +1,41 @@
+# Changelog
+
+
+## v1.2.0 (August 3rd, 2016)
+
+### Pull Requests
+
+- [#18](https://github.com/bmeurant/ember-array-contains-helper/pull/18)  Prefer includes to contains  *by [Baptiste Meurant](https://github.com/bmeurant)*
+
+#### Commits
+
+- [27ff101a](https://github.com/bmeurant/ember-array-contains-helper/commit/27ff101aeead2c56d08aba426c6cae24b32c29fe) **docs(yuidocs)**: setup yuidoc & theme, make documentation compliant (#5) *by [Baptiste Meurant](https://github.com/bmeurant)*
+- [3be72a20](https://github.com/bmeurant/ember-array-contains-helper/commit/3be72a208d47032c500a4902fcb0818cae07b58a) **feat(includes)**: prefer includes to contains (#18) *by [Baptiste Meurant](https://github.com/bmeurant)*
+- [220c0d9e](https://github.com/bmeurant/ember-array-contains-helper/commit/220c0d9eb0886fa3f8074c12b3117011ae92e1e9) **docs(readme)**: update readme *by [Baptiste Meurant](https://github.com/bmeurant)*
+- [f4b71e05](https://github.com/bmeurant/ember-array-contains-helper/commit/f4b71e057de302f9979066bcb3bdba41cc18f896) **style(array-contains)**: add some comments *by [Baptiste Meurant](https://github.com/bmeurant)*
+- [c4900805](https://github.com/bmeurant/ember-array-contains-helper/commit/c490080573303b77b2ec0ea4535f9111ab503447) **docs(readme)**: update badges *by [Baptiste Meurant](https://github.com/bmeurant)*
+- [201f17b4](https://github.com/bmeurant/ember-array-contains-helper/commit/201f17b43224195c25a1e35efff13ab8ab2b0cfa) **refactor(array-contains)**: use unitary imports instead of globals *by [Baptiste Meurant](https://github.com/bmeurant)*
+
+## v1.1.0 (July 3rd, 2016)
+
+- [7e91d68](https://github.com/bmeurant/ember-array-contains-helper/commit/7e91d68dc4615e698f69598ed08a2ad9c8877aeb) Update bower dependencies
+- [dc26c18](https://github.com/bmeurant/ember-array-contains-helper/commit/dc26c181b5d97bedcb00279e44e6be86fcb80670) [TOOLING] Switch to ember-cli-mirage 0.2.1
+- [924c511](https://github.com/bmeurant/ember-array-contains-helper/commit/924c511eec55d1ca58a34e1f24aff53ad9f65e81) [TOOLING] Switch to ember-cli-code-coverage
+- [3a35c0a](https://github.com/bmeurant/ember-array-contains-helper/commit/3a35c0aaaa5e026ddb513c02b78d7a71a8c017f1) Update to ember-cli 2.6.2 & ember 2.6
+- [9dc51a3](https://github.com/bmeurant/ember-array-contains-helper/commit/9dc51a345bd24b50fd0876d0e76b4f3c5961bbdb) [DOC] Format to JSDoc
+
+## v1.0.2 (December 16, 2015)
+
+- [#1](https://github.com/bmeurant/ember-array-contains-helper/issues/1) [BUGFIX] Do not throw error anymore when array is null or undefined but return false.
+- [DOC] Add changelog
+
+## v1.0.1 (December 14, 2015)
+
+- Improve tests
+- Switch from ES6 destructuring assignement to standard ES5 assigment because of coverage fails
+- Update Documenttation in README - add tooling badges
+- Add coverage with ember-cli-blanket
+
+## v1.0.0 (December 13, 2015)
+
+- Initial addon version

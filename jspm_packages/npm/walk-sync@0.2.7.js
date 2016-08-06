@@ -1,0 +1,1 @@
+module.exports = require("npm:walk-sync@0.2.7/index.js");

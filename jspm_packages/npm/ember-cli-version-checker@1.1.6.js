@@ -1,0 +1,1 @@
+module.exports = require("npm:ember-cli-version-checker@1.1.6/index.js");

@@ -1,0 +1,1 @@
+module.exports = require("npm:md5-hex@1.3.0/browser.js");

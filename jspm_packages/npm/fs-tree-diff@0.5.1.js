@@ -1,0 +1,1 @@
+module.exports = require("npm:fs-tree-diff@0.5.1/lib/index.js");

@@ -1,0 +1,1 @@
+module.exports = require("npm:fast-ordered-set@1.0.3/index.js");

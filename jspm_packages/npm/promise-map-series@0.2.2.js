@@ -1,0 +1,1 @@
+module.exports = require("npm:promise-map-series@0.2.2/index.js");
