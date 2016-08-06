@@ -1,0 +1,1 @@
+module.exports = require("npm:dashdash@1.14.0/lib/dashdash.js");

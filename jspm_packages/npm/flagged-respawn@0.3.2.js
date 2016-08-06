@@ -1,0 +1,1 @@
+module.exports = require("npm:flagged-respawn@0.3.2/index.js");

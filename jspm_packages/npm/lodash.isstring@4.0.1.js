@@ -1,0 +1,1 @@
+module.exports = require("npm:lodash.isstring@4.0.1/index");

@@ -1,0 +1,1 @@
+module.exports = require("npm:jsprim@1.3.0/lib/jsprim.js");

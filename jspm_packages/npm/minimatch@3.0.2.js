@@ -1,0 +1,1 @@
+module.exports = require("npm:minimatch@3.0.2/minimatch.js");

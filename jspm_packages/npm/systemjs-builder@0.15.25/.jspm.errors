@@ -1,0 +1,125 @@
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-amd.js:2:11: Unexpected token {
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-amd.js:2:12: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-amd.js:3:1: Unexpected token }
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-cjs.js:2:29: Unexpected token {
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-cjs.js:2:30: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-cjs.js:5:1: Unexpected token }
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-global.js:2:4: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-global.js:2:51: Unexpected token {
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-global.js:2:52: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-global.js:3:1: Unexpected token }
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:3:13: Unexpected token {
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:3:14: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:4:3: Unexpected reserved word else
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:4:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:5:31: Unexpected token {
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:5:32: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-umd.js:7:16: Unexpected token }
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-esm.js:5:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-esm.js:5:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-esm.js:5:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/templates/sfx-esm.js:5:16: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/a.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/a.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/b.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/b.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/c.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/circular-tree/c.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/conditions.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/conditions.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/custom-conditions.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/custom-conditions.js:1:15: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/custom-conditions.js:2:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/custom-conditions.js:2:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/config.dev.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/config.dev.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/config.dev.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/config.dev.js:1:16: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/interpolated-2.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/interpolated-2.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/interpolated-2.js:1:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/conditional-tree/interpolated-2.js:1:16: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/error-tree/a.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/error-tree/a.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/a.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/a.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/a.js:1:17: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/a.js:2:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/a.js:2:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/b.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/b.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/global-dep-loader.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/global-dep-loader.js:1:15: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/global-dep.js:2:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/es-tree/global-dep.js:2:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:2:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:2:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:96:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/babel.js:96:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:2:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:2:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:3:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:3:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:3:19: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:4:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:4:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:5:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:5:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:6:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:6:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:6:20: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:8:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:8:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:10:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/first.js:10:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/lodash/lodash.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/lodash/lodash.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/runtime.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/runtime.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:2:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:2:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:3:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/second.js:3:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:1:13: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:1:18: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:2:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:2:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:5:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:5:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:6:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:6:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:6:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:6:16: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:7:10: Semi-colon expected
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:7:10: Unexpected token :
+/Users/dave/.jspm/packages/npm/systemjs-builder@0.15.25/test/fixtures/test-tree/sfx-format-01.js:7:12: Semi-colon expected

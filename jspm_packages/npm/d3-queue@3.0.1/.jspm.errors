@@ -1,0 +1,17 @@
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:1:1: Unexpected reserved word import
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:1:21: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:104:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:104:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:104:8: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/queue.js:104:16: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/array.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/src/array.js:1:8: Semi-colon expected
+
+MultipleErrors: /Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:1: Unexpected reserved word export
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:8: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:9: Unexpected reserved word default
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:17: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:20: Semi-colon expected
+/Users/dave/.jspm/packages/npm/d3-queue@3.0.1/index.js:1:32: Semi-colon expected

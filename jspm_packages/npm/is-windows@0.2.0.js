@@ -1,0 +1,1 @@
+module.exports = require("npm:is-windows@0.2.0/index.js");
