@@ -1,3 +1,3 @@
-import BootstrapTimeline from './lib/BootstrapTimeline';
+import BootstrapTimeline from '../timeline/BootstrapTimeline';
 
 BootstrapTimeline('.chart');

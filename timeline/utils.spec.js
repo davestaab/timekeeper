@@ -99,7 +99,7 @@ describe('utils', () => {
             let copy = domain.slice();
             expect(domain).toEqual(copy);
             let update = addHourAfter(500, 60)(domain, [501, 0]);
-            expect(update[1]).toEqual(moment().hours(18).minutes(0).second(0).toDate());
+            expect(update[1].toString()).toEqual(moment().hours(18).minutes(0).second(0).toDate().toString());
             expect(domain.map(dateToString)).toEqual(copy.map(dateToString));
         });
 

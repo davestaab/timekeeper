@@ -16,20 +16,22 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         'app',
+        'timeline',
         'node_modules/babel-polyfill/dist/polyfill.js'
     ],
 
     jspm: {
         config: 'config.js',
         loadFiles: [
-            'app/**/*.spec.js'
+            'timeline/**/*.spec.js'
         ],
         serveFiles: [
-            'app/**/!(*spec).js'
+            'timeline/**/!(*spec).js'
         ]
     },
     proxies: {
         '/app/': '/base/app/',
+        '/timeline': '/base/timeline/',
         '/jspm_packages/': '/base/jspm_packages/',
     },
     // list of files to exclude
