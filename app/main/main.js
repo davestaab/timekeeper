@@ -1,7 +1,9 @@
+import BootstrapTimeline from '../../timeline/BootstrapTimeline';
+
 export default ngModule => {
 
     ngModule.component('main', {
-        template: '<h1>main</h1>',
+        templateUrl: 'app/main/main.html',
         controller: MainController,
         bindings: {
             // hero: '='
@@ -10,5 +12,10 @@ export default ngModule => {
 }
 
 function MainController () {
-    console.log('main hello world');
+    console.log('main ctrl hello world');
+
+
+    let chart = BootstrapTimeline('.chart');
+
+
 }
