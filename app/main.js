@@ -1,3 +1,7 @@
 import BootstrapTimeline from '../timeline/BootstrapTimeline';
 
-BootstrapTimeline('.chart');
+let chart = BootstrapTimeline('.chart');
+
+let categories = chart.categories();
+// debugger;
+document.getElementById('categories').value = categories;

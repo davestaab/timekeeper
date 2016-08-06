@@ -1,6 +1,7 @@
 .container {
     background-color: #EEEEEE;
     margin: 0;
+    padding: 30px;
 }
 .title {
     font-size: 40px;
