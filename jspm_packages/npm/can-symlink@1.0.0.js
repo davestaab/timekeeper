@@ -1,1 +1,0 @@
-module.exports = require("npm:can-symlink@1.0.0/index.js");

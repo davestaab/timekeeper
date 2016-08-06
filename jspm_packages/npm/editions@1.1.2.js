@@ -1,1 +1,0 @@
-module.exports = require("npm:editions@1.1.2/es2015/index.js");

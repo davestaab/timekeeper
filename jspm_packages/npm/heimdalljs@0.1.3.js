@@ -1,1 +1,0 @@
-module.exports = require("npm:heimdalljs@0.1.3/index.js");

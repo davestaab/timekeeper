@@ -1,1 +1,0 @@
-module.exports = require("npm:md5-o-matic@0.1.1/lib/md5omatic.js");

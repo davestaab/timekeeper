@@ -1,1 +1,0 @@
-module.exports = require("npm:textextensions@2.0.1/index.json");

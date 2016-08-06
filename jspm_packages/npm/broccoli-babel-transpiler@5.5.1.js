@@ -1,1 +1,0 @@
-module.exports = require("npm:broccoli-babel-transpiler@5.5.1/index.js");

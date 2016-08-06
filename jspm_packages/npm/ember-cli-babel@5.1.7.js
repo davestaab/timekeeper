@@ -1,1 +1,0 @@
-module.exports = require("npm:ember-cli-babel@5.1.7/index");

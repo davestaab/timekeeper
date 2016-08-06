@@ -1,1 +1,0 @@
-module.exports = require("npm:ui-bootstrap@0.1.2/index");

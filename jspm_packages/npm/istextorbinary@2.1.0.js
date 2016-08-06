@@ -1,1 +1,0 @@
-module.exports = require("npm:istextorbinary@2.1.0/es2015/index.js");

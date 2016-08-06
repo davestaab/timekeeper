@@ -1,1 +1,0 @@
-module.exports = require("npm:broccoli-plugin@1.2.1/index.js");

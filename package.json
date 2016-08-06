@@ -3,9 +3,9 @@
     "registry": "npm",
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.5.8",
+      "angular-ui-bootstrap": "^2.0.1",
       "d3": "^4.1.1",
-      "moment": "^2.14.1",
-      "ui-bootstrap": "^0.1.2"
+      "moment": "^2.14.1"
     },
     "devDependencies": {
       "babel": "babel-core@^5.8.24",

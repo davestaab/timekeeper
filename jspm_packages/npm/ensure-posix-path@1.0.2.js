@@ -1,1 +1,0 @@
-module.exports = require("npm:ensure-posix-path@1.0.2/index.js");

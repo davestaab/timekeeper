@@ -1,1 +1,0 @@
-module.exports = require("npm:broccoli-persistent-filter@1.2.8/index.js");

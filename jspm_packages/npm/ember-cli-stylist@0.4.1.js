@@ -1,1 +1,0 @@
-module.exports = require("npm:ember-cli-stylist@0.4.1/index.js");

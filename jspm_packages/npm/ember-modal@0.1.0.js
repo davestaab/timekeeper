@@ -1,1 +1,0 @@
-module.exports = require("npm:ember-modal@0.1.0/index");

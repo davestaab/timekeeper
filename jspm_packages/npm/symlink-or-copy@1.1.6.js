@@ -1,1 +1,0 @@
-module.exports = require("npm:symlink-or-copy@1.1.6/index.js");

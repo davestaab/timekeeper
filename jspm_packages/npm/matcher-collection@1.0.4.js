@@ -1,1 +1,0 @@
-module.exports = require("npm:matcher-collection@1.0.4/index.js");

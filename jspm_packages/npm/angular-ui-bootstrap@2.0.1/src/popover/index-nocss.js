@@ -1,0 +1,9 @@
+/* */ 
+require('../tooltip/index-nocss');
+require('../../template/popover/popover.html');
+require('../../template/popover/popover-html.html');
+require('../../template/popover/popover-template.html');
+require('./popover');
+var MODULE_NAME = 'ui.bootstrap.module.popover';
+angular.module(MODULE_NAME, ['ui.bootstrap.popover', 'uib/template/popover/popover.html', 'uib/template/popover/popover-html.html', 'uib/template/popover/popover-template.html']);
+module.exports = MODULE_NAME;
