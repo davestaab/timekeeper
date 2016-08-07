@@ -1951,6 +1951,5 @@
   },
   "npm:buffer-shims@1.0.0": {
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
-  },
-  "npm:angular-ui-bootstrap@2.0.1": {}
+  }
 }
