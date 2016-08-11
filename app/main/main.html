@@ -3,3 +3,24 @@
 </div>
 
 <div class="chart"></div>
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Categories </h1>
+        <button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <form name="$ctrl.categoryForm">
+            <ng-form name="cat{{$index}}" ng-repeat="cat in $ctrl.categories">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="cat.name" maxlength="10" ng-change="$ctrl.updateCategories()" ng-model-options="{updateOn: 'blur'}">
+                </div>
+            </ng-form>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <h1>Times</h1>
+        <pre>
+data
+        </pre>
+    </div>
+</div>

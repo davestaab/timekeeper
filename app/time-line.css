@@ -1,7 +1,5 @@
 .container {
     background-color: #EEEEEE;
-    margin: 0;
-    padding: 30px;
 }
 .title {
     font-size: 40px;
@@ -18,7 +16,6 @@
     stroke-linecap: round;
 }
 .chart {
-    max-width: 760px;
     margin: 0 auto;
 }
 .timeline {

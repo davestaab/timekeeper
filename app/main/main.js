@@ -6,16 +6,27 @@ export default ngModule => {
         templateUrl: 'app/main/main.html',
         controller: MainController,
         bindings: {
-            // hero: '='
         }
     });
 }
 
 function MainController () {
-    console.log('main ctrl hello world');
+    let $ctrl = this;
+    $ctrl.categories = [
+        { name:'Work' },
+        { name:'Lunch' },
+        { name:'Meeting' },
+    ];
+    let chart = BootstrapTimeline('.chart')
+        .categories($ctrl.categories.map(toName))
+        .data([])
+    ;
 
+    $ctrl.updateCategories = function() {
+        chart.categories($ctrl.categories.map(toName));
+    }
 
-    let chart = BootstrapTimeline('.chart');
-
-
+    function toName(d) {
+        return d.name;
+    }
 }
