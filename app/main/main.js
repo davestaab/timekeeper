@@ -5,28 +5,32 @@ export default ngModule => {
     ngModule.component('main', {
         templateUrl: 'app/main/main.html',
         controller: MainController,
-        bindings: {
-        }
     });
 }
 
 function MainController () {
     let $ctrl = this;
+    let id = 1;
     $ctrl.categories = [
-        { name:'Work' },
-        { name:'Lunch' },
-        { name:'Meeting' },
+        'Work'   ,
+        'Lunch',
+        'Meeting',
     ];
     let chart = BootstrapTimeline('.chart')
-        .categories($ctrl.categories.map(toName))
+        .categories($ctrl.categories)
         .data([])
     ;
 
-    $ctrl.updateCategories = function() {
-        chart.categories($ctrl.categories.map(toName));
+    $ctrl.addCategory = function(newCategory) {
+        if(newCategory){
+            $ctrl.categories.push(newCategory);
+            $ctrl.newCategory = '';
+            chart.categories($ctrl.categories);
+        }
     }
 
-    function toName(d) {
-        return d.name;
+    $ctrl.deleteCategory = function(index) {
+        $ctrl.categories.splice(index, 1);
+        chart.categories($ctrl.categories);
     }
 }

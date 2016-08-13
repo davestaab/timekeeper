@@ -174,4 +174,4 @@ function addPoint(margin, chartWidth, invertXScale, invertYScale) {
     }
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint };
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint};
