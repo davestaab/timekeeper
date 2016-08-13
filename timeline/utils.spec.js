@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, identity, addHourAfter, addHourBefore } from './utils';
+import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -120,10 +120,17 @@ describe('utils', () => {
                 moment().hours(6).minutes(0).second(0).toDate(),
                 moment().hours(23).minutes(0).second(0).toDate()
             ];
+            let tester = {
+                asymmetricMatch: function(actual) {
+                    return actual[0].toString() === domain[0].toString() &&
+                        actual[1].toString() === moment().hours(23).minutes(1).second(0).toDate().toString();
+                }
+            };
             let update = addHourAfter(500, 1)(domain, [501, 0]);
-            expect(update).toEqual([domain[0], moment().hours(23).minutes(1).second(0).toDate()]);
+            expect(update).toEqual(tester);
         });
     });
+
     describe('addHourBefore', () => {
         it('should add an hour if clicked before left edge', () => {
             let domain =
@@ -131,11 +138,14 @@ describe('utils', () => {
                     moment().hours(6).minutes(0).second(0).toDate(),
                     moment().hours(17).minutes(0).second(0).toDate()
                 ];
-            let copy = domain.slice();
-            expect(domain).toEqual(copy);
+
             let update = addHourBefore(100, 60)(domain, [50, 0]);
-            expect(update[0]).toEqual(moment().hours(5).minutes(0).second(0).toDate());
-            expect(domain).toEqual(copy);
+            let tester = {
+                asymmetricMatch: function(actual) {
+                    return actual.toString() === moment().hours(5).minutes(0).second(0).toDate().toString()
+                }
+            };
+            expect(update[0]).toEqual(tester);            
         });
 
         it('should not add time if days are different', () => {
@@ -148,6 +158,30 @@ describe('utils', () => {
             // no update
             expect(update).toBeUndefined();
             expect(domain).toEqual(copy);
+        });
+    });
+
+    describe('removeUnknownCategories', () => {
+
+        it('should return data for all known categories', () => {
+            let categories = ['one', 'two', 'three'];
+            let data = [
+                dataFormat(null, 'one'),
+                dataFormat(null, 'two'),
+                dataFormat(null, 'three'),
+                dataFormat(null, 'two'),
+            ];
+            let results = removeUnknownCategories(data, categories);
+            expect(results.length).toBe(4);
+        });
+
+        it('should remove data for unknown categories', () => {
+            let categories = ['one'];
+            let data = [
+                dataFormat(null, 'two')
+            ];
+            let results = removeUnknownCategories(data, categories);
+            expect(results.length).toBe(0);
         });
     });
 });

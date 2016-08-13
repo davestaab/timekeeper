@@ -59,6 +59,15 @@ function removeDupCategories(results, d) {
     return results;
 }
 
+function removeUnknownCategories(data, categories) {
+    return data.reduce(function (result, d) {
+        if(categories.indexOf(d.category) >= 0) {
+            result.push(d)
+        }
+        return result;
+    }, []);
+}
+
 /**
  * given pixels inverts it to the nearest 15 minutes as a Date
  * @param  {ind}  x pixels on the chart to convert
@@ -174,4 +183,4 @@ function addPoint(margin, chartWidth, invertXScale, invertYScale) {
     }
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint};
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories};

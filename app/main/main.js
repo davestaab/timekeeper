@@ -12,7 +12,7 @@ function MainController () {
     let $ctrl = this;
     let id = 1;
     $ctrl.categories = [
-        'Work'   ,
+        'Work',
         'Lunch',
         'Meeting',
     ];

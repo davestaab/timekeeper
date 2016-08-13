@@ -20,7 +20,8 @@ import {
         identity,
         addHourAfter,
         addHourBefore,
-        addPoint
+        addPoint,
+        removeUnknownCategories
     } from './utils';
 import moment from 'moment';
 
@@ -178,10 +179,10 @@ function TimeLineChart() {
     }
 
     function liveUpdateCategories( ) {
+        data = removeUnknownCategories(data, categories);
         yScale.domain(categories);
         svg.select('.y.axis').call(yAxis);
-        // setup the invertYScale function as the yScale has changed
-        invertYScale = invertY(yScale);
+        updateChart(data);
     }
     // The x-accessor for the path generator.
     function X(d) {
