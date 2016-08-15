@@ -20,6 +20,8 @@ function MainController ($log, $scope) {
         .categories($ctrl.categories)
         .data([])
         .notifyOnUpdate(function (chart) {
+            // the chart is outside of Angular,
+            // so we need to trigger a digest cycle.
             $scope.$applyAsync(function () {
                 $ctrl.data = chart.data();
             });
