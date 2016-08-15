@@ -31,9 +31,16 @@
     </div>
     <div class="col-sm-6">
         <h1>Times</h1>
+        <h3>Total by Category</h3>
+        <ul>
+            <li ng-repeat="(key, d) in $ctrl.times">
+                {{d}} minutes: {{key}}
+            </li>
+        </ul>
+        <h3>Entries</h3>
         <ul>
             <li ng-repeat="d in $ctrl.data">
-                {{d.time | date:'hh:mm'}}: {{d.category}}
+                {{d.time | date:'hh:mm a'}}: {{d.category}}
             </li>
         </ul>
     </div>

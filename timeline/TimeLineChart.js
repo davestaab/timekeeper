@@ -21,7 +21,8 @@ import {
         addHourAfter,
         addHourBefore,
         addPoint,
-        removeUnknownCategories
+        removeUnknownCategories,
+        timesByCategory
     } from './utils';
 import moment from 'moment';
 
@@ -253,6 +254,10 @@ function TimeLineChart() {
         return chart;
     }
 
+    chart.timesByCategory = function() {
+        return timesByCategory(data);
+    }
+
     chart.margin = function(_) {
         if (!arguments.length) return margin;
         margin = _;
@@ -268,18 +273,6 @@ function TimeLineChart() {
     chart.height = function(_) {
         if (!arguments.length) return height;
         height = _;
-        return chart;
-    };
-
-    chart.x = function(_) {
-        if (!arguments.length) return xValue;
-        xValue = _;
-        return chart;
-    };
-
-    chart.y = function(_) {
-        if (!arguments.length) return yValue;
-        yValue = _;
         return chart;
     };
 

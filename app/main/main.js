@@ -23,6 +23,7 @@ function MainController ($log, $scope) {
             // the chart is outside of Angular,
             // so we need to trigger a digest cycle.
             $scope.$applyAsync(function () {
+                $ctrl.times = chart.timesByCategory();
                 $ctrl.data = chart.data();
             });
         });

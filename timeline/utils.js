@@ -76,7 +76,7 @@ function removeUnknownCategories(data, categories) {
 function invertX(xScale) {
     return function (x) {
         let m = moment(xScale.invert(x));
-        m.minutes(Math.round(m.minutes() / 15) * 15).second(0);
+        m.minutes(Math.round(m.minutes() / 15) * 15).second(0).millisecond(0);
         return m.toDate();
     };
 }
@@ -183,4 +183,19 @@ function addPoint(margin, chartWidth, invertXScale, invertYScale) {
     }
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories};
+function timesByCategory(data) {
+    let lastCategory, lastTime;
+    return data.reduce((result, d) => {
+        if(lastCategory) {
+            if(!result[lastCategory]) {
+                result[lastCategory] = 0;
+            }
+            result[lastCategory] += moment(d.time).diff(lastTime, 'minutes');
+        }
+        lastCategory = d.category;
+        lastTime = d.time;
+        return result;
+    }, {});
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory};

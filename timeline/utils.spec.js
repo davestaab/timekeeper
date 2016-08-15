@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories } from './utils';
+import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories, timesByCategory } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -145,7 +145,7 @@ describe('utils', () => {
                     return actual.toString() === moment().hours(5).minutes(0).second(0).toDate().toString()
                 }
             };
-            expect(update[0]).toEqual(tester);            
+            expect(update[0]).toEqual(tester);
         });
 
         it('should not add time if days are different', () => {
@@ -182,6 +182,28 @@ describe('utils', () => {
             ];
             let results = removeUnknownCategories(data, categories);
             expect(results.length).toBe(0);
+        });
+    });
+
+    describe('timesByCategory', () => {
+
+        it('should total times by category', () => {
+            let start = moment().hours(8).minutes(0).seconds(0);
+            let input = [
+                dataFormat(start.toDate(), 'one'),
+                dataFormat(start.add(20, 'minutes').toDate(), 'two'),
+                dataFormat(start.add(120, 'minutes').toDate(), 'three'),
+                dataFormat(start.add(15, 'minutes').toDate(), 'one'),
+            ];
+            let output = timesByCategory(input);
+            expect(output.one).toEqual(20);
+            expect(output.two).toEqual(120);
+            expect(output.three).toEqual(15);
+            expect(Object.keys(output).length).toBe(3);
+        });
+        it('should not fail with empty input', () => {
+            let output = timesByCategory([]);
+            expect(Object.keys(output)).toEqual([]);
         });
     });
 });
