@@ -46,7 +46,8 @@ function TimeLineChart() {
         bottom: 50,
         left: 75
     },
-    data = [];
+    data = [],
+    _notifyOnUpdate = noop;
 
     /***************************
     * Internal Variables
@@ -118,6 +119,7 @@ function TimeLineChart() {
         updatePoints(data);
         updateScales(data);
         updateLine(data);
+        _notifyOnUpdate(chart);
     }
 
     function updatePoints(data) {
@@ -238,6 +240,16 @@ function TimeLineChart() {
         });
         data = cleanData(data);
         updateChart(data);
+        return chart;
+    }
+
+    /**
+     * Provide a function that gets called when data is updated.
+     * @param {function} _ the provided function is called and given the chart object.
+     */
+    chart.notifyOnUpdate = function (_) {
+        if(!arguments.length) return _notifyOnUpdate;
+        _notifyOnUpdate = _;
         return chart;
     }
 

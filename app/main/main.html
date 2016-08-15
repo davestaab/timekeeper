@@ -31,8 +31,10 @@
     </div>
     <div class="col-sm-6">
         <h1>Times</h1>
-        <pre>
-data
-        </pre>
+        <ul>
+            <li ng-repeat="d in $ctrl.data">
+                {{d.time | date:'hh:mm'}}: {{d.category}}
+            </li>
+        </ul>
     </div>
 </div>

@@ -8,7 +8,7 @@ export default ngModule => {
     });
 }
 
-function MainController () {
+function MainController ($log, $scope) {
     let $ctrl = this;
     let id = 1;
     $ctrl.categories = [
@@ -19,6 +19,11 @@ function MainController () {
     let chart = BootstrapTimeline('.chart')
         .categories($ctrl.categories)
         .data([])
+        .notifyOnUpdate(function (chart) {
+            $scope.$applyAsync(function () {
+                $ctrl.data = chart.data();
+            });
+        });
     ;
 
     $ctrl.addCategory = function(newCategory) {
