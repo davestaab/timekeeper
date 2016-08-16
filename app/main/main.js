@@ -41,4 +41,12 @@ function MainController ($log, $scope) {
         $ctrl.categories.splice(index, 1);
         chart.categories($ctrl.categories);
     }
+
+    $ctrl.total = function() {
+        let total = 0;
+        for(let t in $ctrl.times) {
+            total += $ctrl.times[t];
+        }
+        return total;
+    }
 }

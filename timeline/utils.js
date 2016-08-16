@@ -185,7 +185,7 @@ function addPoint(margin, chartWidth, invertXScale, invertYScale) {
 
 function timesByCategory(data) {
     let lastCategory, lastTime;
-    return data.reduce((result, d) => {
+    let totals = data.reduce((result, d) => {
         if(lastCategory) {
             if(!result[lastCategory]) {
                 result[lastCategory] = 0;
@@ -196,6 +196,14 @@ function timesByCategory(data) {
         lastTime = d.time;
         return result;
     }, {});
+    for(let t in totals) {
+        totals[t] = minutesToDecimalHours(totals[t]);
+    }
+    return totals;
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory};
+function minutesToDecimalHours(minutes) {
+    return Math.round(minutes / 60 * 100) / 100;
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory, minutesToDecimalHours};

@@ -34,7 +34,10 @@
         <h3>Total by Category</h3>
         <ul>
             <li ng-repeat="(key, d) in $ctrl.times">
-                {{d}} minutes: {{key}}
+                {{d}} hr(s): {{key}}
+            </li>
+            <li>
+                {{$ctrl.total()}} hr(s): Total
             </li>
         </ul>
         <h3>Entries</h3>

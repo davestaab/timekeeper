@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories, timesByCategory } from './utils';
+import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories, timesByCategory, minutesToDecimalHours } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -196,14 +196,27 @@ describe('utils', () => {
                 dataFormat(start.add(15, 'minutes').toDate(), 'one'),
             ];
             let output = timesByCategory(input);
-            expect(output.one).toEqual(20);
-            expect(output.two).toEqual(120);
-            expect(output.three).toEqual(15);
+            expect(output.one).toEqual(0.33);
+            expect(output.two).toEqual(2);
+            expect(output.three).toEqual(0.25);
             expect(Object.keys(output).length).toBe(3);
         });
         it('should not fail with empty input', () => {
             let output = timesByCategory([]);
             expect(Object.keys(output)).toEqual([]);
+        });
+    });
+
+    describe('minutesToDecimalHours', () => {
+        it('should round properly', () => {
+            expect(minutesToDecimalHours(120)).toBe(2);
+            expect(minutesToDecimalHours(121)).toBe(2.02);
+            expect(minutesToDecimalHours(140)).toBe(2.33);
+            expect(minutesToDecimalHours(130)).toBe(2.17);
+            expect(minutesToDecimalHours(15)).toBe(0.25);
+            expect(minutesToDecimalHours(30)).toBe(0.5);
+            expect(minutesToDecimalHours(0)).toBe(0);
+            expect(minutesToDecimalHours(-30)).toBe(-0.5);
         });
     });
 });
