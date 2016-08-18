@@ -216,7 +216,7 @@ function TimeLineChart() {
         }
     }
 
-    function clickListener(chart) {
+    function clickListener() {
         return function () {
             let coords = mouse(this);
             // console.log('click', chartWidth, chartHeight, margin, coords);
@@ -225,7 +225,7 @@ function TimeLineChart() {
             let updateBefore = addHourBefore(margin.left, timeInc)(xScale.domain(), coords);
             if(updateBefore) xScale.domain(updateBefore);
             let newPoint = addPoint(margin, chartWidth, invertXScale, invertYScale)(coords, dataIndex++);
-            if(newPoint) {
+            if(newPoint && newPoint.category) {
                 data.push(newPoint);
                 data = cleanData(data);
             }

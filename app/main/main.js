@@ -8,28 +8,49 @@ export default ngModule => {
     });
 }
 
-function MainController ($log, $scope) {
+function MainController ($log, $scope, $localStorage) {
     let $ctrl = this;
     let id = 1;
-    $ctrl.categories = [
-        'Work',
-        'Lunch',
-        'Meeting',
-    ];
-    let chart = BootstrapTimeline('.chart')
-        .categories($ctrl.categories)
-        .data([])
-        .notifyOnUpdate(function (chart) {
-            // the chart is outside of Angular,
-            // so we need to trigger a digest cycle.
-            $scope.$applyAsync(function () {
-                $ctrl.times = chart.timesByCategory();
-                $ctrl.data = chart.data();
-            });
-        });
-    ;
+    let chart;
+    /****************************************
+    *      Controller Attributes           *
+    ****************************************/
+    $ctrl.categories = [];
+    $ctrl.data;
+    $ctrl.times;
+    $ctrl.newCategory;
+    /****************************************
+    *      Controller API                  *
+    ****************************************/
+    $ctrl.addCategory = addCategory;
+    $ctrl.deleteCategory = deleteCategory;
+    $ctrl.total = total;
+    /****************************************
+    *      Lifecycle Hooks                 *
+    ****************************************/
 
-    $ctrl.addCategory = function(newCategory) {
+    $ctrl.$onInit = function() {
+        chart = BootstrapTimeline('.chart')
+            .categories($ctrl.categories)
+            .data([])
+            .notifyOnUpdate(function (chart) {
+                // the chart is outside of Angular,
+                // so we need to trigger a digest cycle.
+                $scope.$applyAsync(function () {
+                    $ctrl.times = chart.timesByCategory();
+                    $ctrl.data = chart.data();
+                });
+            })
+        ;
+    };
+    $ctrl.$onChanges = function () {}
+    $ctrl.$postLink = function () {}
+    $ctrl.$onDestroy = function () {}
+
+    /****************************************
+    *      API Functions                   *
+    ****************************************/
+    function addCategory(newCategory) {
         if(newCategory){
             $ctrl.categories.push(newCategory);
             $ctrl.newCategory = '';
@@ -37,16 +58,20 @@ function MainController ($log, $scope) {
         }
     }
 
-    $ctrl.deleteCategory = function(index) {
+    function deleteCategory(index) {
         $ctrl.categories.splice(index, 1);
         chart.categories($ctrl.categories);
     }
 
-    $ctrl.total = function() {
+    function total() {
         let total = 0;
         for(let t in $ctrl.times) {
             total += $ctrl.times[t];
         }
         return total;
     }
+    /****************************************
+    *      Private Functions               *
+    ****************************************/
+
 }

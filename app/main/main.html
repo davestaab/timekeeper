@@ -7,10 +7,10 @@
     <div class="col-sm-6">
         <div class="h1">Categories</div>
         <div class="row">
-            <div class="col-sm-10" ng-repeat-start="cat in $ctrl.categories">
+            <div class="col-xs-10" ng-repeat-start="cat in $ctrl.categories">
                 {{cat}}
             </div>
-            <div class="col-sm-2" ng-repeat-end>
+            <div class="col-xs-2" ng-repeat-end>
                 <button class="btn btn-default"  ng-click="$ctrl.deleteCategory($index)">&times;</button>
             </div>
         </div>
