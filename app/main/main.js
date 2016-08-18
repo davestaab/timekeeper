@@ -1,4 +1,5 @@
 import BootstrapTimeline from '../../timeline/BootstrapTimeline';
+import moment from 'moment';
 
 export default ngModule => {
 
@@ -12,10 +13,12 @@ function MainController ($log, $scope, $localStorage) {
     let $ctrl = this;
     let id = 1;
     let chart;
+    const DEFAULT_CATEGORIES = ['Lunch', 'Overhead', 'Work'];
+    const SAVE_DATE_FORMAT = 'YYYY-MM-DD';
     /****************************************
     *      Controller Attributes           *
     ****************************************/
-    $ctrl.categories = [];
+    $ctrl.categories = DEFAULT_CATEGORIES;
     $ctrl.data;
     $ctrl.times;
     $ctrl.newCategory;
@@ -73,5 +76,19 @@ function MainController ($log, $scope, $localStorage) {
     /****************************************
     *      Private Functions               *
     ****************************************/
-
+    /**
+     * Look at local storage and setup any saved data that might exist.
+     * If not, create a new entry to save our data
+     * @return {[type]} [description]
+     */
+    function setupSaving() {
+        // $localStorage.
+    }
+    function createSaveFormat(categories, data) {
+        return {
+            name: moment().format(SAVE_DATE_FORMAT),
+            categories: categories,
+            data: data
+        };
+    }
 }
