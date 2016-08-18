@@ -1,4 +1,3 @@
-// testing
 System.config({
   baseURL: "/",
   defaultJSExtensions: true,
@@ -23,6 +22,7 @@ System.config({
     "d3-selection": "npm:d3-selection@1.0.0",
     "jspm": "npm:jspm@0.16.41",
     "moment": "npm:moment@2.14.1",
+    "ngstorage": "npm:ngstorage@0.3.11",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },

@@ -1951,5 +1951,6 @@
   },
   "npm:buffer-shims@1.0.0": {
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
-  }
+  },
+  "npm:ngstorage@0.3.11": {}
 }

@@ -4,7 +4,8 @@
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.5.8",
       "d3": "^4.1.1",
-      "moment": "^2.14.1"
+      "moment": "^2.14.1",
+      "ngstorage": "^0.3.11"
     },
     "devDependencies": {
       "babel": "babel-core@^5.8.24",
