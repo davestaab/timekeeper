@@ -1,4 +1,4 @@
-import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories, timesByCategory, minutesToDecimalHours } from './utils';
+import { cleanData, dataFormat, identity, addHourAfter, addHourBefore, removeUnknownCategories, timesByCategory, minutesToDecimalHours, findStartIndex } from './utils';
 import moment from 'moment';
 import { scaleTime } from 'd3';
 
@@ -217,6 +217,19 @@ describe('utils', () => {
             expect(minutesToDecimalHours(30)).toBe(0.5);
             expect(minutesToDecimalHours(0)).toBe(0);
             expect(minutesToDecimalHours(-30)).toBe(-0.5);
+        });
+    });
+
+    describe('findStartIndex', () => {
+        it('should return 1 if no data', () => {
+            expect(findStartIndex([])).toBe(1);
+        });
+        it('should return max id + 1', () => {
+            expect(findStartIndex([
+                { id: 1},
+                { id: 2},
+                { id: 500}
+            ])).toBe(501);
         });
     });
 });

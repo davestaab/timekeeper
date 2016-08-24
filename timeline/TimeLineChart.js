@@ -22,7 +22,8 @@ import {
         addHourBefore,
         addPoint,
         removeUnknownCategories,
-        timesByCategory
+        timesByCategory,
+        findStartIndex
     } from './utils';
 import moment from 'moment';
 
@@ -35,11 +36,11 @@ function TimeLineChart() {
     height = 200,
     categories = ['red', 'blue', 'one', 'two'],
     xValue = function(d) {
-        return d[0];
+        return d.time;
     },
     // default accessor
     yValue = function(d) {
-        return d[1];
+        return d.category;
     },
     margin = {
         top: 50,
@@ -131,7 +132,9 @@ function TimeLineChart() {
             .duration(duration)
             .ease(ease)
             .attr('cx', X)
-            .attr('cy', Y);
+            .attr('cy', Y)
+            .attr('r', pointRadius)
+        ;
 
         // enter
         let enter = update
@@ -236,10 +239,12 @@ function TimeLineChart() {
     chart.data = function (_) {
         if (!arguments.length) return data;
         // Convert data to standard representation greedily;
-        data = _.map(function(d, i) {
-            return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), dataIndex++);
-        });
-        data = cleanData(data);
+        // data = _.map(function(d, i) {
+        //     return dataFormat(xValue.call(data, d, i), yValue.call(data, d, i), dataIndex++);
+        // });
+
+        data = cleanData(_);
+        dataIndex = findStartIndex(_);
         updateChart(data);
         return chart;
     }

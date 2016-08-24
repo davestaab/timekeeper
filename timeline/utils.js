@@ -206,4 +206,11 @@ function minutesToDecimalHours(minutes) {
     return Math.round(minutes / 60 * 100) / 100;
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory, minutesToDecimalHours};
+function findStartIndex(data) {
+    return data.reduce(function(result, d) {
+        if(d.id > result){ return d.id;}
+        return result;
+    }, 0)+1;
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory, minutesToDecimalHours, findStartIndex};
