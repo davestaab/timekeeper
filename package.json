@@ -28,6 +28,7 @@
     "karma-jspm": "^2.2.0"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "build": "jspm bundle app/index.js dist/app.js"
   }
 }
