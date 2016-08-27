@@ -13,7 +13,7 @@ function MainController ($log, $scope, $localStorage, $window) {
     let id = 1;
     let chart;
     let entry;
-    const DEFAULT_CATEGORIES = ['Lunch', 'Overhead', 'Work'];
+    const DEFAULT_CATEGORIES = [category('Lunch'), category('Overhead'), category('Work')];
     const SAVE_DATE_FORMAT = 'YYYY-MM-DD';
     const SAVED_DATA = 'SAVED_DATA';
 
@@ -38,7 +38,7 @@ function MainController ($log, $scope, $localStorage, $window) {
         entry = setupSaving();
         $ctrl.categories = entry.categories;
         chart = BootstrapTimeline('.chart')
-            .categories(entry.categories)
+            .categories(entry.categories.map(catToName))
             .data(entry.data.map(inflate))
             .notifyOnUpdate(function (chart) {
                 // the chart is outside of Angular,
@@ -50,10 +50,10 @@ function MainController ($log, $scope, $localStorage, $window) {
                     // sync to local storage
                     entry.data = $ctrl.data;
                 });
-                $log.debug(chart.debug());
+                // $log.debug(chart.debug());
             })
         ;
-        $log.debug(chart.debug());
+        // $log.debug(chart.debug());
     };
     $ctrl.$onChanges = function () {}
     $ctrl.$postLink = function () {}
@@ -64,9 +64,9 @@ function MainController ($log, $scope, $localStorage, $window) {
     ****************************************/
     function addCategory(newCategory) {
         if(newCategory){
-            $ctrl.categories.push(newCategory);
+            $ctrl.categories.push(category(newCategory));
             $ctrl.newCategory = '';
-            chart.categories($ctrl.categories);
+            chart.categories($ctrl.categories.map(catToName));
             $window.document.getElementById('newCategory').focus();
             // sync to local storage
             entry.categories = $ctrl.categories;
@@ -75,7 +75,7 @@ function MainController ($log, $scope, $localStorage, $window) {
 
     function deleteCategory(index) {
         $ctrl.categories.splice(index, 1);
-        chart.categories($ctrl.categories);
+        chart.categories($ctrl.categories.map(catToName));
         // sync to local storage
         entry.categories = $ctrl.categories;
     }
@@ -120,6 +120,15 @@ function MainController ($log, $scope, $localStorage, $window) {
             categories: categories,
             data: []
         };
+    }
+    function category(category) {
+        return {
+            category: category,
+            billable: true
+        };
+    }
+    function catToName(d) {
+        return d.category;
     }
     /**
      * Inflate the date object from a string (local storage) to a date object

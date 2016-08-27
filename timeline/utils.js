@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-
+const CAT_DISPLAY_LENGTH = 10;
 /**
  * Cleans the chart data after new entries are inserted.
  * @param  {[type]} data [description]
@@ -213,4 +213,9 @@ function findStartIndex(data) {
     }, 0)+1;
 }
 
-export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory, minutesToDecimalHours, findStartIndex};
+function formatCategory(d) {
+    // debugger;
+    return (d.length > CAT_DISPLAY_LENGTH) ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
+}
+
+export { cleanData, invertX, invertY, dataFormat, noop, identity, addHourAfter, addHourBefore, addPoint, removeUnknownCategories, timesByCategory, minutesToDecimalHours, findStartIndex, formatCategory};

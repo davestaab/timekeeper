@@ -23,7 +23,8 @@ import {
         addPoint,
         removeUnknownCategories,
         timesByCategory,
-        findStartIndex
+        findStartIndex,
+        formatCategory
     } from './utils';
 import moment from 'moment';
 
@@ -77,14 +78,16 @@ function TimeLineChart() {
                 .clamp(true);
             yScale = scalePoint()
                 .domain(categories)
-                .rangeRound([chartHeight, 0]);
+                .rangeRound([chartHeight, 0])
+            ;
             xAxis = axisBottom(xScale)
                 .ticks(timeMinute.every(15))
                 .tickFormat(function (d, i) {
                     return moment(d).minute() === 0 ? moment(d).format('hh') : '';
                     // return i % 4 === 0 ? moment(d).format('hh') : '';
                 });
-            yAxis = axisLeft(yScale);
+            yAxis = axisLeft(yScale)
+                .tickFormat(formatCategory);
             chartLine = line().x(X).y(Y).curve(curveStepAfter);
             invertYScale = invertY(yScale);
             invertXScale = invertX(xScale);
