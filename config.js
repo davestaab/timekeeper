@@ -1,5 +1,6 @@
 System.config({
-  baseURL: "/",
+  // baseURL: "/",
+  baseURL: "./",
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
@@ -12,7 +13,6 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-
   map: {
     "angular": "github:angular/bower-angular@1.5.8",
     "babel": "npm:babel-core@5.8.38",
@@ -81,7 +81,7 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31"
     },
     "github:jspm/nodelibs-timers@0.1.0": {
-  "timers-browserify": "npm:timers-browserify@1.4.2"
+      "timers-browserify": "npm:timers-browserify@1.4.2"
     },
     "github:jspm/nodelibs-tty@0.1.0": {
       "tty-browserify": "npm:tty-browserify@0.0.0"
