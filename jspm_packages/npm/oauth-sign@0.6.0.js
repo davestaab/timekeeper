@@ -1,1 +1,0 @@
-module.exports = require("npm:oauth-sign@0.6.0/index.js");

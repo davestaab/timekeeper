@@ -1,1 +1,0 @@
-module.exports = require("npm:jspm-registry@0.4.1/registry.js");

@@ -1,1 +1,0 @@
-module.exports = require("npm:json5@0.4.0/lib/json5.js");

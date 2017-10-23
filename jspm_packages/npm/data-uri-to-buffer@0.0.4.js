@@ -1,1 +1,0 @@
-module.exports = require("npm:data-uri-to-buffer@0.0.4/index.js");

@@ -1,1 +1,0 @@
-module.exports = require("npm:d3-ease@1.0.0/build/d3-ease.js");

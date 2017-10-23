@@ -1,1 +1,0 @@
-module.exports = require("npm:babel-plugin-transform-global-system-wrapper@0.0.1/lib/index.js");

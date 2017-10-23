@@ -1,1 +1,0 @@
-module.exports = require("npm:parse-glob@3.0.4/index.js");

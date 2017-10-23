@@ -1,1 +1,0 @@
-module.exports = require("npm:js-tokens@2.0.0/index");

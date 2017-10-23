@@ -1,1 +1,0 @@
-module.exports = require("npm:qs@2.3.3/index.js");

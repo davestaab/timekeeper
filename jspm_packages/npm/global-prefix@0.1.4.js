@@ -1,1 +1,0 @@
-module.exports = require("npm:global-prefix@0.1.4/index.js");

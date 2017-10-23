@@ -1,1 +1,0 @@
-module.exports = require("npm:netrc@0.1.4/index.js");

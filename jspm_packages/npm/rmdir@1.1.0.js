@@ -1,1 +1,0 @@
-module.exports = require("npm:rmdir@1.1.0/index");

@@ -1,1 +1,0 @@
-module.exports = require("npm:lodash.isempty@4.3.1/index");

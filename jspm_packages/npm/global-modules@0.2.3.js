@@ -1,1 +1,0 @@
-module.exports = require("npm:global-modules@0.2.3/index.js");

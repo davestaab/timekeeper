@@ -1,1 +1,0 @@
-module.exports = require("npm:path-root-regex@0.1.2/index.js");

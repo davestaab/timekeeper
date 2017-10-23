@@ -1,1 +1,0 @@
-module.exports = require("npm:forever-agent@0.5.2/index.js");

@@ -1,1 +1,0 @@
-module.exports = require("npm:node.extend@1.0.8/index");

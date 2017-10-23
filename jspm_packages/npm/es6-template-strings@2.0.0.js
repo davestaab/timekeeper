@@ -1,1 +1,0 @@
-module.exports = require("npm:es6-template-strings@2.0.0/index");

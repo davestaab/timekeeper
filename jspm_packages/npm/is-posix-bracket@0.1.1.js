@@ -1,1 +1,0 @@
-module.exports = require("npm:is-posix-bracket@0.1.1/index.js");

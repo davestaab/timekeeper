@@ -1,1 +1,0 @@
-module.exports = require("npm:babel-plugin-transform-es2015-modules-systemjs@6.12.0/lib/index.js");

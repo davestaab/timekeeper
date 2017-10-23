@@ -1,1 +1,0 @@
-module.exports = require("npm:babel-plugin-transform-system-register@0.0.1/lib/index.js");

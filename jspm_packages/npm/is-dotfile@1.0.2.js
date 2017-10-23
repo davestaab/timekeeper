@@ -1,1 +1,0 @@
-module.exports = require("npm:is-dotfile@1.0.2/index.js");

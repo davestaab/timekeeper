@@ -1,1 +1,0 @@
-module.exports = require("npm:is-extendable@0.1.1/index.js");

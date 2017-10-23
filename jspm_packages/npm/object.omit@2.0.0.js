@@ -1,1 +1,0 @@
-module.exports = require("npm:object.omit@2.0.0/index.js");

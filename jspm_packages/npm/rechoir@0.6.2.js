@@ -1,1 +1,0 @@
-module.exports = require("npm:rechoir@0.6.2/index.js");

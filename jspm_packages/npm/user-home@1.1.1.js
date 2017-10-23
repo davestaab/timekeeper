@@ -1,1 +1,0 @@
-module.exports = require("npm:user-home@1.1.1/index");

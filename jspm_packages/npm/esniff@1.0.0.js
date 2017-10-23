@@ -1,1 +1,0 @@
-module.exports = require("npm:esniff@1.0.0/index");

@@ -1,1 +1,0 @@
-module.exports = require("npm:bl@0.9.5/bl.js");

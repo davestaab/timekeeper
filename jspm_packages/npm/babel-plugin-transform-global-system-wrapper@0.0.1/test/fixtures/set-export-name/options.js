@@ -1,2 +1,0 @@
-/* */ 
-module.exports = { exportName: "foo" };
