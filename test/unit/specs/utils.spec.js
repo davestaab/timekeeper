@@ -104,57 +104,100 @@ describe('utils', () => {
     });
 
     it('should not add time if days are different', () => {
-      let domain = [
-        moment().hours(6).minutes(0).second(0).toDate(),
-        moment().hours(23).minutes(59).second(0).toDate()
+      const domain = [
+        moment()
+          .hours(6)
+          .minutes(0)
+          .second(0)
+          .toDate(),
+        moment()
+          .hours(23)
+          .minutes(59)
+          .second(0)
+          .toDate(),
       ];
-      let copy = domain.slice();
-      let update = util.addHourAfter(500, 60)(domain, [501, 0]);
+      const copy = domain.slice();
+      const update = util.addHourAfter(500, 60)(domain, [501, 0]);
       // no update
       expect(update).toBeUndefined();
       expect(domain).toEqual(copy);
     });
 
     it('should increment by the given value', () => {
-      let domain = [
-        moment().hours(6).minutes(0).second(0).toDate(),
-        moment().hours(23).minutes(0).second(0).toDate()
+      const domain = [
+        moment()
+          .hours(6)
+          .minutes(0)
+          .second(0)
+          .toDate(),
+        moment()
+          .hours(23)
+          .minutes(0)
+          .second(0)
+          .toDate(),
       ];
-      let tester = {
-        asymmetricMatch: function (actual) {
+      const tester = {
+        asymmetricMatch(actual) {
           return actual[0].toString() === domain[0].toString() &&
-            actual[1].toString() === moment().hours(23).minutes(1).second(0).toDate().toString();
-        }
+            actual[1].toString() ===
+              moment()
+                .hours(23)
+                .minutes(1)
+                .second(0)
+                .toDate()
+                .toString();
+        },
       };
-      let update = util.addHourAfter(500, 1)(domain, [501, 0]);
+      const update = util.addHourAfter(500, 1)(domain, [501, 0]);
       expect(update).toEqual(tester);
     });
   });
 
   describe('addHourBefore', () => {
     it('should add an hour if clicked before left edge', () => {
-      let domain =
+      const domain =
         [
-          moment().hours(6).minutes(0).second(0).toDate(),
-          moment().hours(17).minutes(0).second(0).toDate()
+          moment()
+            .hours(6)
+            .minutes(0)
+            .second(0)
+            .toDate(),
+          moment()
+            .hours(17)
+            .minutes(0)
+            .second(0)
+            .toDate(),
         ];
 
-      let update = util.addHourBefore(100, 60)(domain, [50, 0]);
-      let tester = {
-        asymmetricMatch: function (actual) {
-          return actual.toString() === moment().hours(5).minutes(0).second(0).toDate().toString()
-        }
+      const update = util.addHourBefore(100, 60)(domain, [50, 0]);
+      const tester = {
+        asymmetricMatch(actual) {
+          return actual.toString() === moment()
+            .hours(5)
+            .minutes(0)
+            .second(0)
+            .toDate()
+            .toString();
+        },
       };
       expect(update[0]).toEqual(tester);
     });
 
     it('should not add time if days are different', () => {
-      let domain = [
-        moment().hours(0).minutes(0).second(0).toDate(),
-        moment().hours(23).minutes(59).second(0).toDate()
+      const domain = [
+        moment()
+          .hours(0)
+          .minutes(0)
+          .second(0)
+          .toDate(),
+        moment()
+          .hours(23)
+          .minutes(59)
+          .second(0)
+          .toDate(),
       ];
-      let copy = domain.slice();
-      let update = util.addHourAfter(100, 1)(domain, [50, 0]);
+      const copy = domain.slice();
+      const update = util.addHourAfter(100, 1)(domain, [50, 0]);
       // no update
       expect(update).toBeUndefined();
       expect(domain).toEqual(copy);
@@ -162,47 +205,45 @@ describe('utils', () => {
   });
 
   describe('removeUnknownCategories', () => {
-
     it('should return data for all known categories', () => {
-      let categories = ['one', 'two', 'three'];
-      let data = [
+      const categories = ['one', 'two', 'three'];
+      const data = [
         util.dataFormat(null, 'one'),
         util.dataFormat(null, 'two'),
         util.dataFormat(null, 'three'),
         util.dataFormat(null, 'two'),
       ];
-      let results = util.removeUnknownCategories(data, categories);
+      const results = util.removeUnknownCategories(data, categories);
       expect(results.length).toBe(4);
     });
 
     it('should remove data for unknown categories', () => {
-      let categories = ['one'];
-      let data = [
-        util.dataFormat(null, 'two')
+      const categories = ['one'];
+      const data = [
+        util.dataFormat(null, 'two'),
       ];
-      let results = util.removeUnknownCategories(data, categories);
+      const results = util.removeUnknownCategories(data, categories);
       expect(results.length).toBe(0);
     });
   });
 
   describe('timesByCategory', () => {
-
     it('should total times by category', () => {
-      let start = moment().hours(8).minutes(0).seconds(0);
-      let input = [
+      const start = moment().hours(8).minutes(0).seconds(0);
+      const input = [
         util.dataFormat(start.toDate(), 'one'),
         util.dataFormat(start.add(20, 'minutes').toDate(), 'two'),
         util.dataFormat(start.add(120, 'minutes').toDate(), 'three'),
         util.dataFormat(start.add(15, 'minutes').toDate(), 'one'),
       ];
-      let output = util.timesByCategory(input);
+      const output = util.timesByCategory(input);
       expect(output.one).toEqual(0.33);
       expect(output.two).toEqual(2);
       expect(output.three).toEqual(0.25);
       expect(Object.keys(output).length).toBe(3);
     });
     it('should not fail with empty input', () => {
-      let output = util.timesByCategory([]);
+      const output = util.timesByCategory([]);
       expect(Object.keys(output)).toEqual([]);
     });
   });
@@ -228,7 +269,7 @@ describe('utils', () => {
       expect(util.findStartIndex([
         { id: 1 },
         { id: 2 },
-        { id: 500 }
+        { id: 500 },
       ])).toBe(501);
     });
   });

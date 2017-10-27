@@ -216,7 +216,7 @@ function timesByCategory(data) {
 }
 
 function findStartIndex(data) {
-  return data.reduce(function (result, d) {
+  return data.reduce((result, d) => {
     if (d.id > result) { return d.id; }
     return result;
   }, 0) + 1;
