@@ -5,17 +5,16 @@
 </template>
 
 <script>
-import { getData } from '../utils';
+import { getData } from '../utils'
 
 export default {
   name: 'Timeline',
-  data() {
+  data () {
     return {
-      data: getData(),
-    };
-  },
-};
-
+      data: getData()
+    }
+  }
+}
 </script>
 
 <style scoped>
