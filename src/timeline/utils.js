@@ -1,5 +1,5 @@
-/* eslint consistent-return: 0 */
-/* eslint no-param-reassign: 0 */
+/*  consistent-return: 0 */
+/*  no-param-reassign: 0 */
 
 import moment from 'moment'
 
@@ -17,10 +17,10 @@ function removeDupTimes (result, d) {
   // if none found, keep d
   if (foundIndex === -1) {
     result.push(d)
-  } else // if d is a newer createdAt time, replace found with d
-    if (result[foundIndex].id < d.id) {
-      result.splice(foundIndex, 1, d)
-    }
+    // if d is a newer createdAt time, replace found with d
+  } else if (result[foundIndex].id < d.id) {
+    result.splice(foundIndex, 1, d)
+  }
   return result
 }
 
@@ -209,10 +209,10 @@ function timesByCategory (data) {
   }, {})
 
   Object.keys(totals).map((key) => {
-    totals[key] = minutesToDecimalHours(totals[key]);
-    return key;
-  });
-  return totals;
+    totals[key] = minutesToDecimalHours(totals[key])
+    return key
+  })
+  return totals
 }
 
 function findStartIndex (data) {
