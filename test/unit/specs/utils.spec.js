@@ -4,7 +4,7 @@ import * as util from '../../../src/timeline/utils';
 describe('utils', () => {
   describe('cleanData', () => {
     it('should be a function', () => {
-      expect(util.cleanData).to.be.a('function');
+      expect(util.cleanData).toBeDefined();
     });
 
     it('should sort data by time', () => {
@@ -15,9 +15,9 @@ describe('utils', () => {
         util.dataFormat(start.add(60, 'minutes').toDate(), 'two', 3),
       ];
       const clean = util.cleanData(data);
-      expect(clean[0].category).to.be('three');
-      expect(clean[1].category).to.be('one');
-      expect(clean[2].category).to.be('two');
+      expect(clean[0].category).toBe('three');
+      expect(clean[1].category).toBe('one');
+      expect(clean[2].category).toBe('two');
     });
 
     it('should remove duplicate for same minute (different seconds)', () => {
@@ -48,9 +48,9 @@ describe('utils', () => {
       const clean = util.cleanData(data);
       expect(clean.length).toBe(2);
       expect(clean[0].category).toBe('one');
-      expect(clean[0].id).toBe(1);
+      expect(clean[0].id).toBe(2);
       expect(clean[1].category).toBe('two');
-      expect(clean[1].id).toBe(2);
+      expect(clean[1].id).toBe(3);
     });
   });
 
@@ -65,9 +65,9 @@ describe('utils', () => {
   describe('identity', () => {
     it('should return the id of the object', () => {
       let data = { id: 1 };
-      expect(util.identity(data)).to.be(1);
+      expect(util.identity(data)).toBe(1);
       data = { id: 2 };
-      expect(util.identity(data)).to.be(2);
+      expect(util.identity(data)).toBe(2);
     });
   });
 

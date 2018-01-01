@@ -198,7 +198,7 @@ function timesByCategory(data) {
   let lastTime;
 
 
-  let totals = data.reduce((result, d) => {
+  const totals = data.reduce((result, d) => {
     if (lastCategory) {
       if (!result[lastCategory]) {
         result[lastCategory] = 0;
@@ -210,8 +210,10 @@ function timesByCategory(data) {
     return result;
   }, {});
 
-  const keys = Object.keys(totals);
-  totals = keys.map(key => minutesToDecimalHours(totals[key]));
+  Object.keys(totals).map((key) => {
+    totals[key] = minutesToDecimalHours(totals[key]);
+    return key;
+  });
   return totals;
 }
 
