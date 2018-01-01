@@ -1,27 +1,27 @@
 /* eslint consistent-return: 0 */
 /* eslint no-param-reassign: 0 */
 
-import moment from 'moment';
+import moment from 'moment'
 
-const CAT_DISPLAY_LENGTH = 10;
+const CAT_DISPLAY_LENGTH = 10
 
-function sortByTime(a, b) {
-  const am = moment(a.time);
-  const bm = moment(b.time);
-  return am.isSameOrBefore(bm) ? -1 : 1;
+function sortByTime (a, b) {
+  const am = moment(a.time)
+  const bm = moment(b.time)
+  return am.isSameOrBefore(bm) ? -1 : 1
 }
 
-function removeDupTimes(result, d) {
+function removeDupTimes (result, d) {
   // find any duplicate times for d
-  const foundIndex = result.findIndex(elem => moment(elem.time).isSame(moment(d.time), 'minute'));
+  const foundIndex = result.findIndex(elem => moment(elem.time).isSame(moment(d.time), 'minute'))
   // if none found, keep d
   if (foundIndex === -1) {
-    result.push(d);
+    result.push(d)
   } else // if d is a newer createdAt time, replace found with d
     if (result[foundIndex].id < d.id) {
-      result.splice(foundIndex, 1, d);
+      result.splice(foundIndex, 1, d)
     }
-  return result;
+  return result
 }
 
 /**
@@ -31,30 +31,30 @@ function removeDupTimes(result, d) {
  * @param  {[type]} d       [description]
  * @return {[type]}         [description]
  */
-function removeDupCategories(results, d) {
+function removeDupCategories (results, d) {
   if (results.length === 0) {
-    results.push(d);
-    return results;
+    results.push(d)
+    return results
   }
   // if d category is the same category as the last
-  const lastData = results[results.length - 1];
+  const lastData = results[results.length - 1]
   if (d.category === lastData.category) {
     if (d.id > lastData.id) {
-      results.splice(results.length - 1, 1, d);
+      results.splice(results.length - 1, 1, d)
     }
   } else {
-    results.push(d);
+    results.push(d)
   }
-  return results;
+  return results
 }
 
-function removeUnknownCategories(data, categories) {
+function removeUnknownCategories (data, categories) {
   return data.reduce((result, d) => {
     if (categories.indexOf(d.category) >= 0) {
-      result.push(d);
+      result.push(d)
     }
-    return result;
-  }, []);
+    return result
+  }, [])
 }
 
 /**
@@ -62,13 +62,12 @@ function removeUnknownCategories(data, categories) {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-function cleanData(data) {
+function cleanData (data) {
   // debugger;
   return data
     .sort(sortByTime)
     .reduce(removeDupTimes, [])
     .reduce(removeDupCategories, [])
-    ;
 }
 
 /**
@@ -76,31 +75,31 @@ function cleanData(data) {
  * @param  {ind}  x pixels on the chart to convert
  * @return {Date}   Date representing the nearest date to clicked on the x axis.
  */
-function invertX(xScale) {
+function invertX (xScale) {
   return (x) => {
-    const m = moment(xScale.invert(x));
-    m.minutes(Math.round(m.minutes() / 15) * 15).second(0).millisecond(0);
-    return m.toDate();
-  };
+    const m = moment(xScale.invert(x))
+    m.minutes(Math.round(m.minutes() / 15) * 15).second(0).millisecond(0)
+    return m.toDate()
+  }
 }
 /**
  * given pixels inverts it to the nearest category
  * @param  {int}    y pixels on the chart to convert
  * @return {string}   the nearest category
  */
-function invertY(yScale) {
+function invertY (yScale) {
   return (y) => {
-    let min = Infinity;
-    let minData;
+    let min = Infinity
+    let minData
     yScale.domain().forEach((d) => {
-      const minDistance = Math.abs(yScale(d) - y);
+      const minDistance = Math.abs(yScale(d) - y)
       if (minDistance < min) {
-        min = minDistance;
-        minData = d;
+        min = minDistance
+        minData = d
       }
-    });
-    return minData;
-  };
+    })
+    return minData
+  }
 }
 
 /**
@@ -110,23 +109,23 @@ function invertY(yScale) {
  * @param  {[type]} i [description]
  * @return {[type]}   [description]
  */
-function dataFormat(time, category, id) {
+function dataFormat (time, category, id) {
   return {
     time,
     category,
-    id,
-  };
+    id
+  }
 }
 
-function noop() { }
+function noop () { }
 
 /**
  * Identity accessor for the chart data format.
  * @param  {[type]} d [description]
  * @return {[type]}   [description]
  */
-function identity(d) {
-  return d.id;
+function identity (d) {
+  return d.id
 }
 
 /**
@@ -137,34 +136,34 @@ function identity(d) {
  *                        and will return updated domain or undefined
  */
 
-function addHourAfter(rightEdge, inc) {
+function addHourAfter (rightEdge, inc) {
   return (domain, clickCoords) => {
-    const x = clickCoords[0];
+    const x = clickCoords[0]
     if (x > rightEdge) {
-      const laterTime = moment(domain[1]);
-      laterTime.add(inc, 'minutes');
+      const laterTime = moment(domain[1])
+      laterTime.add(inc, 'minutes')
       if (moment(domain[1]).date() !== laterTime.date()) {
         // don't allow the incremented date to go to the next day
-        return;
+        return
       }
-      return [domain[0], laterTime.toDate()];
+      return [domain[0], laterTime.toDate()]
     }
-  };
+  }
 }
 
-function addHourBefore(leftEdge, inc) {
+function addHourBefore (leftEdge, inc) {
   return (domain, clickCoords) => {
-    const x = clickCoords[0];
+    const x = clickCoords[0]
     if (x < leftEdge) {
-      const earlierTime = moment(domain[0]);
-      earlierTime.subtract(inc, 'minutes');
+      const earlierTime = moment(domain[0])
+      earlierTime.subtract(inc, 'minutes')
       if (moment(domain[0]).date() !== earlierTime.date()) {
         // don't allow the incremented date to go to the next day
-        return;
+        return
       }
-      return [earlierTime.toDate(), domain[1]];
+      return [earlierTime.toDate(), domain[1]]
     }
-  };
+  }
 }
 
 /**
@@ -176,39 +175,38 @@ function addHourBefore(leftEdge, inc) {
  * @param {[type]} chartWidth width of the chart. Use with the margin
  *                            to determine the right edge of the click area
  */
-function addPoint(margin, chartWidth, invertXScale, invertYScale) {
+function addPoint (margin, chartWidth, invertXScale, invertYScale) {
   return (clickCoords, dataId) => {
-    const x = clickCoords[0];
+    const x = clickCoords[0]
     if (x > margin.left && x < margin.left + chartWidth) {
       return dataFormat(
         invertXScale(clickCoords[0] - margin.left),
         invertYScale(clickCoords[1] - margin.top),
-        dataId);
+        dataId)
     }
-    return undefined;
-  };
+    return undefined
+  }
 }
 
-function minutesToDecimalHours(minutes) {
-  return Math.round((minutes / 60) * 100) / 100;
+function minutesToDecimalHours (minutes) {
+  return Math.round((minutes / 60) * 100) / 100
 }
 
-function timesByCategory(data) {
-  let lastCategory;
-  let lastTime;
-
+function timesByCategory (data) {
+  let lastCategory
+  let lastTime
 
   const totals = data.reduce((result, d) => {
     if (lastCategory) {
       if (!result[lastCategory]) {
-        result[lastCategory] = 0;
+        result[lastCategory] = 0
       }
-      result[lastCategory] += moment(d.time).diff(lastTime, 'minutes');
+      result[lastCategory] += moment(d.time).diff(lastTime, 'minutes')
     }
-    lastCategory = d.category;
-    lastTime = d.time;
-    return result;
-  }, {});
+    lastCategory = d.category
+    lastTime = d.time
+    return result
+  }, {})
 
   Object.keys(totals).map((key) => {
     totals[key] = minutesToDecimalHours(totals[key]);
@@ -217,17 +215,17 @@ function timesByCategory(data) {
   return totals;
 }
 
-function findStartIndex(data) {
+function findStartIndex (data) {
   return data.reduce((result, d) => {
-    if (d.id > result) { return d.id; }
-    return result;
-  }, 0) + 1;
+    if (d.id > result) { return d.id }
+    return result
+  }, 0) + 1
 }
 
-function formatCategory(d) {
-  return (d.length > CAT_DISPLAY_LENGTH) ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
+function formatCategory (d) {
+  return (d.length > CAT_DISPLAY_LENGTH) ? d.substring(0, CAT_DISPLAY_LENGTH) : d
 }
 
 export { cleanData, invertX, invertY, dataFormat, noop, identity,
   addHourAfter, addHourBefore, addPoint, removeUnknownCategories,
-  timesByCategory, minutesToDecimalHours, findStartIndex, formatCategory };
+  timesByCategory, minutesToDecimalHours, findStartIndex, formatCategory }

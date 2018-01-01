@@ -1,15 +1,15 @@
-const STORAGE_KEY = 'ngStorage-SAVEDDATA';
+const STORAGE_KEY = 'ngStorage-SAVEDDATA'
 
-const localStorage = window.localStorage;
+const localStorage = window.localStorage
 
-let DEMO;
-export function getData() {
-  const data = localStorage.getItem(STORAGE_KEY);
+let DEMO
+export function getData () {
+  const data = localStorage.getItem(STORAGE_KEY)
 
-  return data || DEMO;
+  return data || DEMO
 }
 
-export function savData() {
+export function savData () {
 
 }
 
@@ -74,6 +74,6 @@ DEMO = [
   { date: '2017-10-23',
     categories: ['Lunch', 'Overhead', 'Work'],
     data: [
-    ],
-  },
-];
+    ]
+  }
+]
