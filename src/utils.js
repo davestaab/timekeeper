@@ -5,7 +5,6 @@ const localStorage = window.localStorage
 let DEMO
 export function getData () {
   const data = localStorage.getItem(STORAGE_KEY)
-
   return data || DEMO
 }
 
@@ -73,7 +72,6 @@ DEMO = [
       { time: '2017-10-20T10:15:00.000Z', category: 'dev', id: 2 }, { time: '2017-10-20T12:30:00.000Z', category: 'meeting', id: 3 }, { time: '2017-10-20T14:30:00.000Z', category: 'dev', id: 6 }, { time: '2017-10-20T15:45:00.000Z', category: 'personal', id: 8 }] },
   { date: '2017-10-23',
     categories: ['Lunch', 'Overhead', 'Work'],
-    data: [
-    ]
-  }
+    data: [],
+  },
 ]

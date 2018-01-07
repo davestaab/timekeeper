@@ -10,8 +10,8 @@ import Timeline from './components/Timeline'
 export default {
   name: 'app',
   components: {
-    Timeline
-  }
+    Timeline,
+  },
 }
 </script>
 

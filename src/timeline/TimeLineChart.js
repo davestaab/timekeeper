@@ -8,7 +8,7 @@ import {
   scalePoint,
   curveStepAfter,
   timeMinute,
-  easeCubicOut
+  // easeCubicOut
 } from 'd3'
 
 import {
@@ -23,7 +23,7 @@ import {
   removeUnknownCategories,
   timesByCategory,
   findStartIndex,
-  formatCategory
+  formatCategory,
 } from './utils'
 
 import moment from 'moment'
@@ -43,7 +43,7 @@ function TimeLineChart () {
     top: 50,
     right: 50,
     bottom: 50,
-    left: 75
+    left: 75,
   }
   let data = []
   let _notifyOnUpdate = noop
@@ -53,8 +53,8 @@ function TimeLineChart () {
   ****************************/
   let chartWidth = width - margin.left - margin.right
   let chartHeight = height - margin.top - margin.bottom
-  let duration = 500
-  let ease = easeCubicOut
+  // let duration = 500
+  // let ease = easeCubicOut
   let pointRadius = 6
   let dataIndex = 0
   let timeInc = 60
@@ -135,9 +135,9 @@ function TimeLineChart () {
     // update
     let update = svg.select('.all').selectAll('.point').data(data, identity)
     update
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .attr('cx', X)
       .attr('cy', Y)
       .attr('r', pointRadius)
@@ -150,16 +150,16 @@ function TimeLineChart () {
       .attr('cx', X)
       .attr('cy', Y)
       .attr('r', 0)
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .attr('r', pointRadius)
 
     // exit
     update.exit()
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .attr('r', 0).remove()
   }
 
@@ -167,16 +167,16 @@ function TimeLineChart () {
     // update x axis
     svg.select('.x.axis')
       .attr('transform', 'translate(0,' + chartHeight + ')')
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .call(xAxis)
 
     // update y axis
     svg.select('.y.axis')
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .call(yAxis)
   }
 
@@ -184,9 +184,9 @@ function TimeLineChart () {
     // debugger;
     svg.select('.line')
       .data([data])
-      .transition()
-      .duration(duration)
-      .ease(ease)
+      // .transition()
+      // .duration(duration)
+      // .ease(ease)
       .attr('d', chartLine)
   }
 
@@ -292,10 +292,10 @@ function TimeLineChart () {
 
   chart.debug = function () {
     return {
-      yScale: yScale,
-      xScale: xScale,
-      categories: categories,
-      data: data
+      yScale,
+      xScale,
+      categories,
+      data,
     }
   }
 

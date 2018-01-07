@@ -113,7 +113,7 @@ function dataFormat (time, category, id) {
   return {
     time,
     category,
-    id
+    id,
   }
 }
 
