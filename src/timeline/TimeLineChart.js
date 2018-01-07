@@ -8,7 +8,8 @@ import {
   scalePoint,
   curveStepAfter,
   timeMinute,
-  // easeCubicOut
+  transition, // eslint-disable-line no-unused-vars
+  easeCubicOut,
 } from 'd3'
 
 import {
@@ -53,8 +54,8 @@ function TimeLineChart () {
   ****************************/
   let chartWidth = width - margin.left - margin.right
   let chartHeight = height - margin.top - margin.bottom
-  // let duration = 500
-  // let ease = easeCubicOut
+  let duration = 1500
+  let ease = easeCubicOut
   let pointRadius = 6
   let dataIndex = 0
   let timeInc = 60
@@ -68,6 +69,7 @@ function TimeLineChart () {
   let invertXScale
   let chartGrp
   let hover
+  let useTransitions = true
 
   // update functions
   let updateCategories = noop
@@ -135,9 +137,7 @@ function TimeLineChart () {
     // update
     let update = svg.select('.all').selectAll('.point').data(data, identity)
     update
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .attr('cx', X)
       .attr('cy', Y)
       .attr('r', pointRadius)
@@ -150,16 +150,12 @@ function TimeLineChart () {
       .attr('cx', X)
       .attr('cy', Y)
       .attr('r', 0)
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .attr('r', pointRadius)
 
     // exit
     update.exit()
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .attr('r', 0).remove()
   }
 
@@ -167,26 +163,19 @@ function TimeLineChart () {
     // update x axis
     svg.select('.x.axis')
       .attr('transform', 'translate(0,' + chartHeight + ')')
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .call(xAxis)
 
     // update y axis
     svg.select('.y.axis')
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .call(yAxis)
   }
 
   function updateLine (data) {
-    // debugger;
     svg.select('.line')
       .data([data])
-      // .transition()
-      // .duration(duration)
-      // .ease(ease)
+      .call(addTransitions)
       .attr('d', chartLine)
   }
 
@@ -290,6 +279,12 @@ function TimeLineChart () {
     return chart
   }
 
+  chart.useTransitions = function (_) {
+    if (!arguments.length) return useTransitions
+    useTransitions = _
+    return chart
+  }
+
   chart.debug = function () {
     return {
       yScale,
@@ -297,6 +292,16 @@ function TimeLineChart () {
       categories,
       data,
     }
+  }
+
+  function addTransitions (selection) {
+    if (useTransitions) {
+      return selection
+        .transition()
+        .duration(duration)
+        .ease(ease)
+    }
+    return selection
   }
 
   return chart

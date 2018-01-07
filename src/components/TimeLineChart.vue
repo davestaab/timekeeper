@@ -1,7 +1,8 @@
 <template>
-
+  <div>
+    
+  </div>
 </template>
-
 
 <script>
 import TimeLineChart from '@/timeline/TimeLineChart'
@@ -37,3 +38,54 @@ function inflate (d) {
   return d
 }
 </script>
+
+<style lang="less" scoped>
+.line {
+    stroke: blueviolet;
+    fill: none;
+    stroke-linejoin: round;
+    stroke-width: 5px;
+    stroke-linecap: round;
+}
+.chart {
+    margin: 0 auto;
+}
+.timeline {
+    background: lightcyan;
+    border: thin solid darkcyan;
+    display: block;
+    margin: 0 auto;
+    max-height: 200px;
+}
+
+.tick line {
+    stroke: black;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.point {
+    stroke: blueviolet;
+    fill: rgba(33, 33, 33, .1);
+}
+
+.hover {
+    stroke: blueviolet;
+    fill: rgba(66, 66, 66, .3);
+    opacity: 1;
+    transition: opacity .65s ease-out;
+}
+.hover--off {
+    opacity: 0
+}
+</style>
