@@ -14,7 +14,7 @@ export default {
     'chartData',
   ],
   mounted: function () {
-    const entry = this.chartData[0]
+    const entry = this.chartData
     chart
       .categories(entry.categories)
       .data(entry.data.map(inflate))
