@@ -101,7 +101,7 @@ function TimeLineChart () {
       svg = select(this).append('svg')
         .attr('viewBox', [0, 0, width, height].join(' '))
         .classed('timeline', true)
-        // .attr('preserveAspectRatio', 'xMidYMid meet')
+      // .attr('preserveAspectRatio', 'xMidYMid meet')
 
       chartGrp = svg.append('g').attr('class', 'all')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
@@ -136,47 +136,48 @@ function TimeLineChart () {
   function updatePoints (data) {
     // update
     let update = svg.select('.all').selectAll('.point').data(data, identity)
-    update
-      .call(addTransitions)
+    addTransitions(update)
       .attr('cx', X)
       .attr('cy', Y)
       .attr('r', pointRadius)
 
     // enter
-    update
-      .enter()
-      .append('circle')
-      .attr('class', 'point')
-      .attr('cx', X)
-      .attr('cy', Y)
-      .attr('r', 0)
-      .call(addTransitions)
-      .attr('r', pointRadius)
+    addTransitions(
+      update
+        .enter()
+        .append('circle')
+        .attr('class', 'point')
+        .attr('cx', X)
+        .attr('cy', Y)
+        .attr('r', 0)
+    ).attr('r', pointRadius)
 
     // exit
-    update.exit()
-      .call(addTransitions)
-      .attr('r', 0).remove()
+    addTransitions(
+      update.exit()
+    ).attr('r', 0).remove()
   }
 
   function updateScales (data) {
     // update x axis
-    svg.select('.x.axis')
-      .attr('transform', 'translate(0,' + chartHeight + ')')
-      .call(addTransitions)
-      .call(xAxis)
+    addTransitions(
+      svg
+        .select('.x.axis')
+        .attr('transform', 'translate(0,' + chartHeight + ')')
+    ).call(xAxis)
 
     // update y axis
-    svg.select('.y.axis')
-      .call(addTransitions)
-      .call(yAxis)
+    addTransitions(
+      svg.select('.y.axis')
+    ).call(yAxis)
   }
 
   function updateLine (data) {
-    svg.select('.line')
-      .data([data])
-      .call(addTransitions)
-      .attr('d', chartLine)
+    addTransitions(
+      svg
+        .select('.line')
+        .data([data])
+    ).attr('d', chartLine)
   }
 
   function liveUpdateCategories () {
@@ -187,7 +188,6 @@ function TimeLineChart () {
   }
   // The x-accessor for the path generator.
   function X (d) {
-    // debugger;
     return xScale(d.time)
   }
 

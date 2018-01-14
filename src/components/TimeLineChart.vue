@@ -1,7 +1,5 @@
 <template>
-  <div>
-    
-  </div>
+  <div class="chart-container"></div>
 </template>
 
 <script>
@@ -39,7 +37,11 @@ function inflate (d) {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="css">
+.chart-container {
+  width: 760px;
+  margin: 0 auto;
+}
 .line {
     stroke: blueviolet;
     fill: none;
