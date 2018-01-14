@@ -12,8 +12,9 @@
 
 <script>
 import { getData } from '../utils'
-import TimeLineChart from './TimeLineChart'
 import moment from 'moment'
+
+const TimeLineChart = () => import('./TimeLineChart')
 
 export default {
   name: 'Timeline',
