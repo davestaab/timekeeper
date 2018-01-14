@@ -12,7 +12,7 @@ describe('utils', () => {
       const data = [
         util.dataFormat(start.toDate(), 'three', 1),
         util.dataFormat(start.add(20, 'minutes').toDate(), 'one', 2),
-        util.dataFormat(start.add(60, 'minutes').toDate(), 'two', 3)
+        util.dataFormat(start.add(60, 'minutes').toDate(), 'two', 3),
       ]
       const clean = util.cleanData(data)
       expect(clean[0].category).toBe('three')
@@ -26,12 +26,12 @@ describe('utils', () => {
         {
           time: time.toDate(),
           category: 'first',
-          id: 1
+          id: 1,
         }, {
           time: time.second(15).toDate(),
           category: 'second',
-          id: 2
-        }
+          id: 2,
+        },
       ]
       const clean = util.cleanData(data)
       expect(clean.length).toBe(1)
@@ -43,7 +43,7 @@ describe('utils', () => {
       const data = [
         util.dataFormat(moment().hour(8).toDate(), 'one', id += 1),
         util.dataFormat(moment().hour(9).toDate(), 'one', id += 1),
-        util.dataFormat(moment().hour(10).toDate(), 'two', id += 1)
+        util.dataFormat(moment().hour(10).toDate(), 'two', id += 1),
       ]
       const clean = util.cleanData(data)
       expect(clean.length).toBe(2)
@@ -77,7 +77,7 @@ describe('utils', () => {
       expect(util.dataFormat(time, 'one', 1)).toEqual({
         time,
         category: 'one',
-        id: 1
+        id: 1,
       })
     })
   })
@@ -92,7 +92,7 @@ describe('utils', () => {
           moment().hours(6).minutes(0).second(0)
             .toDate(),
           moment().hours(17).minutes(0).second(0)
-            .toDate()
+            .toDate(),
         ]
       const copy = domain.slice()
       expect(domain).toEqual(copy)
@@ -114,7 +114,7 @@ describe('utils', () => {
           .hours(23)
           .minutes(59)
           .second(0)
-          .toDate()
+          .toDate(),
       ]
       const copy = domain.slice()
       const update = util.addHourAfter(500, 60)(domain, [501, 0])
@@ -134,7 +134,7 @@ describe('utils', () => {
           .hours(23)
           .minutes(0)
           .second(0)
-          .toDate()
+          .toDate(),
       ]
       const tester = {
         asymmetricMatch (actual) {
@@ -146,7 +146,7 @@ describe('utils', () => {
                 .second(0)
                 .toDate()
                 .toString()
-        }
+        },
       }
       const update = util.addHourAfter(500, 1)(domain, [501, 0])
       expect(update).toEqual(tester)
@@ -166,7 +166,7 @@ describe('utils', () => {
             .hours(17)
             .minutes(0)
             .second(0)
-            .toDate()
+            .toDate(),
         ]
 
       const update = util.addHourBefore(100, 60)(domain, [50, 0])
@@ -178,7 +178,7 @@ describe('utils', () => {
             .second(0)
             .toDate()
             .toString()
-        }
+        },
       }
       expect(update[0]).toEqual(tester)
     })
@@ -194,7 +194,7 @@ describe('utils', () => {
           .hours(23)
           .minutes(59)
           .second(0)
-          .toDate()
+          .toDate(),
       ]
       const copy = domain.slice()
       const update = util.addHourAfter(100, 1)(domain, [50, 0])
@@ -211,7 +211,7 @@ describe('utils', () => {
         util.dataFormat(null, 'one'),
         util.dataFormat(null, 'two'),
         util.dataFormat(null, 'three'),
-        util.dataFormat(null, 'two')
+        util.dataFormat(null, 'two'),
       ]
       const results = util.removeUnknownCategories(data, categories)
       expect(results.length).toBe(4)
@@ -220,7 +220,7 @@ describe('utils', () => {
     it('should remove data for unknown categories', () => {
       const categories = ['one']
       const data = [
-        util.dataFormat(null, 'two')
+        util.dataFormat(null, 'two'),
       ]
       const results = util.removeUnknownCategories(data, categories)
       expect(results.length).toBe(0)
@@ -234,7 +234,7 @@ describe('utils', () => {
         util.dataFormat(start.toDate(), 'one'),
         util.dataFormat(start.add(20, 'minutes').toDate(), 'two'),
         util.dataFormat(start.add(120, 'minutes').toDate(), 'three'),
-        util.dataFormat(start.add(15, 'minutes').toDate(), 'one')
+        util.dataFormat(start.add(15, 'minutes').toDate(), 'one'),
       ]
       const output = util.timesByCategory(input)
       expect(output.one).toEqual(0.33)
@@ -269,13 +269,13 @@ describe('utils', () => {
       expect(util.findStartIndex([
         { id: 1 },
         { id: 2 },
-        { id: 500 }
+        { id: 500 },
       ])).toBe(501)
     })
   })
 
   describe('formatCategory', () => {
-    it('should shorten the category if it\'s less then max characters', () => {
+    it('should shorten the category if it\'s more then max characters', () => {
       expect(util.formatCategory('super duper long one')).toBe('super dupe')
       expect(util.formatCategory('short')).toBe('short')
       expect(util.formatCategory('')).toBe('')
