@@ -10,6 +10,7 @@ import {
   timeMinute,
   transition, // eslint-disable-line no-unused-vars
   easeCubicOut,
+  extent,
 } from 'd3'
 
 import {
@@ -54,7 +55,7 @@ function TimeLineChart () {
   ****************************/
   let chartWidth = width - margin.left - margin.right
   let chartHeight = height - margin.top - margin.bottom
-  let duration = 1500
+  let duration = 500
   let ease = easeCubicOut
   let pointRadius = 6
   let dataIndex = 0
@@ -80,7 +81,7 @@ function TimeLineChart () {
   function chart (selection) {
     selection.each(function () {
       xScale = scaleTime()
-        .domain([moment().hours(6).minutes(0).second(0).toDate(), moment().hours(17).minutes(0).second(0).toDate()])
+        .domain(extent(data, d => d.time))
         .range([0, chartWidth])
         .clamp(true)
       yScale = scalePoint()
