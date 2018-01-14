@@ -81,9 +81,9 @@ function TimeLineChart () {
   function chart (selection) {
     selection.each(function () {
       xScale = scaleTime()
-        .domain(extent(data, d => d.time))
         .range([0, chartWidth])
         .clamp(true)
+      updateXScale(data)
       yScale = scalePoint()
         .domain(categories)
         .rangeRound([chartHeight, 0])
@@ -128,6 +128,7 @@ function TimeLineChart () {
   }
 
   function liveUpdateChart (data) {
+    // updateXScale(data)
     updatePoints(data)
     updateScales(data)
     updateLine(data)
@@ -159,7 +160,7 @@ function TimeLineChart () {
     ).attr('r', 0).remove()
   }
 
-  function updateScales (data) {
+  function updateScales () {
     // update x axis
     addTransitions(
       svg
@@ -186,6 +187,10 @@ function TimeLineChart () {
     yScale.domain(categories)
     svg.select('.y.axis').call(yAxis)
     updateChart(data)
+  }
+
+  function updateXScale (data) {
+    if (xScale) xScale.domain(extent(data, d => d.time))
   }
   // The x-accessor for the path generator.
   function X (d) {
@@ -218,8 +223,9 @@ function TimeLineChart () {
   function clickListener () {
     return function () {
       let coords = mouse(this)
-      // console.log('click', chartWidth, chartHeight, margin, coords);
+      // console.log('click', chartWidth, chartHeight, margin, coords, xScale.domain())
       let updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(xScale.domain(), coords)
+      // console.log('updateAfter', updateAfter)
       if (updateAfter) xScale.domain(updateAfter)
       let updateBefore = addHourBefore(margin.left, timeInc)(xScale.domain(), coords)
       if (updateBefore) xScale.domain(updateBefore)
@@ -237,6 +243,7 @@ function TimeLineChart () {
 
     data = cleanData(_)
     dataIndex = findStartIndex(_)
+    updateXScale(data)
     updateChart(data)
     return chart
   }

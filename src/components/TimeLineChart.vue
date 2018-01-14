@@ -13,12 +13,29 @@ export default {
   props: [
     'chartData',
   ],
+  data: function () {
+    return {
+      selection: undefined,
+    }
+  },
   mounted: function () {
-    const entry = this.chartData
-    chart
-      .categories(entry.categories)
-      .data(entry.data.map(inflate))
-    select(this.$el).call(chart)
+    console.log('mounted being called!')
+    this.selection = select(this.$el)
+    this.updateChart()
+    this.selection.call(chart)
+  },
+  watch: {
+    chartData: function (newVal, oldVal) {
+      console.log('TimelineChart chartData updated', newVal)
+      this.updateChart()
+    },
+  },
+  methods: {
+    updateChart: function () {
+      chart
+        .data(this.chartData.data.map(inflate))
+        .categories(this.chartData.categories)
+    },
   },
 }
 
