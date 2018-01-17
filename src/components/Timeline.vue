@@ -1,11 +1,7 @@
 <template>
   <div>
     <h1>Time Line</h1>
-    <div class="date-picker">
-      <button class="arrow" @click="nextDate(-1)">&larr;</button>
-      <div class="date">{{currentDate}}</div>
-      <button class="arrow" @click="nextDate(1)">&rarr;</button>
-    </div>
+    <date-picker :current-date="currentDate" @nextDate="nextDate"></date-picker>
     <time-line-chart :chart-data="currentData"></time-line-chart>
   </div>
 </template>
@@ -13,6 +9,7 @@
 <script>
 import { getData } from '../utils'
 import moment from 'moment'
+import DatePicker from './DatePicker'
 
 const TimeLineChart = () => import('./TimeLineChart')
 
@@ -29,7 +26,7 @@ export default {
       return this.data[this.current]
     },
     currentDate: function () {
-      return moment(this.currentData.date).format('MMM D, YYYY')
+      return moment(this.currentData.date).toDate()
     },
   },
   methods: {
@@ -40,22 +37,10 @@ export default {
   },
   components: {
     TimeLineChart,
+    DatePicker,
   },
 }
 </script>
 
 <style scoped>
-.date-picker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.date {
-  margin: 10px;
-  flex: 0 0 auto;
-}
-.arrow {
-  flex: 0 0 auto;
-  cursor: pointer;
-}
 </style>
