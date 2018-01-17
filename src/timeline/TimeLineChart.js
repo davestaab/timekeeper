@@ -102,7 +102,6 @@ function TimeLineChart () {
       svg = select(this).append('svg')
         .attr('viewBox', [0, 0, width, height].join(' '))
         .classed('timeline', true)
-      // .attr('preserveAspectRatio', 'xMidYMid meet')
 
       chartGrp = svg.append('g').attr('class', 'all')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
@@ -128,7 +127,6 @@ function TimeLineChart () {
   }
 
   function liveUpdateChart (data) {
-    // updateXScale(data)
     updatePoints(data)
     updateScales(data)
     updateLine(data)
@@ -190,7 +188,21 @@ function TimeLineChart () {
   }
 
   function updateXScale (data) {
-    if (xScale) xScale.domain(extent(data, d => d.time))
+    if (xScale) {
+      const dataWithMinMax = [
+        ...data,
+        {
+          // min time for the xScale domain: 7am
+          time: moment(data[0].time).hour(7).minute(0).toDate(),
+        },
+        {
+          // max time for the xScale domain: 6pm
+          time: moment(data[0].time).hour(18).minute(0).toDate(),
+        },
+      ]
+      const e = extent(dataWithMinMax, d => d.time)
+      xScale.domain(e)
+    }
   }
   // The x-accessor for the path generator.
   function X (d) {
