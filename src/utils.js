@@ -25,11 +25,6 @@ DEMO = [
     categories: ['personal', 'scrum', 'dev'],
     data: [
       { time: '2017-10-04T13:30:00.000Z', category: 'dev', id: 1 }, { time: '2017-10-04T19:00:00.000Z', category: 'personal', id: 4 }, { time: '2017-10-04T19:30:00.000Z', category: 'dev', id: 5 }, { time: '2017-10-04T21:00:00.000Z', category: 'personal', id: 6 }] },
-  { date: '2017-10-05',
-    categories: ['Lunch', 'Overhead', 'Work'],
-    data: [
-
-    ] },
   { date: '2017-10-06',
     categories: ['personal', 'dev', 'sprint rev', 'overhead'],
     data: [
@@ -38,10 +33,6 @@ DEMO = [
     categories: ['personal', 'scrum', 'dev', 'meeting'],
     data: [
       { time: '2017-10-07T12:00:00.000Z', category: 'dev', id: 1 }, { time: '2017-10-07T15:45:00.000Z', category: 'personal', id: 2 }, { time: '2017-10-07T16:45:00.000Z', category: 'dev', id: 3 }, { time: '2017-10-07T17:30:00.000Z', category: 'scrum', id: 4 }, { time: '2017-10-07T18:00:00.000Z', category: 'meeting', id: 5 }, { time: '2017-10-07T21:00:00.000Z', category: 'personal', id: 8 }] },
-  { date: '2017-10-10',
-    categories: ['Lunch', 'Overhead', 'Work'],
-    data: [
-    ] },
   { date: '2017-10-11',
     categories: ['personal', 'dev', 'planning', 'scrum'],
     data: [
@@ -58,10 +49,6 @@ DEMO = [
     categories: ['personal', 'dev'],
     data: [
       { time: '2017-10-17T12:00:00.000Z', category: 'dev', id: 1 }, { time: '2017-10-17T16:15:00.000Z', category: 'personal', id: 2 }, { time: '2017-10-17T17:15:00.000Z', category: 'dev', id: 3 }, { time: '2017-10-17T21:15:00.000Z', category: 'personal', id: 5 }] },
-  { date: '2017-10-18',
-    categories: ['Lunch', 'Overhead', 'Work'],
-    data: [
-    ] },
   { date: '2017-10-19',
     categories: ['personal', 'dev', 'scrum'],
     data: [
@@ -70,8 +57,4 @@ DEMO = [
     categories: ['personal', 'dev', 'meeting'],
     data: [
       { time: '2017-10-20T10:15:00.000Z', category: 'dev', id: 2 }, { time: '2017-10-20T12:30:00.000Z', category: 'meeting', id: 3 }, { time: '2017-10-20T14:30:00.000Z', category: 'dev', id: 6 }, { time: '2017-10-20T15:45:00.000Z', category: 'personal', id: 8 }] },
-  { date: '2017-10-23',
-    categories: ['Lunch', 'Overhead', 'Work'],
-    data: [],
-  },
 ]
