@@ -3,104 +3,102 @@
 </template>
 
 <script>
-import TimeLineChart from '@/timeline/TimeLineChart'
-import { select } from 'd3'
+  import TimeLineChart from "@/timeline/TimeLineChart";
+  import { select } from "d3";
 
-const chart = TimeLineChart()
+  const chart = TimeLineChart();
 
-export default {
-  name: 'TimelineChart',
-  props: [
-    'chartData',
-  ],
-  data: function () {
-    return {
-      selection: undefined,
+  export default {
+    name: "TimelineChart",
+    props: ["chartData"],
+    data: function() {
+      return {
+        selection: undefined
+      };
+    },
+    mounted: function() {
+      console.log("mounted being called!");
+      this.selection = select(this.$el);
+      this.updateChart();
+      this.selection.call(chart);
+    },
+    watch: {
+      chartData: function(newVal, oldVal) {
+        console.log("TimelineChart chartData updated", newVal);
+        this.updateChart();
+      }
+    },
+    methods: {
+      updateChart: function() {
+        chart
+          .data(this.chartData.data.map(inflate))
+          .categories(this.chartData.categories);
+      }
     }
-  },
-  mounted: function () {
-    console.log('mounted being called!')
-    this.selection = select(this.$el)
-    this.updateChart()
-    this.selection.call(chart)
-  },
-  watch: {
-    chartData: function (newVal, oldVal) {
-      console.log('TimelineChart chartData updated', newVal)
-      this.updateChart()
-    },
-  },
-  methods: {
-    updateChart: function () {
-      chart
-        .data(this.chartData.data.map(inflate))
-        .categories(this.chartData.categories)
-    },
-  },
-}
+  };
 
-/**
- * Inflate the date object from a string (as stored in local storage) to a date object
- * @param  {[type]} d [description]
- * @return {[type]}   [description]
- */
-function inflate (d) {
-  d.time = new Date(d.time)
-  return d
-}
+  /**
+   * Inflate the date object from a string (as stored in local storage) to a date object
+   * @param  {[type]} d [description]
+   * @return {[type]}   [description]
+   */
+  function inflate(d) {
+    d.time = new Date(d.time);
+    return d;
+  }
 </script>
 
 <style lang="css">
-.chart-container {
-  width: 760px;
-  margin: 0 auto;
-}
-.line {
+  .chart-container {
+    width: 760px;
+    margin: 0 auto;
+  }
+  .line {
     stroke: blueviolet;
     fill: none;
     stroke-linejoin: round;
     stroke-width: 5px;
     stroke-linecap: round;
-}
-.chart {
+  }
+  .chart {
     margin: 0 auto;
-}
-.timeline {
+  }
+  .timeline {
     background: lightcyan;
     border: thin solid darkcyan;
     display: block;
     margin: 0 auto;
     max-height: 200px;
-}
+  }
 
-.tick line {
+  .tick line {
     stroke: black;
-}
+  }
 
-.axis line,
-.axis path {
+  .axis line,
+  .axis path {
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
-}
+  }
 
-.axis text {
+  .axis text {
     font-family: sans-serif;
     font-size: 11px;
-}
+  }
 
-.point {
+  .point {
     stroke: blueviolet;
-    fill: rgba(33, 33, 33, .1);
-}
+    fill: rgba(33, 33, 33, 0.1);
+  }
 
-.hover {
+  .hover {
     stroke: blueviolet;
-    fill: rgba(66, 66, 66, .3);
+    fill: rgba(66, 66, 66, 0.3);
     opacity: 1;
-    transition: opacity .65s ease-out;
-}
-.hover--off {
-    opacity: 0
-}
+    transition: opacity 0.65s ease-out;
+  }
+  .hover--off {
+    opacity: 0;
+  }
 </style>
