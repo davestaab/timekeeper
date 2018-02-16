@@ -18,6 +18,7 @@
     "vue": "^2.5.2"
   },
   "devDependencies": {
+    "eslint": "^4.17.0",
     "poi": "^9.6.13"
   },
   "engines": {
@@ -29,7 +30,7 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "prettier":{
+  "prettier": {
     "quotes": "single"
   }
 }
