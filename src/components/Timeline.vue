@@ -32,7 +32,7 @@ export default {
   methods: {
     nextDate: function (amount) {
       const next = this.current + amount
-      this.current = next < 0 ? 0 : next >= this.data.length ? this.data.length - 1 : next
+      this.current = next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next
     },
   },
   components: {

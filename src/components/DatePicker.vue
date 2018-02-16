@@ -24,10 +24,7 @@
     },
     methods: {
       nextDate: function(amount) {
-        // console.log('amount is: ', amount)
         this.$emit("nextDate", amount);
-        // const next = this.current + amount
-        // this.current = next < 0 ? 0 : next >= this.data.length ? this.data.length - 1 : next
       }
     }
   };

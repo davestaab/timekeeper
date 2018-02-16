@@ -17,7 +17,6 @@
       };
     },
     mounted: function() {
-      console.log("mounted being called!");
       this.selection = select(this.$el);
       this.updateChart();
       this.selection.call(chart);
@@ -31,8 +30,8 @@
     methods: {
       updateChart: function() {
         chart
-          .data(this.chartData.data.map(inflate))
-          .categories(this.chartData.categories);
+          .categories(this.chartData.categories)
+          .data(this.chartData.data.map(inflate));
       }
     }
   };
