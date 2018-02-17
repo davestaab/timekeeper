@@ -20,10 +20,11 @@
       this.selection = select(this.$el);
       this.updateChart();
       this.selection.call(chart);
+      chart.notifyOnUpdate(this.onUpdate);
+      this.onUpdate(chart); // start things off
     },
     watch: {
       chartData: function(newVal, oldVal) {
-        console.log("TimelineChart chartData updated", newVal);
         this.updateChart();
       }
     },
@@ -32,6 +33,9 @@
         chart
           .categories(this.chartData.categories)
           .data(this.chartData.data.map(inflate));
+      },
+      onUpdate: function(chart) {
+        this.$emit('onUpdate', chart.timesByCategory(), chart.data());
       }
     }
   };
@@ -47,9 +51,9 @@
   }
 </script>
 
-<style lang="css">
+// can't scope this. has to style the d3 chart
+<style >
   .chart-container {
-    width: 760px;
     margin: 0 auto;
   }
   .line {
@@ -66,7 +70,6 @@
     background: lightcyan;
     border: thin solid darkcyan;
     display: block;
-    margin: 0 auto;
     max-height: 200px;
   }
 

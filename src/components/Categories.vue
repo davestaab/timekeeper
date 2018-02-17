@@ -25,7 +25,6 @@
     list-style: none;
   }
   .cat-container {
-    width: 760px;
-    margin: 0 auto;
+    flex: 1 0 auto;
   }
 </style>
