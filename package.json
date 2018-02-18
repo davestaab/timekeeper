@@ -18,8 +18,10 @@
     "vue": "^2.5.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.17.0",
+    "eslint-plugin-html": "^4.0.2",
     "poi": "^9.6.13"
   },
   "engines": {

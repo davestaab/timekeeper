@@ -1,5 +1,6 @@
 {
     "editor.tabSize": 2,
     "vetur.format.scriptInitialIndent": true,
-    "vetur.format.styleInitialIndent": true
+    "vetur.format.styleInitialIndent": true,
+    "eslint.enable": true
   }
