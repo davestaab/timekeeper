@@ -1,3 +1,9 @@
+<script>
+  export default {
+    props: ["categories"]
+  };
+</script>
+
 <template>
   <div class="cat-container">
     <h1>Categories</h1>
@@ -6,15 +12,6 @@
     </ul>
   </div>
 </template>
-
-<script>
-  export default {
-    props: [
-      'categories'
-    ]
-  };
-</script>
-
 
 <style scoped>
   ul {

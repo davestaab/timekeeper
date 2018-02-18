@@ -1,14 +1,3 @@
-<template>
-  <div>
-    <h2>Total By Category</h2>
-    <ul>
-      <li v-for="(val, key) in times" :key="key">{{val}} hr(s): {{key}}</li>
-      <li class="total">{{total}}: Total</li>
-    </ul>
-  </div>
-</template>
-
-
 <script>
   import moment from "moment";
 
@@ -25,6 +14,16 @@
     }
   };
 </script>
+
+<template>
+  <div>
+    <h3>Total By Category</h3>
+    <ul>
+      <li v-for="(val, key) in times" :key="key">{{val}} hr(s): {{key}}</li>
+      <li class="total">{{total}}: Total</li>
+    </ul>
+  </div>
+</template>
 
 <style scoped>
   .total {

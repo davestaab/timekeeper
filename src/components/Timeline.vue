@@ -1,15 +1,3 @@
-<template>
-  <div class="container">
-    <h1>Time Line</h1>
-    <date-picker :current-date="currentDate" @nextDate="nextDate"></date-picker>
-    <time-line-chart :chart-data="currentData" @onUpdate="updated"></time-line-chart>
-    <div class="category-summary">
-      <categories :categories="currentData.categories"></categories>
-      <time-summary :times="times"></time-summary>
-    </div>
-  </div>
-</template>
-
 <script>
   import { getData } from "../utils";
   import moment from "moment";
@@ -42,9 +30,10 @@
         this.current =
           next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next;
       },
-      updated: function(times, chartData) {
-        console.log('chartData', chartData);
+      chartUpdated: function(times, chartData) {
+        // console.log('chartData', chartData);
         this.times = times;
+        // this.data[this.current].data = chartData;
       }
     },
     components: {
@@ -55,6 +44,18 @@
     }
   };
 </script>
+
+<template>
+  <div class="container">
+    <h1>Time Line</h1>
+    <date-picker :current-date="currentDate" @nextDate="nextDate"></date-picker>
+    <time-line-chart :chart-data="currentData" @onUpdate="chartUpdated"></time-line-chart>
+    <div class="category-summary">
+      <categories :categories="currentData.categories"></categories>
+      <time-summary :times="times" :data="currentData.data"></time-summary>
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .category-summary {

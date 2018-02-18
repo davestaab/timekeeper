@@ -1,7 +1,3 @@
-<template>
-  <div class="chart-container"></div>
-</template>
-
 <script>
   import TimeLineChart from "@/timeline/TimeLineChart";
   import { select } from "d3";
@@ -50,6 +46,10 @@
     return d;
   }
 </script>
+
+<template>
+  <div class="chart-container"></div>
+</template>
 
 // can't scope this. has to style the d3 chart
 <style >

@@ -1,11 +1,3 @@
-<template>
-  <div class="date-picker">
-    <button class="arrow" @click="nextDate(-1)">&larr;</button>
-    <div class="date">{{formattedDate}}</div>
-    <button class="arrow" @click="nextDate(1)">&rarr;</button>
-  </div>
-</template>
-
 <script>
   import moment from "moment";
 
@@ -29,6 +21,14 @@
     }
   };
 </script>
+
+<template>
+  <div class="date-picker">
+    <button class="arrow" @click="nextDate(-1)">&larr;</button>
+    <div class="date">{{formattedDate}}</div>
+    <button class="arrow" @click="nextDate(1)">&rarr;</button>
+  </div>
+</template>
 
 <style scoped>
   .date-picker {
