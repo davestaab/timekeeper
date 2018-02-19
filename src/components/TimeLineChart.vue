@@ -2,36 +2,37 @@
   import TimeLineChart from "@/timeline/TimeLineChart";
   import { select } from "d3";
 
-  const chart = TimeLineChart();
-
   export default {
     name: "TimelineChart",
-    props: ["chartData"],
+    props: ["categories", "timeData"],
     data: function() {
       return {
-        selection: undefined
+        chart: TimeLineChart()
       };
     },
     mounted: function() {
-      this.selection = select(this.$el);
-      this.updateChart();
-      this.selection.call(chart);
-      chart.notifyOnUpdate(this.onUpdate);
-      this.onUpdate(chart); // start things off
+      this.chart.categories(this.categories).data(this.timeData.map(inflate));
+      select(this.$el).call(this.chart);
+      this.chart.notifyOnUpdate(this.onUpdate);
+      this.onUpdate(this.chart);
     },
     watch: {
-      chartData: function(newVal, oldVal) {
-        this.updateChart();
+      categories: function(newVal, oldVal) {
+        this.updateCategories();
+      },
+      timeData: function(newVal, oldVal) {
+        this.updateData();
       }
     },
     methods: {
-      updateChart: function() {
-        chart
-          .categories(this.chartData.categories)
-          .data(this.chartData.data.map(inflate));
+      updateCategories: function() {
+        this.chart.categories(this.categories);
+      },
+      updateData: function() {
+        this.chart.data(this.timeData.map(inflate));
       },
       onUpdate: function(chart) {
-        this.$emit('onUpdate', chart.timesByCategory(), chart.data());
+        this.$emit("onUpdate", chart.timesByCategory(), chart.data());
       }
     }
   };

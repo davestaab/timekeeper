@@ -4,8 +4,7 @@
   import DatePicker from "./DatePicker";
   import Categories from "./Categories";
   import TimeSummary from "./summary/TimeSummary.vue";
-
-  const TimeLineChart = () => import("./TimeLineChart");
+  import TimeLineChart from "./TimeLineChart";
 
   export default {
     name: "Timeline",
@@ -34,6 +33,14 @@
         // console.log('chartData', chartData);
         this.times = times;
         // this.data[this.current].data = chartData;
+      },
+      deleteCategory: function(category) {
+        this.data[this.current].categories = this.data[
+          this.current
+        ].categories.filter(cat => cat !== category);
+      },
+      createCategory: function (category) {
+        this.data[this.current].categories.push(category);
       }
     },
     components: {
@@ -49,9 +56,9 @@
   <div class="container">
     <h1>Time Line</h1>
     <date-picker :current-date="currentDate" @nextDate="nextDate"></date-picker>
-    <time-line-chart :chart-data="currentData" @onUpdate="chartUpdated"></time-line-chart>
+    <time-line-chart :categories="currentData.categories" :time-data="currentData.data" @onUpdate="chartUpdated"></time-line-chart>
     <div class="category-summary">
-      <categories :categories="currentData.categories"></categories>
+      <categories :categories="currentData.categories" @deleteCategory="deleteCategory" @createCategory="createCategory"></categories>
       <time-summary :times="times" :data="currentData.data"></time-summary>
     </div>
   </div>
