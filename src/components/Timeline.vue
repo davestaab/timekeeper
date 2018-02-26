@@ -20,7 +20,7 @@
         return this.data[this.current];
       },
       currentDate: function() {
-        return moment(this.currentData.date).toDate();
+
       }
     },
     methods: {
@@ -30,16 +30,16 @@
           next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next;
       },
       chartUpdated: function(times, chartData) {
-        // console.log('chartData', chartData);
+        console.log('chartUpdated', chartData);
         this.times = times;
-        // this.data[this.current].data = chartData;
+        this.data[this.current].data = chartData;
       },
       deleteCategory: function(category) {
         this.data[this.current].categories = this.data[
           this.current
         ].categories.filter(cat => cat !== category);
       },
-      createCategory: function (category) {
+      createCategory: function(category) {
         this.data[this.current].categories.push(category);
       }
     },

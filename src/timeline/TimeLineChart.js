@@ -133,15 +133,17 @@ function TimeLineChart() {
 
       updateCategories = liveUpdateCategories;
       updateChart = liveUpdateChart;
-      updateChart(data);
+      updateChart(data, { notify: true});
     });
   }
 
-  function liveUpdateChart(data) {
+  function liveUpdateChart(data, { notify = false }) {
     updatePoints(data);
     updateScales(data);
     updateLine(data);
-    _notifyOnUpdate(chart);
+    if (notify) {
+      _notifyOnUpdate(chart);
+    }
   }
 
   function updatePoints(data) {
@@ -192,7 +194,7 @@ function TimeLineChart() {
     data = removeUnknownCategories(data, categories);
     yScale.domain(categories);
     svg.select(".y.axis").call(yAxis);
-    updateChart(data);
+    updateChart(data, {});
   }
 
   function updateXScale(data) {
@@ -233,7 +235,6 @@ function TimeLineChart() {
    */
   function moveListener(hover) {
     return function(d, i) {
-      // debugger;
       let coords = mouse(this);
       hover
         .attr("cx", xScale(invertXScale(coords[0] - margin.left)))
@@ -270,7 +271,7 @@ function TimeLineChart() {
         data.push(newPoint);
         data = cleanData(data);
       }
-      updateChart(data);
+      updateChart(data, { notify: true });
     };
   }
 
@@ -280,7 +281,7 @@ function TimeLineChart() {
     data = cleanData(_);
     dataIndex = findStartIndex(_);
     updateXScale(data);
-    updateChart(data);
+    updateChart(data, {});
     return chart;
   };
 

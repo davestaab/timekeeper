@@ -13,8 +13,8 @@
     mounted: function() {
       this.chart.categories(this.categories).data(this.timeData.map(inflate));
       select(this.$el).call(this.chart);
-      this.chart.notifyOnUpdate(this.onUpdate);
       this.onUpdate(this.chart);
+      this.chart.notifyOnUpdate(this.onUpdate);
     },
     watch: {
       categories: function(newVal, oldVal) {
