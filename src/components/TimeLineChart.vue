@@ -4,34 +4,41 @@
 
   export default {
     name: "TimelineChart",
-    props: ["categories", "timeData"],
-    data: function() {
+    props: ["categories", "timeData", "currentDate"],
+    data() {
       return {
         chart: TimeLineChart()
       };
     },
-    mounted: function() {
+    mounted() {
       this.chart.categories(this.categories).data(this.timeData.map(inflate));
       select(this.$el).call(this.chart);
       this.onUpdate(this.chart);
       this.chart.notifyOnUpdate(this.onUpdate);
     },
     watch: {
-      categories: function(newVal, oldVal) {
+      categories(newVal, oldVal) {
         this.updateCategories();
       },
-      timeData: function(newVal, oldVal) {
+      timeData(newVal, oldVal) {
         this.updateData();
+      },
+      currentDate: {
+        handler(newVal) {
+          this.chart.currentDate(newVal);
+        },
+        immediate: true
       }
     },
     methods: {
-      updateCategories: function() {
+      updateCategories() {
         this.chart.categories(this.categories);
       },
-      updateData: function() {
+      updateData() {
         this.chart.data(this.timeData.map(inflate));
+        // this.$emit('onUpdate', this.chart.timesByCategory(), this.chart.data());
       },
-      onUpdate: function(chart) {
+      onUpdate(chart) {
         this.$emit("onUpdate", chart.timesByCategory(), chart.data());
       }
     }

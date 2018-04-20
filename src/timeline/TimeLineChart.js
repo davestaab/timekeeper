@@ -38,6 +38,7 @@ function TimeLineChart() {
   let width = 760;
   let height = 200;
   let categories = ["red", "blue", "one", "two"];
+  let currentDate = moment().toDate();
   // let xValue = d => d.time
   // // default accessor
   // let yValue = d => d.category
@@ -203,20 +204,22 @@ function TimeLineChart() {
         ...data,
         {
           // min time for the xScale domain: 7am
-          time: moment(data[0].time)
+          time: moment(currentDate)
             .hour(7)
             .minute(0)
             .toDate()
         },
         {
           // max time for the xScale domain: 6pm
-          time: moment(data[0].time)
+          time: moment(currentDate)
             .hour(18)
             .minute(0)
             .toDate()
         }
       ];
+      console.log('extent data', dataWithMinMax);
       const e = extent(dataWithMinMax, d => d.time);
+      console.log('x scale extent', e);
       xScale.domain(e);
     }
   }
@@ -323,6 +326,12 @@ function TimeLineChart() {
     updateCategories();
     return chart;
   };
+
+  chart.currentDate = function(_) {
+    if (!arguments.length) return currentDate;
+    this.currentDate = _;
+    return chart;
+  }
 
   chart.useTransitions = function(_) {
     if (!arguments.length) return useTransitions;

@@ -10,13 +10,16 @@
       }
     },
     computed: {
-      formattedDate: function() {
+      formattedDate() {
         return moment(this.currentDate).format("MMM DD, YYYY");
       }
     },
     methods: {
-      nextDate: function(amount) {
+      nextDate(amount) {
         this.$emit("nextDate", amount);
+      },
+      findToday() {
+        this.$emit('findToday');
       }
     }
   };
@@ -25,7 +28,7 @@
 <template>
   <div class="date-picker">
     <button class="arrow" @click="nextDate(-1)">&larr;</button>
-    <div class="date">{{formattedDate}}</div>
+    <div class="date" @click="findToday">{{formattedDate}}</div>
     <button class="arrow" @click="nextDate(1)">&rarr;</button>
   </div>
 </template>
