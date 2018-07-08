@@ -26,15 +26,15 @@
     },
     methods: {
       findToday() {
-        const today = moment().format('YYYY-MM-DD');
+        const today = moment().format("YYYY-MM-DD");
         const i = this.data.findIndex(d => d.date === today);
-        if(i < 0) {
+        if (i < 0) {
           // create new today entry
           this.data.push({
-            categories: [],
+            categories: ["one", "two", "three", "four"],
             data: [],
             date: today
-          })
+          });
           this.current = this.data.length - 1;
         } else {
           this.current = i;

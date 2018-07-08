@@ -1,13 +1,15 @@
 <script>
   import TimeLineChart from "@/timeline/TimeLineChart";
   import { select } from "d3";
+  import moment from "moment";
 
   export default {
     name: "TimelineChart",
     props: ["categories", "timeData", "currentDate"],
     data() {
       return {
-        chart: TimeLineChart()
+        chart: TimeLineChart(),
+        cachedCurrentDate: null
       };
     },
     mounted() {
@@ -18,26 +20,18 @@
     },
     watch: {
       categories(newVal, oldVal) {
-        this.updateCategories();
+        this.chart.categories(this.categories);
       },
       timeData(newVal, oldVal) {
-        this.updateData();
-      },
-      currentDate: {
-        handler(newVal) {
-          this.chart.currentDate(newVal);
-        },
-        immediate: true
+        if (this.currentDate !== this.cachedCurrentDate) {
+          this.cachedCurrentDate = this.currentDate;
+          // console.log("current date", this.currentDate);
+          this.chart.reset(this.currentDate);
+        }
+        this.chart.data(this.timeData.map(inflate));
       }
     },
     methods: {
-      updateCategories() {
-        this.chart.categories(this.categories);
-      },
-      updateData() {
-        this.chart.data(this.timeData.map(inflate));
-        // this.$emit('onUpdate', this.chart.timesByCategory(), this.chart.data());
-      },
       onUpdate(chart) {
         this.$emit("onUpdate", chart.timesByCategory(), chart.data());
       }

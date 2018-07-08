@@ -38,10 +38,6 @@ function TimeLineChart() {
   let width = 760;
   let height = 200;
   let categories = ["red", "blue", "one", "two"];
-  let currentDate = moment().toDate();
-  // let xValue = d => d.time
-  // // default accessor
-  // let yValue = d => d.category
   let margin = {
     top: 50,
     right: 50,
@@ -72,6 +68,10 @@ function TimeLineChart() {
   let chartGrp;
   let hover;
   let useTransitions = true;
+  // date window is used to keep the domain wider then the current dataset.
+  // e.g. to start the chart shows morning throw afternoon
+  // if widened, it'll keep that window until reloaded
+  let dateWindow = [];
 
   // update functions
   let updateCategories = noop;
@@ -134,7 +134,7 @@ function TimeLineChart() {
 
       updateCategories = liveUpdateCategories;
       updateChart = liveUpdateChart;
-      updateChart(data, { notify: true});
+      updateChart(data, { notify: true });
     });
   }
 
@@ -200,26 +200,8 @@ function TimeLineChart() {
 
   function updateXScale(data) {
     if (xScale) {
-      const dataWithMinMax = [
-        ...data,
-        {
-          // min time for the xScale domain: 7am
-          time: moment(currentDate)
-            .hour(7)
-            .minute(0)
-            .toDate()
-        },
-        {
-          // max time for the xScale domain: 6pm
-          time: moment(currentDate)
-            .hour(18)
-            .minute(0)
-            .toDate()
-        }
-      ];
-      console.log('extent data', dataWithMinMax);
-      const e = extent(dataWithMinMax, d => d.time);
-      console.log('x scale extent', e);
+      const e = extent([...data, ...dateWindow], d => d.time);
+      // console.log("x scale extent", e);
       xScale.domain(e);
     }
   }
@@ -254,18 +236,26 @@ function TimeLineChart() {
   function clickListener() {
     return function() {
       let coords = mouse(this);
-      // console.log('click', chartWidth, chartHeight, margin, coords, xScale.domain())
+      // check if we need to add an hour before
       let updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(
         xScale.domain(),
         coords
       );
-      // console.log('updateAfter', updateAfter)
-      if (updateAfter) xScale.domain(updateAfter);
+      if (updateAfter) {
+        dateWindow = updateAfter.map(formatDateWindow);
+        xScale.domain(updateAfter);
+      }
+      // check if we need to add an hour after
       let updateBefore = addHourBefore(margin.left, timeInc)(
         xScale.domain(),
         coords
       );
-      if (updateBefore) xScale.domain(updateBefore);
+      if (updateBefore) {
+        dateWindow = updateBefore.map(formatDateWindow);
+        xScale.domain(updateBefore);
+      }
+
+      // check if the click point should be added to the timeline
       let newPoint = addPoint(margin, chartWidth, invertXScale, invertYScale)(
         coords,
         dataIndex++
@@ -274,7 +264,9 @@ function TimeLineChart() {
         data.push(newPoint);
         data = cleanData(data);
       }
-      updateChart(data, { notify: true });
+
+      // double negate newPoint to convert it to a boolean
+      updateChart(data, { notify: !!newPoint });
     };
   }
 
@@ -327,16 +319,31 @@ function TimeLineChart() {
     return chart;
   };
 
-  chart.currentDate = function(_) {
-    if (!arguments.length) return currentDate;
-    this.currentDate = _;
-    return chart;
-  }
-
   chart.useTransitions = function(_) {
     if (!arguments.length) return useTransitions;
     useTransitions = _;
     return chart;
+  };
+
+  chart.reset = function(dateStr) {
+    const dt = moment(dateStr, "YYYY-MM-DD");
+    dateWindow = [
+      {
+        // min time for the xScale domain: 7am
+        time: moment(dt)
+          .hour(7)
+          .minute(0)
+          .toDate()
+      },
+      {
+        // max time for the xScale domain: 6pm
+        time: moment(dt)
+          .hour(18)
+          .minute(0)
+          .toDate()
+      }
+    ];
+    console.log("dateWindow :", dateWindow);
   };
 
   chart.debug = function() {
@@ -360,5 +367,7 @@ function TimeLineChart() {
 
   return chart;
 }
+
+const formatDateWindow = d => ({ time: moment(d).toDate() });
 
 export default TimeLineChart;
