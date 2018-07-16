@@ -19,12 +19,12 @@
     "vue": "^2.5.16"
   },
   "devDependencies": {
-    "vuepress": "^0.8.4",
     "babel-eslint": "^8.2.2",
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.18.1",
     "eslint-plugin-vue": "^4.3.0",
-    "poi": "^9.6.13"
+    "poi": "^9.6.13",
+    "vuepress": "^0.8.4"
   },
   "engines": {
     "node": ">= 4.0.0",
