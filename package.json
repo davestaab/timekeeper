@@ -9,18 +9,16 @@
     "dev": "poi",
     "build": "poi build",
     "test": "poi test",
-    "watch": "poi watch",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "watch": "poi watch"
   },
   "dependencies": {
     "d3": "^5.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "moment": "^2.22.1",
     "vue": "^2.5.16"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
-    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.18.1",
     "eslint-plugin-vue": "^4.3.0",
     "poi": "^9.6.13",
