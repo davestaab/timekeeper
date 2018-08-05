@@ -6,33 +6,43 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "poi",
-    "build": "poi build",
-    "test": "poi test",
-    "watch": "poi watch"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "d3": "^5.1.0",
-    "extract-text-webpack-plugin": "^3.0.2",
     "moment": "^2.22.1",
+    "register-service-worker": "^1.0.0",
     "vue": "^2.5.16"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "eslint": "^4.18.1",
-    "eslint-plugin-vue": "^4.3.0",
-    "poi": "^9.6.13",
-    "vuepress": "^0.8.4"
+    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
+    "@vue/cli-plugin-pwa": "^3.0.0-rc.10",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.10",
+    "@vue/cli-service": "^3.0.0-rc.10",
+    "@vue/eslint-config-prettier": "^3.0.0-rc.10",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
+    "lint-staged": "^7.2.0",
+    "vue-template-compiler": "^2.5.17"
   },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  },
   "prettier": {
     "quotes": "single"
   }
