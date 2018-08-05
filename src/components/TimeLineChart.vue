@@ -25,7 +25,6 @@
       timeData(newVal, oldVal) {
         if (this.currentDate !== this.cachedCurrentDate) {
           this.cachedCurrentDate = this.currentDate;
-          // console.log("current date", this.currentDate);
           this.chart.reset(this.currentDate);
         }
         this.chart.data(this.timeData.map(inflate));

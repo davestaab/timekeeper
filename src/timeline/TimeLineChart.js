@@ -201,7 +201,6 @@ function TimeLineChart() {
   function updateXScale(data) {
     if (xScale) {
       const e = extent([...data, ...dateWindow], d => d.time);
-      // console.log("x scale extent", e);
       xScale.domain(e);
     }
   }
@@ -343,7 +342,6 @@ function TimeLineChart() {
           .toDate()
       }
     ];
-    console.log("dateWindow :", dateWindow);
   };
 
   chart.debug = function() {

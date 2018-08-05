@@ -1,5 +1,5 @@
 <script>
-  import { getData } from "../utils";
+  import { getData, saveData } from "../utils";
   import { timesByCategory } from "../timeline/utils";
   import moment from "moment";
   import DatePicker from "./DatePicker";
@@ -10,9 +10,10 @@
   export default {
     name: "Timeline",
     data() {
+      const data = getData();
       return {
-        data: getData(),
-        current: 0,
+        data,
+        current: data.length - 1,
         times: []
       };
     },
@@ -49,6 +50,7 @@
       chartUpdated(times, chartData) {
         this.times = times;
         this.data[this.current].data = chartData;
+        saveData(this.data);
       },
       deleteCategory(category) {
         this.data[this.current].categories = this.data[
