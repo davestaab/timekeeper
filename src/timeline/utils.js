@@ -1,7 +1,7 @@
 /*  consistent-return: 0 */
 /*  no-param-reassign: 0 */
 
-import moment from "moment";
+import moment from 'moment';
 
 const CAT_DISPLAY_LENGTH = 10;
 
@@ -14,7 +14,7 @@ function sortByTime(a, b) {
 function removeDupTimes(result, d) {
   // find any duplicate times for d
   const foundIndex = result.findIndex(elem =>
-    moment(elem.time).isSame(moment(d.time), "minute")
+    moment(elem.time).isSame(moment(d.time), 'minute')
   );
   // if none found, keep d
   if (foundIndex === -1) {
@@ -144,7 +144,7 @@ function addHourAfter(rightEdge, inc) {
     const x = clickCoords[0];
     if (x > rightEdge) {
       const laterTime = moment(domain[1]);
-      laterTime.add(inc, "minutes");
+      laterTime.add(inc, 'minutes');
       if (moment(domain[1]).date() !== laterTime.date()) {
         // don't allow the incremented date to go to the next day
         return;
@@ -159,7 +159,7 @@ function addHourBefore(leftEdge, inc) {
     const x = clickCoords[0];
     if (x < leftEdge) {
       const earlierTime = moment(domain[0]);
-      earlierTime.subtract(inc, "minutes");
+      earlierTime.subtract(inc, 'minutes');
       if (moment(domain[0]).date() !== earlierTime.date()) {
         // don't allow the incremented date to go to the next day
         return;
@@ -205,7 +205,7 @@ function timesByCategory(data) {
       if (!result[lastCategory]) {
         result[lastCategory] = 0;
       }
-      result[lastCategory] += moment(d.time).diff(lastTime, "minutes");
+      result[lastCategory] += moment(d.time).diff(lastTime, 'minutes');
     }
     lastCategory = d.category;
     lastTime = d.time;

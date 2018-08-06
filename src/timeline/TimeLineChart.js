@@ -11,7 +11,7 @@ import {
   transition, // eslint-disable-line no-unused-vars
   easeCubicOut,
   extent
-} from "d3";
+} from 'd3';
 
 import {
   cleanData,
@@ -26,9 +26,9 @@ import {
   timesByCategory,
   findStartIndex,
   formatCategory
-} from "./utils";
+} from './utils';
 
-import moment from "moment";
+import moment from 'moment';
 
 function TimeLineChart() {
   /***************************
@@ -37,7 +37,7 @@ function TimeLineChart() {
    ****************************/
   let width = 760;
   let height = 200;
-  let categories = ["red", "blue", "one", "two"];
+  let categories = ['red', 'blue', 'one', 'two'];
   let margin = {
     top: 50,
     right: 50,
@@ -91,8 +91,8 @@ function TimeLineChart() {
 
       xAxis = axisBottom(xScale)
         .ticks(timeMinute.every(15))
-        .tickFormat(function(d, i) {
-          return moment(d).minute() === 0 ? moment(d).format("hh") : "";
+        .tickFormat(function(d) {
+          return moment(d).minute() === 0 ? moment(d).format('hh') : '';
         });
       yAxis = axisLeft(yScale).tickFormat(formatCategory);
       chartLine = line()
@@ -103,34 +103,34 @@ function TimeLineChart() {
       invertXScale = invertX(xScale);
 
       svg = select(this)
-        .append("svg")
-        .attr("viewBox", [0, 0, width, height].join(" "))
-        .classed("timeline", true);
+        .append('svg')
+        .attr('viewBox', [0, 0, width, height].join(' '))
+        .classed('timeline', true);
 
       chartGrp = svg
-        .append("g")
-        .attr("class", "all")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      chartGrp.append("path").attr("class", "line");
-      chartGrp.append("g").attr("class", "x axis");
-      chartGrp.append("g").attr("class", "y axis");
+        .append('g')
+        .attr('class', 'all')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      chartGrp.append('path').attr('class', 'line');
+      chartGrp.append('g').attr('class', 'x axis');
+      chartGrp.append('g').attr('class', 'y axis');
       hover = chartGrp
-        .append("circle")
-        .attr("class", "hover")
-        .attr("r", pointRadius)
-        .classed("hover--off", true);
+        .append('circle')
+        .attr('class', 'hover')
+        .attr('r', pointRadius)
+        .classed('hover--off', true);
       // overlay
       svg
-        .append("g")
-        .append("rect")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("opacity", 0)
-        .on("mousemove", moveListener(hover))
-        .on("click", clickListener())
-        .on("mouseleave", moveEnterLeaveListener("leave", hover))
-        .on("mouseenter", moveEnterLeaveListener("enter", hover));
+        .append('g')
+        .append('rect')
+        .attr('class', 'overlay')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('opacity', 0)
+        .on('mousemove', moveListener(hover))
+        .on('click', clickListener())
+        .on('mouseleave', moveEnterLeaveListener('leave', hover))
+        .on('mouseenter', moveEnterLeaveListener('enter', hover));
 
       updateCategories = liveUpdateCategories;
       updateChart = liveUpdateChart;
@@ -150,28 +150,28 @@ function TimeLineChart() {
   function updatePoints(data) {
     // update
     let update = svg
-      .select(".all")
-      .selectAll(".point")
+      .select('.all')
+      .selectAll('.point')
       .data(data, identity);
     addTransitions(update)
-      .attr("cx", X)
-      .attr("cy", Y)
-      .attr("r", pointRadius);
+      .attr('cx', X)
+      .attr('cy', Y)
+      .attr('r', pointRadius);
 
     // enter
     addTransitions(
       update
         .enter()
-        .append("circle")
-        .attr("class", "point")
-        .attr("cx", X)
-        .attr("cy", Y)
-        .attr("r", 0)
-    ).attr("r", pointRadius);
+        .append('circle')
+        .attr('class', 'point')
+        .attr('cx', X)
+        .attr('cy', Y)
+        .attr('r', 0)
+    ).attr('r', pointRadius);
 
     // exit
     addTransitions(update.exit())
-      .attr("r", 0)
+      .attr('r', 0)
       .remove();
   }
 
@@ -179,22 +179,22 @@ function TimeLineChart() {
     // update x axis
     addTransitions(
       svg
-        .select(".x.axis")
-        .attr("transform", "translate(0," + chartHeight + ")")
+        .select('.x.axis')
+        .attr('transform', 'translate(0,' + chartHeight + ')')
     ).call(xAxis);
 
     // update y axis
-    addTransitions(svg.select(".y.axis")).call(yAxis);
+    addTransitions(svg.select('.y.axis')).call(yAxis);
   }
 
   function updateLine(data) {
-    addTransitions(svg.select(".line").data([data])).attr("d", chartLine);
+    addTransitions(svg.select('.line').data([data])).attr('d', chartLine);
   }
 
   function liveUpdateCategories() {
     data = removeUnknownCategories(data, categories);
     yScale.domain(categories);
-    svg.select(".y.axis").call(yAxis);
+    svg.select('.y.axis').call(yAxis);
     updateChart(data, {});
   }
 
@@ -218,17 +218,17 @@ function TimeLineChart() {
    *
    */
   function moveListener(hover) {
-    return function(d, i) {
+    return function() {
       let coords = mouse(this);
       hover
-        .attr("cx", xScale(invertXScale(coords[0] - margin.left)))
-        .attr("cy", yScale(invertYScale(coords[1] - margin.top)));
+        .attr('cx', xScale(invertXScale(coords[0] - margin.left)))
+        .attr('cy', yScale(invertYScale(coords[1] - margin.top)));
     };
   }
 
   function moveEnterLeaveListener(type, hover) {
     return function() {
-      hover.classed("hover--off", type === "leave");
+      hover.classed('hover--off', type === 'leave');
     };
   }
 
@@ -325,7 +325,7 @@ function TimeLineChart() {
   };
 
   chart.reset = function(dateStr) {
-    const dt = moment(dateStr, "YYYY-MM-DD");
+    const dt = moment(dateStr, 'YYYY-MM-DD');
     dateWindow = [
       {
         // min time for the xScale domain: 7am

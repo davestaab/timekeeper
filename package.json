@@ -9,6 +9,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -44,6 +45,6 @@
     ]
   },
   "prettier": {
-    "quotes": "single"
+    "singleQuote": true
   }
 }

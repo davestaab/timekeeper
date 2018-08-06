@@ -1,4 +1,4 @@
-const STORAGE_KEY = "timeline-data-v2";
+const STORAGE_KEY = 'timeline-data-v2';
 
 let DEMO;
 export function getData() {
@@ -12,8 +12,8 @@ export function saveData(data) {
 
 DEMO = [
   {
-    date: "2018-08-04",
-    categories: ["personal", "scrum", "dev"],
+    date: '2018-08-04',
+    categories: ['personal', 'scrum', 'dev'],
     data: []
   }
 ];

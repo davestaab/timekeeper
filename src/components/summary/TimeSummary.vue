@@ -1,33 +1,35 @@
 <script>
-  import ByCategory from "./ByCategory";
-  import Entries from "./Entries";
+import ByCategory from './ByCategory';
+import Entries from './Entries';
 
-  export default {
-    props: {
-      times: {
-        required: true
-      },
-      data: {
-        required: true
-      }
+export default {
+  components: {
+    ByCategory,
+    Entries
+  },
+  props: {
+    times: {
+      type: Object,
+      required: true
     },
-    components: {
-      ByCategory,
-      Entries
+    data: {
+      type: Array,
+      required: true
     }
-  };
+  }
+};
 </script>
 
 <template>
   <div class="summary">
     <h2>Time Summary</h2>
-    <by-category :times="times"></by-category>
-    <entries :entries="data"></entries>
+    <by-category :times="times" />
+    <entries :entries="data" />
   </div>
 </template>
 
 <style scoped>
-  .summary {
-    flex: 1 0 auto;
-  }
+.summary {
+  flex: 1 0 auto;
+}
 </style>

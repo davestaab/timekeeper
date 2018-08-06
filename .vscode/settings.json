@@ -1,6 +1,6 @@
 {
-    "editor.tabSize": 2,
-    "vetur.format.scriptInitialIndent": true,
-    "vetur.format.styleInitialIndent": true,
-    "eslint.enable": true
-  }
+  "editor.tabSize": 2,
+  "eslint.enable": true,
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "vetur.format.defaultFormatter.html": "js-beautify-html"
+}

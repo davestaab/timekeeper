@@ -1,107 +1,119 @@
 <script>
-  import TimeLineChart from "@/timeline/TimeLineChart";
-  import { select } from "d3";
-  import moment from "moment";
+import TimeLineChart from '@/timeline/TimeLineChart';
+import { select } from 'd3';
 
-  export default {
-    name: "TimelineChart",
-    props: ["categories", "timeData", "currentDate"],
-    data() {
-      return {
-        chart: TimeLineChart(),
-        cachedCurrentDate: null
-      };
+export default {
+  name: 'TimelineChart',
+  props: {
+    categories: {
+      type: Array,
+      default: () => []
     },
-    mounted() {
-      this.chart.categories(this.categories).data(this.timeData.map(inflate));
-      select(this.$el).call(this.chart);
-      this.onUpdate(this.chart);
-      this.chart.notifyOnUpdate(this.onUpdate);
+    timeData: {
+      type: Array,
+      default: () => []
     },
-    watch: {
-      categories(newVal, oldVal) {
-        this.chart.categories(this.categories);
-      },
-      timeData(newVal, oldVal) {
-        if (this.currentDate !== this.cachedCurrentDate) {
-          this.cachedCurrentDate = this.currentDate;
-          this.chart.reset(this.currentDate);
-        }
-        this.chart.data(this.timeData.map(inflate));
-      }
-    },
-    methods: {
-      onUpdate(chart) {
-        this.$emit("onUpdate", chart.timesByCategory(), chart.data());
-      }
+    currentDate: {
+      type: Date,
+      default: null
     }
-  };
-
-  /**
-   * Inflate the date object from a string (as stored in local storage) to a date object
-   * @param  {[type]} d [description]
-   * @return {[type]}   [description]
-   */
-  function inflate(d) {
-    d.time = new Date(d.time);
-    return d;
+  },
+  data() {
+    return {
+      chart: TimeLineChart(),
+      cachedCurrentDate: null
+    };
+  },
+  watch: {
+    categories() {
+      this.chart.categories(this.categories);
+    },
+    timeData() {
+      if (this.currentDate !== this.cachedCurrentDate) {
+        this.cachedCurrentDate = this.currentDate;
+        this.chart.reset(this.currentDate);
+      }
+      this.chart.data(this.timeData.map(inflate));
+    }
+  },
+  mounted() {
+    this.chart.categories(this.categories).data(this.timeData.map(inflate));
+    select(this.$el).call(this.chart);
+    this.onUpdate(this.chart);
+    this.chart.notifyOnUpdate(this.onUpdate);
+  },
+  methods: {
+    onUpdate(chart) {
+      this.$emit('onUpdate', chart.timesByCategory(), chart.data());
+    }
   }
+};
+
+/**
+ * Inflate the date object from a string (as stored in local storage) to a date object
+ * @param  {[type]} d [description]
+ * @return {[type]}   [description]
+ */
+function inflate(d) {
+  d.time = new Date(d.time);
+  return d;
+}
 </script>
 
 <template>
-  <div class="chart-container"></div>
+  <div class="chart-container" />
 </template>
 
 // can't scope this. has to style the d3 chart
 <style >
-  .chart-container {
-    margin: 0 auto;
-  }
-  .line {
-    stroke: blueviolet;
-    fill: none;
-    stroke-linejoin: round;
-    stroke-width: 5px;
-    stroke-linecap: round;
-  }
-  .chart {
-    margin: 0 auto;
-  }
-  .timeline {
-    background: lightcyan;
-    border: thin solid darkcyan;
-    display: block;
-    max-height: 200px;
-  }
+.chart-container {
+  margin: 0 auto;
+}
+.line {
+  stroke: blueviolet;
+  fill: none;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  stroke-linecap: round;
+}
+.chart {
+  margin: 0 auto;
+}
+.timeline {
+  background: lightcyan;
+  border: thin solid darkcyan;
+  display: block;
+  max-height: 200px;
+}
 
-  .tick line {
-    stroke: black;
-  }
+.tick line {
+  stroke: black;
+}
 
-  .axis line,
-  .axis path {
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
-  }
+.axis line,
+.axis path {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
 
-  .axis text {
-    font-family: sans-serif;
-    font-size: 11px;
-  }
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
 
-  .point {
-    stroke: blueviolet;
-    fill: rgba(33, 33, 33, 0.1);
-  }
+.point {
+  stroke: blueviolet;
+  fill: rgba(33, 33, 33, 0.1);
+}
 
-  .hover {
-    stroke: blueviolet;
-    fill: rgba(66, 66, 66, 0.3);
-    opacity: 1;
-    transition: opacity 0.65s ease-out;
-  }
-  .hover--off {
-    opacity: 0;
-  }
+.hover {
+  stroke: blueviolet;
+  fill: rgba(66, 66, 66, 0.3);
+  opacity: 1;
+  transition: opacity 0.65s ease-out;
+}
+.hover--off {
+  opacity: 0;
+}
 </style>
