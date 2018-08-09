@@ -1,7 +1,7 @@
 {
   "name": "timekeeper",
-  "version": "0.2.0",
-  "description": "Visual time entry",
+  "version": "0.0.0",
+  "description": "Visual Time Entry",
   "author": "Dave Staab <davestaab@gmail.com>",
   "private": true,
   "license": "MIT",
@@ -10,8 +10,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
-    "test:unit": "vue-cli-service test:unit",
-    "gh-pages": "git subtree push --prefix dist origin gh-pages"
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "d3": "^5.1.0",
