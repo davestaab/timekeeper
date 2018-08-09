@@ -72,23 +72,23 @@ export default {
 
 <template>
   <div :class="$style.container">
-    <h1 :class="$style.h1">Time Line</h1>
-    <date-picker 
-      :current-date="currentDate" 
-      @nextDate="nextDate" 
+    <h1 :class="$style.h1">Time Keeper 🕰</h1>
+    <date-picker
+      :current-date="currentDate"
+      @nextDate="nextDate"
       @findToday="findToday" />
-    <time-line-chart 
-      :categories="currentData.categories" 
-      :current-date="currentDate" 
-      :time-data="currentData.data" 
+    <time-line-chart
+      :categories="currentData.categories"
+      :current-date="currentDate"
+      :time-data="currentData.data"
       @onUpdate="chartUpdated" />
     <div :class="$style.summary">
-      <categories 
-        :categories="currentData.categories" 
-        @deleteCategory="deleteCategory" 
+      <categories
+        :categories="currentData.categories"
+        @deleteCategory="deleteCategory"
         @createCategory="createCategory" />
-      <time-summary 
-        :times="times" 
+      <time-summary
+        :times="times"
         :data="currentData.data" />
     </div>
   </div>
