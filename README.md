@@ -2,23 +2,27 @@
 
 Visual time entry.
 
+![Time Keeper Screenshot](https://raw.githubusercontent.com/davestaab/timekeeper/develop/public/img/time-keeper-example.png 'Time Keeper Screenshot')
+
 # Demo
 
 https://timekeeper.staabstory.com/
 
 # What is this?
 
-Do you have to track time at work? Are you busy?
+Do you have to track time at work? Maybe you have to bill clients/projects or just want to know how you've spent your day?
 
-If you're like me and have to bill clients/projects or just want to know how you've spent your day
+How much time did you spend on project A? How much on administration? How much on Project B?
 
-Do you have to track time at work? Do you find yourself counting hours between events that happened throughout the day? You started working, handled a crisis, went to lunch, scrambled for a meeting, caught up on email, shew....
+Like most people, you end up counting hours between the events of the day. Scribbling hours on scrap paper, counting hours across the noon boundary and finally entering a simple number into an app. Maybe you wish there was a better way.
 
-So how much time did you spend on project A? How much on administration? How much on Project B?
+Time Keeper is a better way!
 
-If you're like me, you end up counting hours between the events of the day. And then adding up the different categories to figure out a subtotal
+Create the categories you want to track, and click on the start of events that happened. Arrived at work, went to a meeting, called clients, met with project teams, took a walk, went home. Let Time Keeper do the hard work of adding up time for each category and totaling hours.
 
 # How does it work?
+
+Currently, your data is kept entirely in your browser, stored in the browser's `localStorge`. If you switch computers, switch browsers or use incognito mode, you'll be working with completely fresh data.
 
 # Questions?
 
