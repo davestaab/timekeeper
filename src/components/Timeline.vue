@@ -71,8 +71,8 @@ export default {
 </script>
 
 <template>
-  <div :class="$style.container">
-    <h1 :class="$style.h1">Time Keeper 🕰</h1>
+  <div class="container mx-auto px-4">
+    <div class="text-4xl text-center py-4">Time Keeper 🕰</div>
     <date-picker
       :current-date="currentDate"
       @nextDate="nextDate"
@@ -82,7 +82,7 @@ export default {
       :current-date="currentDate"
       :time-data="currentData.data"
       @onUpdate="chartUpdated" />
-    <div :class="$style.summary">
+    <div class="flex">
       <categories
         :categories="currentData.categories"
         @deleteCategory="deleteCategory"
@@ -94,15 +94,5 @@ export default {
   </div>
 </template>
 
-<style module>
-.summary {
-  display: flex;
-}
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-}
-.h1 {
-  text-align: center;
-}
+<style >
 </style>

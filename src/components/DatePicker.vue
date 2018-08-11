@@ -26,31 +26,18 @@ export default {
 </script>
 
 <template>
-  <div class="date-picker">
-    <button 
-      class="arrow" 
+  <div class="flex justify-center items-center">
+    <button
+      class="cursor-pointer flex-none"
       @click="nextDate(-1)">&larr;</button>
-    <div 
-      class="date" 
+    <div
+      class="flex-none m-2"
       @click="findToday">{{ formattedDate }}</div>
-    <button 
-      class="arrow" 
+    <button
+      class="cursor-pointer flex-none"
       @click="nextDate(1)">&rarr;</button>
   </div>
 </template>
 
-<style scoped>
-.date-picker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.date {
-  margin: 10px;
-  flex: 0 0 auto;
-}
-.arrow {
-  flex: 0 0 auto;
-  cursor: pointer;
-}
+<style >
 </style>
