@@ -38,6 +38,3 @@ export default {
       @click="nextDate(1)">&rarr;</button>
   </div>
 </template>
-
-<style >
-</style>

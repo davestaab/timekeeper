@@ -18,11 +18,12 @@ export default {
 
 <template>
   <div>
-    <h3>Entries</h3>
+    <div class="text-xl my-2">Entries</div>
     <ul>
-      <li 
-        v-for="e in entries" 
-        :key="e.id">{{ e.time | formatDate }} - {{ e.category }}</li>
+      <li
+        v-for="e in entries"
+        :key="e.id"
+        class="m-1">{{ e.time | formatDate }} - {{ e.category }}</li>
     </ul>
   </div>
 </template>

@@ -20,18 +20,13 @@ export default {
 
 <template>
   <div>
-    <h3>Total By Category</h3>
+    <div class="text-xl my-2">Total By Category</div>
     <ul>
-      <li 
-        v-for="(val, key) in times" 
-        :key="key">{{ val }} hr(s): {{ key }}</li>
-      <li class="total">{{ total }}: Total</li>
+      <li
+        v-for="(val, key) in times"
+        :key="key"
+        class="m-1">{{ val }} hr(s): {{ key }}</li>
+      <li class="m-1 font-bold">{{ total }}: Total</li>
     </ul>
   </div>
 </template>
-
-<style scoped>
-.total {
-  font-weight: 700;
-}
-</style>

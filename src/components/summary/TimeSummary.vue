@@ -21,15 +21,9 @@ export default {
 </script>
 
 <template>
-  <div class="summary">
-    <h2>Time Summary</h2>
+  <div>
+    <div class="text-3xl my-4">Time Summary</div>
     <by-category :times="times" />
     <entries :entries="data" />
   </div>
 </template>
-
-<style scoped>
-.summary {
-  flex: 1 0 auto;
-}
-</style>

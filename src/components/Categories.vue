@@ -24,55 +24,26 @@ export default {
 </script>
 
 <template>
-  <div class="cat-container">
-    <h1>Categories</h1>
-    <ul>
-      <li 
-        v-for="cat in categories" 
-        :key="cat">
-        <span>
+  <div class="group flex flex-col">
+    <div class="text-3xl py-4">Categories</div>
+    <ul class="flex flex-col">
+      <li
+        v-for="cat in categories"
+        :key="cat"
+        class="m-1 flex-auto flex">
+        <span class="flex-1">
           {{ cat }}
         </span>
-        <button 
-          class="delete" 
+        <button
+          class="invisible group-hover:visible flex-none"
           @click="onDelete(cat)">✖</button>
       </li>
     </ul>
-    <div class="input-wrapper">
-      <input 
-        v-model="newCat" 
-        type="text" 
-        placeholder="add new category" 
-        @keyup.enter="createCategory(newCat)">
-    </div>
+    <input
+      v-model="newCat"
+      class="invisible group-hover:visible m-1 my-4 px-1 border border-indigo "
+      type="text"
+      placeholder="add new category"
+      @keyup.enter="createCategory(newCat)">
   </div>
 </template>
-
-<style scoped>
-ul {
-  padding: 0 40px;
-}
-li {
-  display: flex;
-}
-li:hover .delete {
-  visibility: visible;
-}
-li span {
-  flex: 1 0 auto;
-}
-.cat-container {
-  flex: 1 0 auto;
-}
-.delete {
-  visibility: hidden;
-  flex: 0 0 auto;
-}
-input {
-  margin-left: 40px;
-  visibility: hidden;
-}
-.cat-container:hover input {
-  visibility: visible;
-}
-</style>

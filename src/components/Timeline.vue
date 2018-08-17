@@ -71,7 +71,7 @@ export default {
 </script>
 
 <template>
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto px-4 pb-6">
     <div class="text-4xl text-center py-4">Time Keeper 🕰</div>
     <date-picker
       :current-date="currentDate"
@@ -85,11 +85,13 @@ export default {
     <div class="flex">
       <categories
         :categories="currentData.categories"
+        class="flex-1 px-6"
         @deleteCategory="deleteCategory"
         @createCategory="createCategory" />
       <time-summary
         :times="times"
-        :data="currentData.data" />
+        :data="currentData.data"
+        class="flex-1 px-6" />
     </div>
   </div>
 </template>
