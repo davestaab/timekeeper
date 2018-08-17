@@ -2,7 +2,7 @@
 
 Visual time entry.
 
-![Time Keeper Screenshot](https://raw.githubusercontent.com/davestaab/timekeeper/develop/public/img/time-keeper-example.png 'Time Keeper Screenshot')
+![Time Keeper Screenshot](public/img/time-keeper-example.png?raw=true 'Time Keeper Screenshot')
 
 # Demo
 
