@@ -17,7 +17,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #3d4852;
