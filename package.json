@@ -25,6 +25,7 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
+    "eslint-plugin-jest": "^21.21.0",
     "lint-staged": "^7.2.0",
     "tailwindcss": "^0.6.1",
     "vue-cli-plugin-tailwindcss": "^0.1.1",

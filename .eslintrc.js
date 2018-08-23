@@ -5,10 +5,21 @@ module.exports = {
   },
   extends: ['plugin:vue/recommended', '@vue/prettier'],
   rules: {
-    'no-console': 'off',
-    'no-debugger': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/require-default-prop': 'error',
     'vue/require-prop-types': 'error',
     'vue/order-in-components': 'error'
-  }
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  overrides: [
+    {
+      files: ['**/*.spec.js'],
+      env: {
+        jest: true
+      }
+    }
+  ]
 };
