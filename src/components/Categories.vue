@@ -16,6 +16,10 @@ export default {
       this.$emit('deleteCategory', cat);
     },
     createCategory: function(cat) {
+      if (this.categories.indexOf(cat) !== -1 || cat.trim() === '') {
+        return;
+      }
+      console.warn(`Category "${cat}" is already being used`);
       this.$emit('createCategory', cat);
       this.newCat = '';
     }
