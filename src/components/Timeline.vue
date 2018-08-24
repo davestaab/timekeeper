@@ -1,5 +1,5 @@
 <script>
-import { getData, saveData } from '../utils';
+import { getData, saveData, STORAGE_KEY_CATEGORIES } from '../utils';
 import { timesByCategory } from '../timeline/utils';
 import moment from 'moment';
 import DatePicker from './DatePicker';
@@ -40,7 +40,7 @@ export default {
       if (i < 0) {
         // create new today entry
         this.data.push({
-          categories: ['one', 'two', 'three', 'four'],
+          categories: [...getData(STORAGE_KEY_CATEGORIES)],
           data: [],
           date: today
         });
@@ -65,6 +65,9 @@ export default {
     },
     createCategory(category) {
       this.data[this.current].categories.push(category);
+    },
+    saveDefaultCategories(categories) {
+      saveData(categories, STORAGE_KEY_CATEGORIES);
     }
   }
 };
@@ -87,7 +90,8 @@ export default {
         :categories="currentData.categories"
         class="flex-1 px-6"
         @deleteCategory="deleteCategory"
-        @createCategory="createCategory" />
+        @createCategory="createCategory"
+        @saveDefaultCategories="saveDefaultCategories" />
       <time-summary
         :times="times"
         :data="currentData.data"

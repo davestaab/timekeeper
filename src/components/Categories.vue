@@ -12,16 +12,19 @@ export default {
     };
   },
   methods: {
-    onDelete: function(cat) {
+    onDelete(cat) {
       this.$emit('deleteCategory', cat);
     },
-    createCategory: function(cat) {
+    createCategory(cat) {
       if (this.categories.indexOf(cat) !== -1 || cat.trim() === '') {
         return;
       }
       console.warn(`Category "${cat}" is already being used`);
       this.$emit('createCategory', cat);
       this.newCat = '';
+    },
+    saveDefaults() {
+      this.$emit('saveDefaultCategories', this.categories);
     }
   }
 };
@@ -49,5 +52,8 @@ export default {
       type="text"
       placeholder="add new category"
       @keyup.enter="createCategory(newCat)">
+    <button 
+      class="bg-transparent hover:bg-indigo text-indigo-dark font-semibold hover:text-white py-2 px-4 border border-indigo hover:border-transparent rounded group-hover:visible invisible self-end" 
+      @click="saveDefaults()">Save as Default</button>
   </div>
 </template>

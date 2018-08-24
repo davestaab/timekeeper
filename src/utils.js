@@ -1,13 +1,14 @@
 const STORAGE_KEY = 'timeline-data-v2';
+export const STORAGE_KEY_CATEGORIES = 'timeline-data-v2-categories';
 
 let DEMO;
-export function getData() {
-  const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  return data || DEMO;
+export function getData(key = STORAGE_KEY) {
+  const data = JSON.parse(localStorage.getItem(key));
+  return data || (key === STORAGE_KEY ? DEMO : {});
 }
 
-export function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+export function saveData(data, key = STORAGE_KEY) {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
 DEMO = [
