@@ -19,8 +19,7 @@ export default {
     const data = getData();
     return {
       data,
-      current: data.length - 1,
-      times: {}
+      current: data.length - 1
     };
   },
   computed: {
@@ -29,6 +28,9 @@ export default {
     },
     currentDate() {
       return moment(this.currentData.date).toDate();
+    },
+    times() {
+      return timesByCategory(this.data[this.current].data);
     }
   },
   methods: {
@@ -51,10 +53,8 @@ export default {
       const next = this.current + amount;
       this.current =
         next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next;
-      this.times = timesByCategory(this.data[this.current].data);
     },
     chartUpdated(times, chartData) {
-      this.times = times;
       this.data[this.current].data = chartData;
       saveData(this.data);
     },
