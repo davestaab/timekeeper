@@ -1,0 +1,15 @@
+{
+  "name": "timekeeper",
+  "short_name": "timekeeper",
+  "icons": [
+    {
+      "src": "/img/favicon.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#4DBA87"
+}
