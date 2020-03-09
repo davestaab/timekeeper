@@ -3,7 +3,7 @@
   "short_name": "timekeeper",
   "icons": [
     {
-      "src": "/img/favicon.png",
+      "src": "/favicon.png",
       "sizes": "16x16",
       "type": "image/png"
     }
