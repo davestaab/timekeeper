@@ -35,3 +35,7 @@ Currently using npm as package manager
 ```shell script
 npm install && npm run test:unit && npm run serve
 ```
+
+# Deployment
+
+Deployed to netlify automatically for branches master, develop and any PRs.
