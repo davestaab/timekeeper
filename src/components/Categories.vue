@@ -27,23 +27,24 @@ export default {
   <div class="group flex flex-col">
     <div class="text-3xl py-4">Categories</div>
     <ul class="flex flex-col">
-      <li
-        v-for="cat in categories"
-        :key="cat"
-        class="m-1 flex-auto flex">
+      <li v-for="cat in categories" :key="cat" class="m-1 flex-auto flex">
         <span class="flex-1">
           {{ cat }}
         </span>
         <button
           class="invisible group-hover:visible flex-none"
-          @click="onDelete(cat)">✖</button>
+          @click="onDelete(cat)"
+        >
+          ✖
+        </button>
       </li>
     </ul>
     <input
       v-model="newCat"
-      class="invisible group-hover:visible m-1 my-4 px-1 border border-indigo "
+      class="invisible group-hover:visible m-1 my-4 px-1 border border-indigo-500"
       type="text"
       placeholder="add new category"
-      @keyup.enter="createCategory(newCat)">
+      @keyup.enter="createCategory(newCat)"
+    />
   </div>
 </template>

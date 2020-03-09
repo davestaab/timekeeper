@@ -119,7 +119,7 @@ function dataFormat(time, category, id) {
     id
   };
 }
-
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 function noop() {}
 
 /**

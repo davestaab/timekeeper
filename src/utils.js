@@ -1,6 +1,13 @@
 const STORAGE_KEY = 'timeline-data-v2';
 
-let DEMO;
+const DEMO = [
+  {
+    date: '2018-08-04',
+    categories: ['personal', 'scrum', 'dev'],
+    data: []
+  }
+];
+
 export function getData() {
   const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
   return data || DEMO;
@@ -9,11 +16,3 @@ export function getData() {
 export function saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
-
-DEMO = [
-  {
-    date: '2018-08-04',
-    categories: ['personal', 'scrum', 'dev'],
-    data: []
-  }
-];
