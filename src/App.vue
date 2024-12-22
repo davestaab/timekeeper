@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <Timeline/>
+    <Timeline></Timeline>
   </div>
 </template>
 
-<script>
-import Timeline from './components/Timeline';
+<script lang="ts">
+import Vue from 'vue';
+import Timeline from '@/components/Timeline.vue';
 
-export default {
+export default Vue.extend({
   name: 'App',
-  components: {
-    Timeline
-  }
-};
+  components: { Timeline }
+});
 </script>
 
 <style>

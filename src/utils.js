@@ -10,11 +10,3 @@ export function getData(key = STORAGE_KEY) {
 export function saveData(data, key = STORAGE_KEY) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-
-DEMO = [
-  {
-    date: '2018-08-04',
-    categories: ['personal', 'scrum', 'dev'],
-    data: []
-  }
-];

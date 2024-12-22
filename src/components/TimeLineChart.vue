@@ -2,6 +2,16 @@
 import TimeLineChart from '@/timeline/TimeLineChart';
 import { select } from 'd3';
 
+/**
+ * Inflate the date object from a string (as stored in local storage) to a date object
+ * @param  {[type]} d [description]
+ * @return {[type]}   [description]
+ */
+function inflate(d) {
+  d.time = new Date(d.time);
+  return d;
+}
+
 export default {
   name: 'TimelineChart',
   props: {
@@ -48,16 +58,6 @@ export default {
     }
   }
 };
-
-/**
- * Inflate the date object from a string (as stored in local storage) to a date object
- * @param  {[type]} d [description]
- * @return {[type]}   [description]
- */
-function inflate(d) {
-  d.time = new Date(d.time);
-  return d;
-}
 </script>
 
 <template>
@@ -65,7 +65,7 @@ function inflate(d) {
 </template>
 
 // can't scope this. has to style the d3 chart
-<style >
+<style>
 .chart-container {
   margin: 0 auto;
 }

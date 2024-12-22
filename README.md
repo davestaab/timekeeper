@@ -27,3 +27,15 @@ Currently, your data is kept entirely in your browser, stored in the browser's `
 # Questions?
 
 Leave an issue [here](https://github.com/davestaab/timekeeper/issues/new) and I'll get back to you!
+
+# Build
+
+Currently using npm as package manager
+
+```shell script
+npm install && npm run test:unit && npm run serve
+```
+
+# Deployment
+
+Deployed to netlify automatically for branches master, develop and any PRs.

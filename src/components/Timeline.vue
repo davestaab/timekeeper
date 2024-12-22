@@ -79,12 +79,14 @@ export default {
     <date-picker
       :current-date="currentDate"
       @nextDate="nextDate"
-      @findToday="findToday" />
+      @findToday="findToday"
+    />
     <time-line-chart
       :categories="currentData.categories"
       :current-date="currentDate"
       :time-data="currentData.data"
-      @onUpdate="chartUpdated" />
+      @onUpdate="chartUpdated"
+    />
     <div class="flex">
       <categories
         :categories="currentData.categories"
@@ -95,10 +97,10 @@ export default {
       <time-summary
         :times="times"
         :data="currentData.data"
-        class="flex-1 px-6" />
+        class="flex-1 px-6"
+      />
     </div>
   </div>
 </template>
 
-<style >
-</style>
+<style></style>
