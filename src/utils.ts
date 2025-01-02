@@ -22,6 +22,9 @@ export function getCategories() {
 export function saveData(data: Entry[], key = STORAGE_KEY) {
   localStorage.setItem(key, JSON.stringify(data));
 }
+export function saveCategories(categories: string[]) {
+  localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(categories));
+}
 
 export interface Entry {
   date: string;

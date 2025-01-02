@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { getCategories, getData, saveData, type Entry, type EntryPoint } from '@/utils.ts';
-// import { timesByCategory } from '../timeline/utils';
+import {
+  getCategories,
+  getData,
+  saveCategories,
+  saveData,
+  type Entry,
+  type EntryPoint,
+} from '@/utils.ts';
+import { timesByCategory } from '../timeline/utils.js';
 import moment from 'moment';
 import DatePicker from './DatePicker.vue';
-// import Categories from './Categories.vue';
-// import TimeSummary from './summary/TimeSummary.vue';
+import Categories from './Categories.vue';
+import TimeSummary from './summary/TimeSummary.vue';
 import TimeLineChart from './TimeLineChart.vue';
 const data = ref<Entry[]>(getData() ?? []);
 const current = ref(data.value?.length - 1);
 const currentData = computed(() => data.value[current.value]);
 const currentDate = computed(() => moment(currentData.value.date).toDate());
-
+const times = computed(() => {
+  return timesByCategory(data.value[current.value].data);
+});
 function findToday() {
   const today = moment().format('YYYY-MM-DD');
   const i = data.value.findIndex((d) => d.date === today);
@@ -35,17 +44,17 @@ function chartUpdated(chartData: EntryPoint[]) {
   data.value[current.value].data = chartData;
   saveData(data.value);
 }
-// function deleteCategory(category) {
-//   this.data[this.current].categories = this.data[this.current].categories.filter(
-//     (cat) => cat !== category,
-//   );
-// }
-// function createCategory(category) {
-//   this.data[this.current].categories.push(category);
-// }
-// function saveDefaultCategories(categories) {
-//   saveData(categories, STORAGE_KEY_CATEGORIES);
-// }
+function deleteCategory(category: string) {
+  data.value[current.value].categories = data.value[current.value].categories.filter(
+    (cat) => cat !== category,
+  );
+}
+function createCategory(category: string) {
+  data.value[current.value].categories.push(category);
+}
+function saveDefaultCategories(categories: string[]) {
+  saveCategories(categories);
+}
 // export default {
 //   name: 'Timeline',
 //   components: {
@@ -124,16 +133,16 @@ function chartUpdated(chartData: EntryPoint[]) {
       :time-data="currentData.data"
       @on-update="chartUpdated"
     />
-    <!--<div class="flex">
+    <div class="flex">
       <categories
         :categories="currentData.categories"
         class="flex-1 px-6"
-        @deleteCategory="deleteCategory"
-        @createCategory="createCategory"
-        @saveDefaultCategories="saveDefaultCategories"
+        @delete-category="deleteCategory"
+        @create-category="createCategory"
+        @save-default-categories="saveDefaultCategories"
       />
       <time-summary :times="times" :data="currentData.data" class="flex-1 px-6" />
-    </div> -->
+    </div>
   </div>
 </template>
 

@@ -5,17 +5,15 @@ import moment from 'moment';
 
 const CAT_DISPLAY_LENGTH = 10;
 
-function sortByTime(a, b) {
+export function sortByTime(a, b) {
   const am = moment(a.time);
   const bm = moment(b.time);
   return am.isSameOrBefore(bm) ? -1 : 1;
 }
 
-function removeDupTimes(result, d) {
+export function removeDupTimes(result, d) {
   // find any duplicate times for d
-  const foundIndex = result.findIndex(elem =>
-    moment(elem.time).isSame(moment(d.time), 'minute')
-  );
+  const foundIndex = result.findIndex((elem) => moment(elem.time).isSame(moment(d.time), 'minute'));
   // if none found, keep d
   if (foundIndex === -1) {
     result.push(d);
@@ -33,7 +31,7 @@ function removeDupTimes(result, d) {
  * @param  {[type]} d       [description]
  * @return {[type]}         [description]
  */
-function removeDupCategories(results, d) {
+export function removeDupCategories(results, d) {
   if (results.length === 0) {
     results.push(d);
     return results;
@@ -50,7 +48,7 @@ function removeDupCategories(results, d) {
   return results;
 }
 
-function removeUnknownCategories(data, categories) {
+export function removeUnknownCategories(data, categories) {
   return data.reduce((result, d) => {
     if (categories.indexOf(d.category) >= 0) {
       result.push(d);
@@ -64,11 +62,8 @@ function removeUnknownCategories(data, categories) {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-function cleanData(data) {
-  return data
-    .sort(sortByTime)
-    .reduce(removeDupTimes, [])
-    .reduce(removeDupCategories, []);
+export function cleanData(data) {
+  return data.sort(sortByTime).reduce(removeDupTimes, []).reduce(removeDupCategories, []);
 }
 
 /**
@@ -76,8 +71,8 @@ function cleanData(data) {
  * @param  {ind}  x pixels on the chart to convert
  * @return {Date}   Date representing the nearest date to clicked on the x axis.
  */
-function invertX(xScale) {
-  return x => {
+export function invertX(xScale) {
+  return (x) => {
     const m = moment(xScale.invert(x));
     m.minutes(Math.round(m.minutes() / 15) * 15)
       .second(0)
@@ -90,11 +85,11 @@ function invertX(xScale) {
  * @param  {int}    y pixels on the chart to convert
  * @return {string}   the nearest category
  */
-function invertY(yScale) {
-  return y => {
+export function invertY(yScale) {
+  return (y) => {
     let min = Infinity;
     let minData;
-    yScale.domain().forEach(d => {
+    yScale.domain().forEach((d) => {
       const minDistance = Math.abs(yScale(d) - y);
       if (minDistance < min) {
         min = minDistance;
@@ -112,22 +107,22 @@ function invertY(yScale) {
  * @param  {[type]} i [description]
  * @return {[type]}   [description]
  */
-function dataFormat(time, category, id) {
+export function dataFormat(time, category, id) {
   return {
     time,
     category,
-    id
+    id,
   };
 }
- 
-function noop() {}
+
+export function noop() {}
 
 /**
  * Identity accessor for the chart data format.
  * @param  {[type]} d [description]
  * @return {[type]}   [description]
  */
-function identity(d) {
+export function identity(d) {
   return d.id;
 }
 
@@ -139,7 +134,7 @@ function identity(d) {
  *                        and will return updated domain or undefined
  */
 
-function addHourAfter(rightEdge, inc) {
+export function addHourAfter(rightEdge, inc) {
   return (domain, clickCoords) => {
     const x = clickCoords[0];
     if (x > rightEdge) {
@@ -154,7 +149,7 @@ function addHourAfter(rightEdge, inc) {
   };
 }
 
-function addHourBefore(leftEdge, inc) {
+export function addHourBefore(leftEdge, inc) {
   return (domain, clickCoords) => {
     const x = clickCoords[0];
     if (x < leftEdge) {
@@ -178,25 +173,25 @@ function addHourBefore(leftEdge, inc) {
  * @param {[type]} chartWidth width of the chart. Use with the margin
  *                            to determine the right edge of the click area
  */
-function addPoint(margin, chartWidth, invertXScale, invertYScale) {
+export function addPoint(margin, chartWidth, invertXScale, invertYScale) {
   return (clickCoords, dataId) => {
     const x = clickCoords[0];
     if (x > margin.left && x < margin.left + chartWidth) {
       return dataFormat(
         invertXScale(clickCoords[0] - margin.left),
         invertYScale(clickCoords[1] - margin.top),
-        dataId
+        dataId,
       );
     }
     return undefined;
   };
 }
 
-function minutesToDecimalHours(minutes) {
+export function minutesToDecimalHours(minutes) {
   return Math.round((minutes / 60) * 100) / 100;
 }
 
-function timesByCategory(data) {
+export function timesByCategory(data) {
   let lastCategory;
   let lastTime;
 
@@ -212,14 +207,14 @@ function timesByCategory(data) {
     return result;
   }, {});
 
-  Object.keys(totals).map(key => {
+  Object.keys(totals).map((key) => {
     totals[key] = minutesToDecimalHours(totals[key]);
     return key;
   });
   return totals;
 }
 
-function findStartIndex(data) {
+export function findStartIndex(data) {
   return (
     data.reduce((result, d) => {
       if (d.id > result) {
@@ -230,23 +225,6 @@ function findStartIndex(data) {
   );
 }
 
-function formatCategory(d) {
+export function formatCategory(d) {
   return d.length > CAT_DISPLAY_LENGTH ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
 }
-
-export {
-  cleanData,
-  invertX,
-  invertY,
-  dataFormat,
-  noop,
-  identity,
-  addHourAfter,
-  addHourBefore,
-  addPoint,
-  removeUnknownCategories,
-  timesByCategory,
-  minutesToDecimalHours,
-  findStartIndex,
-  formatCategory
-};

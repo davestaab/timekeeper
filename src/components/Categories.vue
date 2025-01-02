@@ -3,12 +3,12 @@ export default {
   props: {
     categories: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      newCat: ''
+      newCat: '',
     };
   },
   methods: {
@@ -25,8 +25,8 @@ export default {
     },
     saveDefaults() {
       this.$emit('saveDefaultCategories', this.categories);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -38,12 +38,7 @@ export default {
         <span class="flex-1">
           {{ cat }}
         </span>
-        <button
-          class="invisible group-hover:visible flex-none"
-          @click="onDelete(cat)"
-        >
-          ✖
-        </button>
+        <button class="invisible group-hover:visible flex-none" @click="onDelete(cat)">✖</button>
       </li>
     </ul>
     <input
@@ -51,9 +46,13 @@ export default {
       class="invisible group-hover:visible m-1 my-4 px-1 border border-indigo-500"
       type="text"
       placeholder="add new category"
-      @keyup.enter="createCategory(newCat)">
-    <button 
-      class="bg-transparent hover:bg-indigo text-indigo-dark font-semibold hover:text-white py-2 px-4 border border-indigo hover:border-transparent rounded group-hover:visible invisible self-end" 
-      @click="saveDefaults()">Save as Default</button>
+      @keyup.enter="createCategory(newCat)"
+    />
+    <button
+      class="bg-transparent hover:bg-indigo-900 text-indigo-900 font-semibold hover:text-white py-2 px-4 border border-indigo-900 hover:border-transparent rounded group-hover:visible invisible self-end"
+      @click="saveDefaults()"
+    >
+      Save as Default
+    </button>
   </div>
 </template>
