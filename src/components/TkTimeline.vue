@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { getCategories, getData, type Entry } from '@/utils.ts';
+import { getCategories, getData, saveData, type Entry, type EntryPoint } from '@/utils.ts';
 // import { timesByCategory } from '../timeline/utils';
 import moment from 'moment';
 import DatePicker from './DatePicker.vue';
 // import Categories from './Categories.vue';
 // import TimeSummary from './summary/TimeSummary.vue';
-// import TimeLineChart from './TimeLineChart.vue';
+import TimeLineChart from './TimeLineChart.vue';
 const data = ref<Entry[]>(getData() ?? []);
 const current = ref(data.value?.length - 1);
 const currentData = computed(() => data.value[current.value]);
@@ -31,10 +31,10 @@ function nextDate(amount: number) {
   const next = current.value + amount;
   current.value = next < 0 ? data.value.length - 1 : next >= data.value.length ? 0 : next;
 }
-// function chartUpdated(times, chartData) {
-//   this.data[this.current].data = chartData;
-//   saveData(this.data);
-// }
+function chartUpdated(chartData: EntryPoint[]) {
+  data.value[current.value].data = chartData;
+  saveData(data.value);
+}
 // function deleteCategory(category) {
 //   this.data[this.current].categories = this.data[this.current].categories.filter(
 //     (cat) => cat !== category,
@@ -118,13 +118,13 @@ function nextDate(amount: number) {
       {{ d }}
     </div>
     <date-picker :current-date="currentDate" @next-date="nextDate" @find-today="findToday" />
-    <!-- <time-line-chart
+    <time-line-chart
       :categories="currentData.categories"
       :current-date="currentDate"
       :time-data="currentData.data"
-      @onUpdate="chartUpdated"
+      @on-update="chartUpdated"
     />
-    <div class="flex">
+    <!--<div class="flex">
       <categories
         :categories="currentData.categories"
         class="flex-1 px-6"

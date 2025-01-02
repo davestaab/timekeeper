@@ -26,10 +26,10 @@ export function saveData(data: Entry[], key = STORAGE_KEY) {
 export interface Entry {
   date: string;
   categories: string[];
-  data: Point[];
+  data: EntryPoint[];
 };
 
-interface Point {
+export interface EntryPoint {
   category: string;
   id: number;
   time: string;
