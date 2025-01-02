@@ -1,8 +1,6 @@
 import moment from 'moment';
 import * as util from '../utils';
-import { describe } from 'vitest';
-import { it } from 'vitest';
-import { expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('utils', () => {
   describe('cleanData', () => {

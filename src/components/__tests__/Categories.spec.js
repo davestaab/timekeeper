@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import Categories from '../Categories.vue';
 import { shallowMount } from '@vue/test-utils';
 
@@ -5,8 +6,8 @@ describe('Categories', () => {
   it('should add category', () => {
     const wrapper = shallowMount(Categories, {
       propsData: {
-        categories: ['one', 'two']
-      }
+        categories: ['one', 'two'],
+      },
     });
     wrapper.find('input').setValue('three');
     wrapper.find('input').trigger('keyup.enter');
@@ -15,17 +16,17 @@ describe('Categories', () => {
   it('should not allow duplicate categories', () => {
     const wrapper = shallowMount(Categories, {
       propsData: {
-        categories: ['one', 'two']
-      }
+        categories: ['one', 'two'],
+      },
     });
     wrapper.find('input').setValue('one');
     wrapper.find('input').trigger('keyup.enter');
-    expect(wrapper.emitted()).toEqual({});
+    expect(wrapper.emitted().createCategory).toBeUndefined();
   });
   it('should not allow empty categories', () => {
     const wrapper = shallowMount(Categories);
     // wrapper.find('input').setValue('');
     wrapper.find('input').trigger('keyup.enter');
-    expect(wrapper.emitted()).toEqual({});
+    expect(wrapper.emitted().createCategory).toBeUndefined();
   });
 });
