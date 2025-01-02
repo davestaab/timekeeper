@@ -3,16 +3,16 @@ import moment from 'moment';
 
 export default {
   filters: {
-    formatDate: function(value) {
+    formatDate: function (value) {
       return value ? moment(value).format('hh:mm a') : value;
-    }
+    },
   },
   props: {
     entries: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

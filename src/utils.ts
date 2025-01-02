@@ -5,17 +5,19 @@ const DEMO: Entry[] = [
   {
     date: '2025-01-01',
     categories: ['personal', 'scrum', 'dev'],
-    data: []
-  }
+    data: [],
+  },
 ];
 const STARTS_CATEGORIES = ['personal', 'scrum', 'dev'];
 
 export function getData() {
   const data: Entry[] = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null') ?? DEMO;
-  return data
+  return data;
 }
 export function getCategories() {
-  const data: string[] = JSON.parse(localStorage.getItem(STORAGE_KEY_CATEGORIES) ?? JSON.stringify(STARTS_CATEGORIES));
+  const data: string[] = JSON.parse(
+    localStorage.getItem(STORAGE_KEY_CATEGORIES) ?? JSON.stringify(STARTS_CATEGORIES),
+  );
   return data;
 }
 
@@ -30,7 +32,7 @@ export interface Entry {
   date: string;
   categories: string[];
   data: EntryPoint[];
-};
+}
 
 export interface EntryPoint {
   category: string;

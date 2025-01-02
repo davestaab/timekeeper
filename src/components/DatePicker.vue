@@ -6,13 +6,13 @@ export default {
   props: {
     currentDate: {
       type: Date,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     formattedDate() {
       return moment(this.currentDate).format('MMM DD, YYYY');
-    }
+    },
   },
   methods: {
     nextDate(amount) {
@@ -20,19 +20,15 @@ export default {
     },
     findToday() {
       this.$emit('findToday');
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
   <div class="flex justify-center items-center">
-    <button class="cursor-pointer flex-none" @click="nextDate(-1)">
-      &larr;
-    </button>
+    <button class="cursor-pointer flex-none" @click="nextDate(-1)">&larr;</button>
     <div class="flex-none m-2" @click="findToday">{{ formattedDate }}</div>
-    <button class="cursor-pointer flex-none" @click="nextDate(1)">
-      &rarr;
-    </button>
+    <button class="cursor-pointer flex-none" @click="nextDate(1)">&rarr;</button>
   </div>
 </template>
