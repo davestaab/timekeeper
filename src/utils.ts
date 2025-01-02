@@ -10,10 +10,9 @@ const DEMO: Entry[] = [
 ];
 const STARTS_CATEGORIES = ['personal', 'scrum', 'dev'];
 
-export function getData(key = STORAGE_KEY) {
-  const data: Entry[] | null = JSON.parse(localStorage.getItem(key) ?? 'null');
-  console.log('getData', data);
-  return data || (key === STORAGE_KEY ? DEMO : []);
+export function getData() {
+  const data: Entry[] = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null') ?? DEMO;
+  return data
 }
 export function getCategories() {
   const data: string[] = JSON.parse(localStorage.getItem(STORAGE_KEY_CATEGORIES) ?? JSON.stringify(STARTS_CATEGORIES));
