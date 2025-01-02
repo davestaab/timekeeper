@@ -56,10 +56,8 @@ describe('utils', () => {
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   // describe('invertX', () => {});
 
-  /*eslint @typescript-eslint/no-empty-function:0*/
   // describe('invertY', () => {});
 
   describe('identity', () => {

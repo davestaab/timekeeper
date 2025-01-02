@@ -7,8 +7,8 @@ import { createConfig as vueTsEslintConfig } from '@vue/eslint-config-typescript
 export default [
   js.configs.recommended,
   ...pluginVue.configs['flat/recommended'],
+  ...vueTsEslintConfig(),
   eslintConfigPrettier,
-  vueTsEslintConfig(),
   {
     files: ['*.spec.js'],
     plugins: {
