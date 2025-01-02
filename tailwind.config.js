@@ -1,9 +1,10 @@
-module.exports = {
+export default {
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {},
   },
   variants: {
-    visibility: ['responsive', 'group-hover']
+    extend: {},
   },
-  plugins: []
-};
+  plugins: [],
+}

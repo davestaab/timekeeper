@@ -1,18 +1,12 @@
+<script setup lang="ts">
+import TkTimeline from './components/TkTimeline.vue';
+</script>
+
 <template>
   <div id="app">
-    <Timeline></Timeline>
+    <tk-timeline></tk-timeline>
   </div>
 </template>
-
-<script lang="ts">
-import Vue from 'vue';
-import Timeline from '@/components/Timeline.vue';
-
-export default Vue.extend({
-  name: 'App',
-  components: { Timeline }
-});
-</script>
 
 <style>
 #app {

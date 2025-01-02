@@ -1,0 +1,140 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { getCategories, getData, type Entry } from '@/utils.ts';
+// import { timesByCategory } from '../timeline/utils';
+import moment from 'moment';
+import DatePicker from './DatePicker.vue';
+// import Categories from './Categories.vue';
+// import TimeSummary from './summary/TimeSummary.vue';
+// import TimeLineChart from './TimeLineChart.vue';
+const data = ref<Entry[]>(getData() ?? []);
+const current = ref(data.value?.length - 1);
+const currentData = computed(() => data.value[current.value]);
+const currentDate = computed(() => moment(currentData.value.date).toDate());
+
+function findToday() {
+  const today = moment().format('YYYY-MM-DD');
+  const i = data.value.findIndex((d) => d.date === today);
+  if (i < 0) {
+    // create new today entry
+    data.value.push({
+      categories: getCategories(),
+      data: [],
+      date: today,
+    });
+    current.value = data.value.length - 1;
+  } else {
+    current.value = i;
+  }
+}
+function nextDate(amount: number) {
+  const next = current.value + amount;
+  current.value = next < 0 ? data.value.length - 1 : next >= data.value.length ? 0 : next;
+}
+// function chartUpdated(times, chartData) {
+//   this.data[this.current].data = chartData;
+//   saveData(this.data);
+// }
+// function deleteCategory(category) {
+//   this.data[this.current].categories = this.data[this.current].categories.filter(
+//     (cat) => cat !== category,
+//   );
+// }
+// function createCategory(category) {
+//   this.data[this.current].categories.push(category);
+// }
+// function saveDefaultCategories(categories) {
+//   saveData(categories, STORAGE_KEY_CATEGORIES);
+// }
+// export default {
+//   name: 'Timeline',
+//   components: {
+//     TimeLineChart,
+//     DatePicker,
+//     Categories,
+//     TimeSummary,
+//   },
+//   data() {
+//     const data = getData();
+//     return {
+//       data,
+//       current: data.length - 1,
+//     };
+//   },
+//   computed: {
+//     currentData() {
+//       return this.data[this.current];
+//     },
+//     currentDate() {
+//       return moment(this.currentData.date).toDate();
+//     },
+//     times() {
+//       return timesByCategory(this.data[this.current].data);
+//     },
+//   },
+//   methods: {
+//     findToday() {
+//       const today = moment().format('YYYY-MM-DD');
+//       const i = this.data.findIndex((d) => d.date === today);
+//       if (i < 0) {
+//         // create new today entry
+//         this.data.push({
+//           categories: [...getData(STORAGE_KEY_CATEGORIES)],
+//           data: [],
+//           date: today,
+//         });
+//         this.current = this.data.length - 1;
+//       } else {
+//         this.current = i;
+//       }
+//     },
+//     nextDate(amount) {
+//       const next = this.current + amount;
+//       this.current = next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next;
+//     },
+//     chartUpdated(times, chartData) {
+//       this.data[this.current].data = chartData;
+//       saveData(this.data);
+//     },
+//     deleteCategory(category) {
+//       this.data[this.current].categories = this.data[this.current].categories.filter(
+//         (cat) => cat !== category,
+//       );
+//     },
+//     createCategory(category) {
+//       this.data[this.current].categories.push(category);
+//     },
+//     saveDefaultCategories(categories) {
+//       saveData(categories, STORAGE_KEY_CATEGORIES);
+//     },
+//   },
+// };
+</script>
+
+<template>
+  <div class="container mx-auto px-4 pb-6">
+    <div class="text-4xl text-center py-4">Time Keeper 🕰</div>
+    <div v-for="d in data" :key="d.date">
+      {{ d }}
+    </div>
+    <date-picker :current-date="currentDate" @next-date="nextDate" @find-today="findToday" />
+    <!-- <time-line-chart
+      :categories="currentData.categories"
+      :current-date="currentDate"
+      :time-data="currentData.data"
+      @onUpdate="chartUpdated"
+    />
+    <div class="flex">
+      <categories
+        :categories="currentData.categories"
+        class="flex-1 px-6"
+        @deleteCategory="deleteCategory"
+        @createCategory="createCategory"
+        @saveDefaultCategories="saveDefaultCategories"
+      />
+      <time-summary :times="times" :data="currentData.data" class="flex-1 px-6" />
+    </div> -->
+  </div>
+</template>
+
+<style></style>
