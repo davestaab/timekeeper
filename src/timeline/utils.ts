@@ -238,4 +238,4 @@ interface PageMargin {
   left: number;
 }
 
-type Totals = Record<string, number>;
+export type Totals = Record<string, number>;
