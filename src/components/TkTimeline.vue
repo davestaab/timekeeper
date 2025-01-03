@@ -65,9 +65,6 @@ function saveDefaultCategories(categories: string[]) {
         <path d="M0 12h4v-9h4v6h4v-3h4" class="stroke-indigo-900" fill="transparent" />
       </svg>
     </div>
-    <div v-for="d in data" :key="d.date">
-      {{ d }}
-    </div>
     <date-picker :current-date="currentDate" @next-date="nextDate" @find-today="findToday" />
     <time-line-chart
       :categories="currentData.categories"

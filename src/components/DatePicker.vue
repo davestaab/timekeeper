@@ -1,28 +1,19 @@
-<script>
+<script setup lang="ts">
 import moment from 'moment';
+import { computed } from 'vue';
 
-export default {
-  name: 'DatePicker',
-  props: {
-    currentDate: {
-      type: Date,
-      required: true,
-    },
-  },
-  computed: {
-    formattedDate() {
-      return moment(this.currentDate).format('MMM DD, YYYY');
-    },
-  },
-  methods: {
-    nextDate(amount) {
-      this.$emit('nextDate', amount);
-    },
-    findToday() {
-      this.$emit('findToday');
-    },
-  },
-};
+const props = defineProps<{ currentDate: Date }>();
+const formattedDate = computed(() => moment(props.currentDate).format('MMM DD, YYYY'));
+const emit = defineEmits<{
+  (e: 'nextDate', amount: number): void;
+  (e: 'findToday'): void;
+}>();
+function nextDate(amount: number) {
+  emit('nextDate', amount);
+}
+function findToday() {
+  emit('findToday');
+}
 </script>
 
 <template>
