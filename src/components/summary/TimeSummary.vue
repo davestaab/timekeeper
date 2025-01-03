@@ -1,11 +1,11 @@
 <script>
 import ByCategory from './ByCategory.vue';
-import Entries from './Entries.vue';
+import TkEntries from './TkEntries.vue';
 
 export default {
   components: {
     ByCategory,
-    Entries,
+    TkEntries,
   },
   props: {
     times: {
@@ -24,6 +24,6 @@ export default {
   <div>
     <div class="text-3xl my-4">Time Summary</div>
     <by-category :times="times" />
-    <entries :entries="data" />
+    <tk-entries :entries="data" />
   </div>
 </template>

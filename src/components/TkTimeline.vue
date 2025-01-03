@@ -8,7 +8,7 @@ import {
   type Entry,
   type EntryPoint,
 } from '@/utils.ts';
-import { timesByCategory } from '../timeline/utils.js';
+import { timesByCategory } from '../timeline/utils.ts';
 import moment from 'moment';
 import DatePicker from './DatePicker.vue';
 import Categories from './Categories.vue';
