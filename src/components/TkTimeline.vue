@@ -55,74 +55,16 @@ function createCategory(category: string) {
 function saveDefaultCategories(categories: string[]) {
   saveCategories(categories);
 }
-// export default {
-//   name: 'Timeline',
-//   components: {
-//     TimeLineChart,
-//     DatePicker,
-//     Categories,
-//     TimeSummary,
-//   },
-//   data() {
-//     const data = getData();
-//     return {
-//       data,
-//       current: data.length - 1,
-//     };
-//   },
-//   computed: {
-//     currentData() {
-//       return this.data[this.current];
-//     },
-//     currentDate() {
-//       return moment(this.currentData.date).toDate();
-//     },
-//     times() {
-//       return timesByCategory(this.data[this.current].data);
-//     },
-//   },
-//   methods: {
-//     findToday() {
-//       const today = moment().format('YYYY-MM-DD');
-//       const i = this.data.findIndex((d) => d.date === today);
-//       if (i < 0) {
-//         // create new today entry
-//         this.data.push({
-//           categories: [...getData(STORAGE_KEY_CATEGORIES)],
-//           data: [],
-//           date: today,
-//         });
-//         this.current = this.data.length - 1;
-//       } else {
-//         this.current = i;
-//       }
-//     },
-//     nextDate(amount) {
-//       const next = this.current + amount;
-//       this.current = next < 0 ? this.data.length - 1 : next >= this.data.length ? 0 : next;
-//     },
-//     chartUpdated(times, chartData) {
-//       this.data[this.current].data = chartData;
-//       saveData(this.data);
-//     },
-//     deleteCategory(category) {
-//       this.data[this.current].categories = this.data[this.current].categories.filter(
-//         (cat) => cat !== category,
-//       );
-//     },
-//     createCategory(category) {
-//       this.data[this.current].categories.push(category);
-//     },
-//     saveDefaultCategories(categories) {
-//       saveData(categories, STORAGE_KEY_CATEGORIES);
-//     },
-//   },
-// };
 </script>
 
 <template>
   <div class="container mx-auto px-4 pb-6">
-    <div class="text-4xl text-center py-4">Time Keeper 🕰</div>
+    <div class="text-4xl text-center py-4">
+      Time Keeper
+      <svg viewBox="0 0 16 16" width="48" height="48" class="inline">
+        <path d="M0 12h4v-9h4v6h4v-3h4" class="stroke-indigo-900" fill="transparent" />
+      </svg>
+    </div>
     <div v-for="d in data" :key="d.date">
       {{ d }}
     </div>
