@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "test:unit": "vitest",
+    "test": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
@@ -47,5 +47,9 @@
   "author": "Dave Staab <davestaab@gmail.com>",
   "license": "MIT",
   "description": "Visual Time Entry",
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@9.15.1",
+  "engines": {
+    "node": ">= 22.0.0",
+    "pnpm": ">= 9.0.0"
+  }
 }
