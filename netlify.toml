@@ -1,0 +1,3 @@
+[build]
+  publish: 'dist'
+  command: 'pnpm test && pnpm build'

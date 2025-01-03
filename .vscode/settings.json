@@ -6,7 +6,7 @@
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts",
     "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*, tailwind.config.*, postcss.config.*",
-    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig"
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, netlify.toml"
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
