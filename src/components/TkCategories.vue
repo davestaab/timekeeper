@@ -1,33 +1,28 @@
-<script>
-export default {
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data: function () {
-    return {
-      newCat: '',
-    };
-  },
-  methods: {
-    onDelete(cat) {
-      this.$emit('deleteCategory', cat);
-    },
-    createCategory(cat) {
-      if (this.categories.indexOf(cat) !== -1 || cat.trim() === '') {
-        return;
-      }
-      console.warn(`Category "${cat}" is already being used`);
-      this.$emit('createCategory', cat);
-      this.newCat = '';
-    },
-    saveDefaults() {
-      this.$emit('saveDefaultCategories', this.categories);
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue';
+const props = defineProps<{ categories: string[] }>();
+const newCat = ref('');
+const emit = defineEmits<{
+  (e: 'deleteCategory', cat: string): void;
+  (e: 'createCategory', cat: string): void;
+  (e: 'saveDefaultCategories', cats: string[]): void;
+}>();
+
+function onDelete(cat: string) {
+  emit('deleteCategory', cat);
+}
+function createCategory(cat: string) {
+  if (cat.trim() === '') return;
+  if (props.categories.indexOf(cat) !== -1) {
+    console.warn(`Category "${cat}" is already being used`);
+    return;
+  }
+  emit('createCategory', cat);
+  newCat.value = '';
+}
+function saveDefaults() {
+  emit('saveDefaultCategories', props.categories);
+}
 </script>
 
 <template>

@@ -11,7 +11,7 @@ import {
 import { timesByCategory } from '../timeline/utils.ts';
 import moment from 'moment';
 import DatePicker from './DatePicker.vue';
-import Categories from './Categories.vue';
+import TkCategories from './TkCategories.vue';
 import TimeSummary from './summary/TimeSummary.vue';
 import TimeLineChart from './TimeLineChart.vue';
 const data = ref<Entry[]>(getData() ?? []);
@@ -76,7 +76,7 @@ function saveDefaultCategories(categories: string[]) {
       @on-update="chartUpdated"
     />
     <div class="flex">
-      <categories
+      <tk-categories
         :categories="currentData.categories"
         class="flex-1 px-6"
         @delete-category="deleteCategory"
