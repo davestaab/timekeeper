@@ -1,17 +1,19 @@
 /*  consistent-return: 0 */
 /*  no-param-reassign: 0 */
 
+import type { EntryPoint } from '@/utils';
 import moment from 'moment';
+import type { ScalePoint, ScaleTime } from 'd3-scale';
 
 const CAT_DISPLAY_LENGTH = 10;
 
-export function sortByTime(a, b) {
+export function sortByTime(a: EntryPoint, b: EntryPoint) {
   const am = moment(a.time);
   const bm = moment(b.time);
   return am.isSameOrBefore(bm) ? -1 : 1;
 }
 
-export function removeDupTimes(result, d) {
+export function removeDupTimes(result: EntryPoint[], d: EntryPoint) {
   // find any duplicate times for d
   const foundIndex = result.findIndex((elem) => moment(elem.time).isSame(moment(d.time), 'minute'));
   // if none found, keep d
@@ -31,7 +33,7 @@ export function removeDupTimes(result, d) {
  * @param  {[type]} d       [description]
  * @return {[type]}         [description]
  */
-export function removeDupCategories(results, d) {
+export function removeDupCategories(results: EntryPoint[], d: EntryPoint) {
   if (results.length === 0) {
     results.push(d);
     return results;
@@ -48,13 +50,13 @@ export function removeDupCategories(results, d) {
   return results;
 }
 
-export function removeUnknownCategories(data, categories) {
+export function removeUnknownCategories(data: EntryPoint[], categories: string[]) {
   return data.reduce((result, d) => {
     if (categories.indexOf(d.category) >= 0) {
       result.push(d);
     }
     return result;
-  }, []);
+  }, [] as EntryPoint[]);
 }
 
 /**
@@ -62,7 +64,7 @@ export function removeUnknownCategories(data, categories) {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-export function cleanData(data) {
+export function cleanData(data: EntryPoint[]) {
   return data.sort(sortByTime).reduce(removeDupTimes, []).reduce(removeDupCategories, []);
 }
 
@@ -71,8 +73,8 @@ export function cleanData(data) {
  * @param  {ind}  x pixels on the chart to convert
  * @return {Date}   Date representing the nearest date to clicked on the x axis.
  */
-export function invertX(xScale) {
-  return (x) => {
+export function invertX(xScale: ScaleTime<number, number, never>) {
+  return (x: number) => {
     const m = moment(xScale.invert(x));
     m.minutes(Math.round(m.minutes() / 15) * 15)
       .second(0)
@@ -85,18 +87,18 @@ export function invertX(xScale) {
  * @param  {int}    y pixels on the chart to convert
  * @return {string}   the nearest category
  */
-export function invertY(yScale) {
-  return (y) => {
+export function invertY(yScale: ScalePoint<string>) {
+  return (y: number): string => {
     let min = Infinity;
     let minData;
     yScale.domain().forEach((d) => {
-      const minDistance = Math.abs(yScale(d) - y);
+      const minDistance = Math.abs((yScale(d) ?? 0) - y);
       if (minDistance < min) {
         min = minDistance;
         minData = d;
       }
     });
-    return minData;
+    return minData ?? 'not found';
   };
 }
 
@@ -107,7 +109,7 @@ export function invertY(yScale) {
  * @param  {[type]} i [description]
  * @return {[type]}   [description]
  */
-export function dataFormat(time, category, id) {
+export function dataFormat(time: string, category: string, id: number): EntryPoint {
   return {
     time,
     category,
@@ -115,14 +117,14 @@ export function dataFormat(time, category, id) {
   };
 }
 
-export function noop() {}
+export function noop() { }
 
 /**
  * Identity accessor for the chart data format.
  * @param  {[type]} d [description]
  * @return {[type]}   [description]
  */
-export function identity(d) {
+export function identity(d: EntryPoint) {
   return d.id;
 }
 
@@ -134,8 +136,8 @@ export function identity(d) {
  *                        and will return updated domain or undefined
  */
 
-export function addHourAfter(rightEdge, inc) {
-  return (domain, clickCoords) => {
+export function addHourAfter(rightEdge: number, inc: number) {
+  return (domain: string[], clickCoords: [number, number]) => {
     const x = clickCoords[0];
     if (x > rightEdge) {
       const laterTime = moment(domain[1]);
@@ -149,8 +151,8 @@ export function addHourAfter(rightEdge, inc) {
   };
 }
 
-export function addHourBefore(leftEdge, inc) {
-  return (domain, clickCoords) => {
+export function addHourBefore(leftEdge: number, inc: number) {
+  return (domain: string[], clickCoords: [number, number]) => {
     const x = clickCoords[0];
     if (x < leftEdge) {
       const earlierTime = moment(domain[0]);
@@ -173,12 +175,12 @@ export function addHourBefore(leftEdge, inc) {
  * @param {[type]} chartWidth width of the chart. Use with the margin
  *                            to determine the right edge of the click area
  */
-export function addPoint(margin, chartWidth, invertXScale, invertYScale) {
-  return (clickCoords, dataId) => {
+export function addPoint(margin: PageMargin, chartWidth: number, invertXScale: ReturnType<typeof invertX>, invertYScale: ReturnType<typeof invertY>) {
+  return (clickCoords: [number, number], dataId: number) => {
     const x = clickCoords[0];
     if (x > margin.left && x < margin.left + chartWidth) {
       return dataFormat(
-        invertXScale(clickCoords[0] - margin.left),
+        invertXScale(clickCoords[0] - margin.left).toString(),
         invertYScale(clickCoords[1] - margin.top),
         dataId,
       );
@@ -187,13 +189,13 @@ export function addPoint(margin, chartWidth, invertXScale, invertYScale) {
   };
 }
 
-export function minutesToDecimalHours(minutes) {
+export function minutesToDecimalHours(minutes: number) {
   return Math.round((minutes / 60) * 100) / 100;
 }
 
-export function timesByCategory(data) {
-  let lastCategory;
-  let lastTime;
+export function timesByCategory(data: EntryPoint[]) {
+  let lastCategory: string;
+  let lastTime: string;
 
   const totals = data.reduce((result, d) => {
     if (lastCategory) {
@@ -205,7 +207,7 @@ export function timesByCategory(data) {
     lastCategory = d.category;
     lastTime = d.time;
     return result;
-  }, {});
+  }, {} as Totals);
 
   Object.keys(totals).map((key) => {
     totals[key] = minutesToDecimalHours(totals[key]);
@@ -214,7 +216,7 @@ export function timesByCategory(data) {
   return totals;
 }
 
-export function findStartIndex(data) {
+export function findStartIndex(data: EntryPoint[]) {
   return (
     data.reduce((result, d) => {
       if (d.id > result) {
@@ -225,6 +227,15 @@ export function findStartIndex(data) {
   );
 }
 
-export function formatCategory(d) {
+export function formatCategory(d: string) {
   return d.length > CAT_DISPLAY_LENGTH ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
 }
+
+interface PageMargin {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+type Totals = Record<string, number>;
