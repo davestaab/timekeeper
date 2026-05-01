@@ -1,14 +1,12 @@
 import { shallowMount } from '@vue/test-utils';
 import Timeline from '../../src/components/Timeline.vue';
 import * as storage from '../../src/utils';
-import moment from 'moment';
+import { format, subDays } from 'date-fns';
 
 vi.mock('../../src/utils');
 
-const today = moment().format('YYYY-MM-DD');
-const yesterday = moment()
-  .subtract(1, 'day')
-  .format('YYYY-MM-DD');
+const today = format(new Date(), 'yyyy-MM-dd');
+const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
 const mockData = [
   { date: yesterday, categories: ['work', 'lunch'], data: [] },

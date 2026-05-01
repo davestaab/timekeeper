@@ -1,5 +1,5 @@
 <script>
-import moment from 'moment';
+import { format } from 'date-fns';
 
 export default {
   name: 'DatePicker',
@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return moment(this.currentDate).format('MMM DD, YYYY');
+      return format(this.currentDate, 'MMM dd, yyyy');
     }
   },
   methods: {

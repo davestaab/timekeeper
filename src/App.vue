@@ -5,13 +5,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import Timeline from '@/components/Timeline.vue';
 
-export default Vue.extend({
+export default {
   name: 'App',
   components: { Timeline }
-});
+};
 </script>
 
 <style>

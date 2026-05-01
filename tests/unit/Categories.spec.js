@@ -5,7 +5,7 @@ describe('Categories', () => {
   const categories = ['work', 'personal', 'lunch'];
 
   function mountCategories(cats = categories) {
-    return shallowMount(Categories, { propsData: { categories: cats } });
+    return shallowMount(Categories, { props: { categories: cats } });
   }
 
   it('renders each category', () => {
@@ -19,7 +19,7 @@ describe('Categories', () => {
 
   it('emits deleteCategory with the category when delete is clicked', async () => {
     const wrapper = mountCategories();
-    await wrapper.findAll('button').at(0).trigger('click');
+    await wrapper.findAll('button')[0].trigger('click');
     expect(wrapper.emitted('deleteCategory')).toEqual([['work']]);
   });
 

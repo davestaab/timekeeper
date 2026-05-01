@@ -1,16 +1,16 @@
 <script>
-import moment from 'moment';
+import { format } from 'date-fns';
 
 export default {
-  filters: {
-    formatDate: function(value) {
-      return value ? moment(value).format('hh:mm a') : value;
-    }
-  },
   props: {
     entries: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    formatDate(value) {
+      return value ? format(new Date(value), 'hh:mm aaa') : value;
     }
   }
 };
@@ -21,7 +21,7 @@ export default {
     <div class="text-xl my-2">Entries</div>
     <ul>
       <li v-for="e in entries" :key="e.id" class="m-1">
-        {{ e.time | formatDate }} - {{ e.category }}
+        {{ formatDate(e.time) }} - {{ e.category }}
       </li>
     </ul>
   </div>

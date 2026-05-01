@@ -1,7 +1,7 @@
 <script>
 import { getData, saveData } from '../utils';
 import { timesByCategory } from '../timeline/utils';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import DatePicker from './DatePicker.vue';
 import Categories from './Categories.vue';
 import TimeSummary from './summary/TimeSummary.vue';
@@ -28,12 +28,12 @@ export default {
       return this.data[this.current];
     },
     currentDate() {
-      return moment(this.currentData.date).toDate();
+      return parseISO(this.currentData.date);
     }
   },
   methods: {
     findToday() {
-      const today = moment().format('YYYY-MM-DD');
+      const today = format(new Date(), 'yyyy-MM-dd');
       const i = this.data.findIndex(d => d.date === today);
       if (i < 0) {
         // create new today entry

@@ -29,7 +29,7 @@ import {
   formatCategory
 } from './utils';
 
-import moment from 'moment';
+import { getMinutes, format, parseISO, set } from 'date-fns';
 
 function TimeLineChart() {
   /***************************
@@ -89,7 +89,7 @@ function TimeLineChart() {
     return yScale(d.category);
   }
 
-  const formatDateWindow = d => ({ time: moment(d).toDate() });
+  const formatDateWindow = d => ({ time: new Date(d) });
 
   function updateXScale(data) {
     if (xScale) {
@@ -227,7 +227,7 @@ function TimeLineChart() {
       xAxis = axisBottom(xScale)
         .ticks(timeMinute.every(15))
         .tickFormat(function(d) {
-          return moment(d).minute() === 0 ? moment(d).format('hh') : '';
+          return getMinutes(d) === 0 ? format(d, 'hh') : '';
         });
       yAxis = axisLeft(yScale).tickFormat(formatCategory);
       chartLine = line()
@@ -338,22 +338,12 @@ function TimeLineChart() {
   };
 
   chart.reset = function(dateStr) {
-    const dt = moment(dateStr, 'YYYY-MM-DD');
+    const dt = parseISO(
+      typeof dateStr === 'string' ? dateStr : format(dateStr, 'yyyy-MM-dd')
+    );
     dateWindow = [
-      {
-        // min time for the xScale domain: 7am
-        time: moment(dt)
-          .hour(7)
-          .minute(0)
-          .toDate()
-      },
-      {
-        // max time for the xScale domain: 6pm
-        time: moment(dt)
-          .hour(18)
-          .minute(0)
-          .toDate()
-      }
+      { time: set(dt, { hours: 7, minutes: 0, seconds: 0, milliseconds: 0 }) },
+      { time: set(dt, { hours: 18, minutes: 0, seconds: 0, milliseconds: 0 }) }
     ];
   };
 

@@ -5,7 +5,7 @@ describe('DatePicker', () => {
   const currentDate = new Date('2024-06-15T12:00:00');
 
   function mountPicker() {
-    return shallowMount(DatePicker, { propsData: { currentDate } });
+    return shallowMount(DatePicker, { props: { currentDate } });
   }
 
   it('formats the date for display', () => {
@@ -15,13 +15,13 @@ describe('DatePicker', () => {
 
   it('emits nextDate with -1 when left arrow is clicked', async () => {
     const wrapper = mountPicker();
-    await wrapper.findAll('button').at(0).trigger('click');
+    await wrapper.findAll('button')[0].trigger('click');
     expect(wrapper.emitted('nextDate')).toEqual([[-1]]);
   });
 
   it('emits nextDate with 1 when right arrow is clicked', async () => {
     const wrapper = mountPicker();
-    await wrapper.findAll('button').at(1).trigger('click');
+    await wrapper.findAll('button')[1].trigger('click');
     expect(wrapper.emitted('nextDate')).toEqual([[1]]);
   });
 

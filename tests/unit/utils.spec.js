@@ -1,5 +1,9 @@
-import moment from 'moment';
+import { set, addMinutes, subMinutes } from 'date-fns';
 import * as util from '../../src/timeline/utils';
+
+function makeDate(hours, minutes = 0, seconds = 0) {
+  return set(new Date(), { hours, minutes, seconds, milliseconds: 0 });
+}
 
 describe('utils', () => {
   describe('cleanData', () => {
@@ -8,14 +12,11 @@ describe('utils', () => {
     });
 
     it('should sort data by time', () => {
-      const start = moment()
-        .hours(8)
-        .minutes(0)
-        .second(0);
+      const start = makeDate(8, 0, 0);
       const data = [
-        util.dataFormat(start.toDate(), 'three', 1),
-        util.dataFormat(start.add(20, 'minutes').toDate(), 'one', 2),
-        util.dataFormat(start.add(60, 'minutes').toDate(), 'two', 3)
+        util.dataFormat(start, 'three', 1),
+        util.dataFormat(addMinutes(start, 20), 'one', 2),
+        util.dataFormat(addMinutes(start, 80), 'two', 3)
       ];
       const clean = util.cleanData(data);
       expect(clean[0].category).toBe('three');
@@ -24,18 +25,10 @@ describe('utils', () => {
     });
 
     it('should remove duplicate for same minute (different seconds)', () => {
-      const time = moment().second(0);
+      const base = set(new Date(), { seconds: 0, milliseconds: 0 });
       const data = [
-        {
-          time: time.toDate(),
-          category: 'first',
-          id: 1
-        },
-        {
-          time: time.second(15).toDate(),
-          category: 'second',
-          id: 2
-        }
+        { time: base, category: 'first', id: 1 },
+        { time: set(base, { seconds: 15 }), category: 'second', id: 2 }
       ];
       const clean = util.cleanData(data);
       expect(clean.length).toBe(1);
@@ -45,27 +38,9 @@ describe('utils', () => {
     it('should remove duplicate categories', () => {
       let id = 0;
       const data = [
-        util.dataFormat(
-          moment()
-            .hour(8)
-            .toDate(),
-          'one',
-          (id += 1)
-        ),
-        util.dataFormat(
-          moment()
-            .hour(9)
-            .toDate(),
-          'one',
-          (id += 1)
-        ),
-        util.dataFormat(
-          moment()
-            .hour(10)
-            .toDate(),
-          'two',
-          (id += 1)
-        )
+        util.dataFormat(makeDate(8), 'one', (id += 1)),
+        util.dataFormat(makeDate(9), 'one', (id += 1)),
+        util.dataFormat(makeDate(10), 'two', (id += 1))
       ];
       const clean = util.cleanData(data);
       expect(clean.length).toBe(2);
@@ -78,8 +53,8 @@ describe('utils', () => {
 
   describe('invertX', () => {
     it('should invert pixels to a date rounded to nearest 15 minutes', () => {
-      const base = moment().hours(8).minutes(0).seconds(0).milliseconds(0).toDate();
-      const later = moment().hours(8).minutes(17).seconds(0).milliseconds(0).toDate();
+      const base = makeDate(8, 0, 0);
+      const later = makeDate(8, 17, 0);
       const mockScale = x => (x === 0 ? base : later);
       mockScale.invert = x => (x === 0 ? base : later);
       const invert = util.invertX(mockScale);
@@ -88,7 +63,7 @@ describe('utils', () => {
     });
 
     it('should return a Date', () => {
-      const d = moment().hours(9).minutes(7).seconds(0).milliseconds(0).toDate();
+      const d = makeDate(9, 7, 0);
       const mockScale = { invert: () => d };
       const invert = util.invertX(mockScale);
       expect(invert(0) instanceof Date).toBe(true);
@@ -117,7 +92,7 @@ describe('utils', () => {
 
   describe('dataFormat', () => {
     it('should create an object', () => {
-      const time = moment();
+      const time = new Date();
       expect(util.dataFormat(time, 'one', 1)).toEqual({
         time,
         category: 'one',
@@ -131,76 +106,29 @@ describe('utils', () => {
       return d.toString();
     }
     it('should add an hour if clicked past the right edge', () => {
-      const domain = [
-        moment()
-          .hours(6)
-          .minutes(0)
-          .second(0)
-          .toDate(),
-        moment()
-          .hours(17)
-          .minutes(0)
-          .second(0)
-          .toDate()
-      ];
+      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       const copy = domain.slice();
       expect(domain).toEqual(copy);
       const update = util.addHourAfter(500, 60)(domain, [501, 0]);
-      expect(update[1].toString()).toEqual(
-        moment()
-          .hours(18)
-          .minutes(0)
-          .second(0)
-          .toDate()
-          .toString()
-      );
+      expect(update[1].toString()).toEqual(makeDate(18, 0, 0).toString());
       expect(domain.map(dateToString)).toEqual(copy.map(dateToString));
     });
 
     it('should not add time if days are different', () => {
-      const domain = [
-        moment()
-          .hours(6)
-          .minutes(0)
-          .second(0)
-          .toDate(),
-        moment()
-          .hours(23)
-          .minutes(59)
-          .second(0)
-          .toDate()
-      ];
+      const domain = [makeDate(6, 0, 0), makeDate(23, 59, 0)];
       const copy = domain.slice();
       const update = util.addHourAfter(500, 60)(domain, [501, 0]);
-      // no update
       expect(update).toBeUndefined();
       expect(domain).toEqual(copy);
     });
 
     it('should increment by the given value', () => {
-      const domain = [
-        moment()
-          .hours(6)
-          .minutes(0)
-          .second(0)
-          .toDate(),
-        moment()
-          .hours(23)
-          .minutes(0)
-          .second(0)
-          .toDate()
-      ];
+      const domain = [makeDate(6, 0, 0), makeDate(23, 0, 0)];
       const tester = {
         asymmetricMatch(actual) {
           return (
             actual[0].toString() === domain[0].toString() &&
-            actual[1].toString() ===
-              moment()
-                .hours(23)
-                .minutes(1)
-                .second(0)
-                .toDate()
-                .toString()
+            actual[1].toString() === makeDate(23, 1, 0).toString()
           );
         }
       };
@@ -211,52 +139,20 @@ describe('utils', () => {
 
   describe('addHourBefore', () => {
     it('should add an hour if clicked before left edge', () => {
-      const domain = [
-        moment()
-          .hours(6)
-          .minutes(0)
-          .second(0)
-          .toDate(),
-        moment()
-          .hours(17)
-          .minutes(0)
-          .second(0)
-          .toDate()
-      ];
-
+      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       const update = util.addHourBefore(100, 60)(domain, [50, 0]);
       const tester = {
         asymmetricMatch(actual) {
-          return (
-            actual.toString() ===
-            moment()
-              .hours(5)
-              .minutes(0)
-              .second(0)
-              .toDate()
-              .toString()
-          );
+          return actual.toString() === makeDate(5, 0, 0).toString();
         }
       };
       expect(update[0]).toEqual(tester);
     });
 
     it('should not add time if days are different', () => {
-      const domain = [
-        moment()
-          .hours(0)
-          .minutes(0)
-          .second(0)
-          .toDate(),
-        moment()
-          .hours(23)
-          .minutes(59)
-          .second(0)
-          .toDate()
-      ];
+      const domain = [makeDate(0, 0, 0), makeDate(23, 59, 0)];
       const copy = domain.slice();
       const update = util.addHourAfter(100, 1)(domain, [50, 0]);
-      // no update
       expect(update).toBeUndefined();
       expect(domain).toEqual(copy);
     });
@@ -285,15 +181,12 @@ describe('utils', () => {
 
   describe('timesByCategory', () => {
     it('should total times by category', () => {
-      const start = moment()
-        .hours(8)
-        .minutes(0)
-        .seconds(0);
+      const base = makeDate(8, 0, 0);
       const input = [
-        util.dataFormat(start.toDate(), 'one'),
-        util.dataFormat(start.add(20, 'minutes').toDate(), 'two'),
-        util.dataFormat(start.add(120, 'minutes').toDate(), 'three'),
-        util.dataFormat(start.add(15, 'minutes').toDate(), 'one')
+        util.dataFormat(base, 'one'),
+        util.dataFormat(addMinutes(base, 20), 'two'),
+        util.dataFormat(addMinutes(base, 140), 'three'),
+        util.dataFormat(addMinutes(base, 155), 'one')
       ];
       const output = util.timesByCategory(input);
       expect(output.one).toEqual(0.33);
@@ -325,9 +218,7 @@ describe('utils', () => {
       expect(util.findStartIndex([])).toBe(1);
     });
     it('should return max id + 1', () => {
-      expect(util.findStartIndex([{ id: 1 }, { id: 2 }, { id: 500 }])).toBe(
-        501
-      );
+      expect(util.findStartIndex([{ id: 1 }, { id: 2 }, { id: 500 }])).toBe(501);
     });
   });
 
