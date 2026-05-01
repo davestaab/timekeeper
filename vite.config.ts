@@ -18,8 +18,6 @@ export default defineConfig({
       exclude: [
         'src/main.ts',
         'src/registerServiceWorker.ts',
-        'src/timeline/TimeLineChart.ts',
-        'src/components/TimeLineChart.vue',
         'src/App.vue'
       ],
       thresholds: { lines: 70 }
