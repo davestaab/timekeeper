@@ -17,8 +17,8 @@ export default defineConfig({
       include: ['src/**/*.{js,ts,vue}'],
       exclude: [
         'src/main.ts',
-        'src/registerServiceWorker.js',
-        'src/timeline/TimeLineChart.js',
+        'src/registerServiceWorker.ts',
+        'src/timeline/TimeLineChart.ts',
         'src/components/TimeLineChart.vue',
         'src/App.vue'
       ],

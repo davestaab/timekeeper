@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import ByCategory from './ByCategory.vue';
 import Entries from './Entries.vue';
-
-interface Entry {
-  id: number;
-  time: Date | string | null;
-  category: string;
-}
+import type { TimelineEntry } from '@/types';
 
 defineProps<{
   times: Record<string, number>;
-  data: Entry[];
+  data: TimelineEntry[];
 }>();
 </script>
 

@@ -1,28 +1,23 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
-import TimeLineChartFactory from '@/timeline/TimeLineChart.js';
+import TimeLineChartFactory from '@/timeline/TimeLineChart';
 import { select } from 'd3';
-
-interface Entry {
-  id: number;
-  time: Date | string;
-  category: string;
-}
+import type { TimelineTimelineEntry } from '@/types';
 
 const props = withDefaults(
   defineProps<{
     categories: string[];
-    timeData: Entry[];
+    timeData: TimelineEntry[];
     currentDate: Date | null;
   }>(),
   { categories: () => [], timeData: () => [], currentDate: null }
 );
 
 const emit = defineEmits<{
-  onUpdate: [times: Record<string, number>, data: Entry[]];
+  onUpdate: [times: Record<string, number>, data: TimelineEntry[]];
 }>();
 
-function inflate(d: Entry): Entry {
+function inflate(d: TimelineEntry): TimelineEntry {
   d.time = new Date(d.time);
   return d;
 }

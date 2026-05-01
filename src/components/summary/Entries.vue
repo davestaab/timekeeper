@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
+import type { TimelineEntry } from '@/types';
 
-interface Entry {
-  id: number;
-  time: Date | string | null;
-  category: string;
-}
-
-defineProps<{ entries: Entry[] }>();
+defineProps<{ entries: TimelineEntry[] }>();
 
 function formatDate(value: Date | string | null): string | null {
   return value ? format(new Date(value), 'hh:mm aaa') : null;

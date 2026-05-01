@@ -2,5 +2,6 @@
   "editor.tabSize": 2,
   "eslint.enable": true,
   "html.format.wrapAttributes": "force-expand-multiline",
-  "vetur.format.defaultFormatter.html": "none"
+  "oxc.enable.oxfmt": true,
+  "oxc.enable.oxlint": true
 }

@@ -3,22 +3,11 @@ import { ref, computed } from 'vue';
 import { getData, saveData } from '../utils';
 import { timesByCategory } from '../timeline/utils';
 import { format, parseISO } from 'date-fns';
+import type { TimelineEntry, DayData } from '@/types';
 import DatePicker from './DatePicker.vue';
 import Categories from './Categories.vue';
 import TimeSummary from './summary/TimeSummary.vue';
 import TimeLineChart from './TimeLineChart.vue';
-
-interface TimelineEntry {
-  id: number;
-  time: Date | string;
-  category: string;
-}
-
-interface DayData {
-  date: string;
-  categories: string[];
-  data: TimelineEntry[];
-}
 
 const data = ref<DayData[]>(getData());
 const current = ref(data.value.length - 1);
