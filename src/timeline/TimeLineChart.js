@@ -1,6 +1,6 @@
 import {
   select,
-  mouse,
+  pointer,
   axisBottom,
   axisLeft,
   line,
@@ -11,8 +11,6 @@ import {
   easeCubicOut,
   extent,
 } from 'd3';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { transition } from 'd3';
 
 import {
   cleanData,
@@ -99,8 +97,8 @@ function TimeLineChart() {
   }
 
   function moveListener(hover) {
-    return function () {
-      const coords = mouse(this);
+    return function (event) {
+      const coords = pointer(event);
       hover
         .attr('cx', xScale(invertXScale(coords[0] - margin.left)))
         .attr('cy', yScale(invertYScale(coords[1] - margin.top)));
@@ -121,8 +119,8 @@ function TimeLineChart() {
   }
 
   function clickListener() {
-    return function () {
-      const coords = mouse(this);
+    return function (event) {
+      const coords = pointer(event);
       // check if we need to add an hour before
       const updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(
         xScale.domain(),
