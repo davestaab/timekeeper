@@ -1,6 +1,6 @@
 <script>
-import ByCategory from './ByCategory';
-import Entries from './Entries';
+import ByCategory from './ByCategory.vue';
+import Entries from './Entries.vue';
 
 export default {
   components: {

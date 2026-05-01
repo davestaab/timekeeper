@@ -1,5 +1,5 @@
 <script>
-import TimeLineChart from '@/timeline/TimeLineChart';
+import TimeLineChart from '@/timeline/TimeLineChart.js';
 import { select } from 'd3';
 
 /**

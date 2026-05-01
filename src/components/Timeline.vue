@@ -2,10 +2,10 @@
 import { getData, saveData } from '../utils';
 import { timesByCategory } from '../timeline/utils';
 import moment from 'moment';
-import DatePicker from './DatePicker';
-import Categories from './Categories';
+import DatePicker from './DatePicker.vue';
+import Categories from './Categories.vue';
 import TimeSummary from './summary/TimeSummary.vue';
-import TimeLineChart from './TimeLineChart';
+import TimeLineChart from './TimeLineChart.vue';
 
 export default {
   name: 'Timeline',
