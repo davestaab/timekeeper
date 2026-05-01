@@ -9,7 +9,7 @@ import Timeline from '@/components/Timeline.vue';
 
 export default {
   name: 'App',
-  components: { Timeline }
+  components: { Timeline },
 };
 </script>
 

@@ -17,21 +17,21 @@ export default {
   props: {
     categories: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     timeData: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     currentDate: {
       type: Date,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       chart: TimeLineChart(),
-      cachedCurrentDate: null
+      cachedCurrentDate: null,
     };
   },
   watch: {
@@ -44,7 +44,7 @@ export default {
         this.chart.reset(this.currentDate);
       }
       this.chart.data(this.timeData.map(inflate));
-    }
+    },
   },
   mounted() {
     this.chart.categories(this.categories).data(this.timeData.map(inflate));
@@ -55,8 +55,8 @@ export default {
   methods: {
     onUpdate(chart) {
       this.$emit('onUpdate', chart.timesByCategory(), chart.data());
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -9,7 +9,7 @@ import {
   subMinutes,
   getDate,
   differenceInMinutes,
-  roundToNearestMinutes
+  roundToNearestMinutes,
 } from 'date-fns';
 
 const CAT_DISPLAY_LENGTH = 10;
@@ -19,8 +19,11 @@ function sortByTime(a, b) {
 }
 
 function removeDupTimes(result, d) {
-  const foundIndex = result.findIndex(elem =>
-    isEqual(startOfMinute(new Date(elem.time)), startOfMinute(new Date(d.time)))
+  const foundIndex = result.findIndex((elem) =>
+    isEqual(
+      startOfMinute(new Date(elem.time)),
+      startOfMinute(new Date(d.time)),
+    ),
   );
   if (foundIndex === -1) {
     result.push(d);
@@ -63,17 +66,17 @@ function cleanData(data) {
 }
 
 function invertX(xScale) {
-  return x => {
+  return (x) => {
     const d = new Date(xScale.invert(x));
     return roundToNearestMinutes(d, { nearestTo: 15 });
   };
 }
 
 function invertY(yScale) {
-  return y => {
+  return (y) => {
     let min = Infinity;
     let minData;
-    yScale.domain().forEach(d => {
+    yScale.domain().forEach((d) => {
       const minDistance = Math.abs(yScale(d) - y);
       if (minDistance < min) {
         min = minDistance;
@@ -127,7 +130,7 @@ function addPoint(margin, chartWidth, invertXScale, invertYScale) {
       return dataFormat(
         invertXScale(clickCoords[0] - margin.left),
         invertYScale(clickCoords[1] - margin.top),
-        dataId
+        dataId,
       );
     }
     return undefined;
@@ -147,14 +150,17 @@ function timesByCategory(data) {
       if (!result[lastCategory]) {
         result[lastCategory] = 0;
       }
-      result[lastCategory] += differenceInMinutes(new Date(d.time), new Date(lastTime));
+      result[lastCategory] += differenceInMinutes(
+        new Date(d.time),
+        new Date(lastTime),
+      );
     }
     lastCategory = d.category;
     lastTime = d.time;
     return result;
   }, {});
 
-  Object.keys(totals).map(key => {
+  Object.keys(totals).map((key) => {
     totals[key] = minutesToDecimalHours(totals[key]);
     return key;
   });
@@ -190,5 +196,5 @@ export {
   timesByCategory,
   minutesToDecimalHours,
   findStartIndex,
-  formatCategory
+  formatCategory,
 };

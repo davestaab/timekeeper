@@ -6,13 +6,13 @@ export default {
   props: {
     currentDate: {
       type: Date,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     formattedDate() {
       return format(this.currentDate, 'MMM dd, yyyy');
-    }
+    },
   },
   methods: {
     nextDate(amount) {
@@ -20,8 +20,8 @@ export default {
     },
     findToday() {
       this.$emit('findToday');
-    }
-  }
+    },
+  },
 };
 </script>
 

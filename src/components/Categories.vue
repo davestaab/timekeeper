@@ -3,23 +3,23 @@ export default {
   props: {
     categories: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      newCat: ''
+      newCat: '',
     };
   },
   methods: {
-    onDelete: function(cat) {
+    onDelete: function (cat) {
       this.$emit('deleteCategory', cat);
     },
-    createCategory: function(cat) {
+    createCategory: function (cat) {
       this.$emit('createCategory', cat);
       this.newCat = '';
-    }
-  }
+    },
+  },
 };
 </script>
 

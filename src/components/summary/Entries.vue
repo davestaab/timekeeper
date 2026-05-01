@@ -5,14 +5,14 @@ export default {
   props: {
     entries: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     formatDate(value) {
       return value ? format(new Date(value), 'hh:mm aaa') : value;
-    }
-  }
+    },
+  },
 };
 </script>
 

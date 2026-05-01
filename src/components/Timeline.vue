@@ -13,14 +13,14 @@ export default {
     TimeLineChart,
     DatePicker,
     Categories,
-    TimeSummary
+    TimeSummary,
   },
   data() {
     const data = getData();
     return {
       data,
       current: data.length - 1,
-      times: {}
+      times: {},
     };
   },
   computed: {
@@ -29,18 +29,18 @@ export default {
     },
     currentDate() {
       return parseISO(this.currentData.date);
-    }
+    },
   },
   methods: {
     findToday() {
       const today = format(new Date(), 'yyyy-MM-dd');
-      const i = this.data.findIndex(d => d.date === today);
+      const i = this.data.findIndex((d) => d.date === today);
       if (i < 0) {
         // create new today entry
         this.data.push({
           categories: ['one', 'two', 'three', 'four'],
           data: [],
-          date: today
+          date: today,
         });
         this.current = this.data.length - 1;
       } else {
@@ -61,12 +61,12 @@ export default {
     deleteCategory(category) {
       this.data[this.current].categories = this.data[
         this.current
-      ].categories.filter(cat => cat !== category);
+      ].categories.filter((cat) => cat !== category);
     },
     createCategory(category) {
       this.data[this.current].categories.push(category);
-    }
-  }
+    },
+  },
 };
 </script>
 

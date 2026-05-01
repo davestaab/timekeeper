@@ -4,8 +4,8 @@ const DEMO = [
   {
     date: '2018-08-04',
     categories: ['personal', 'scrum', 'dev'],
-    data: []
-  }
+    data: [],
+  },
 ];
 
 export function getData() {

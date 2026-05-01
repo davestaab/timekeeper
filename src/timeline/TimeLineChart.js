@@ -9,7 +9,7 @@ import {
   curveStepAfter,
   timeMinute,
   easeCubicOut,
-  extent
+  extent,
 } from 'd3';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { transition } from 'd3';
@@ -26,7 +26,7 @@ import {
   removeUnknownCategories,
   timesByCategory,
   findStartIndex,
-  formatCategory
+  formatCategory,
 } from './utils';
 
 import { getMinutes, format, parseISO, set } from 'date-fns';
@@ -43,7 +43,7 @@ function TimeLineChart() {
     top: 50,
     right: 50,
     bottom: 50,
-    left: 75
+    left: 75,
   };
   let data = [];
   let _notifyOnUpdate = noop;
@@ -89,17 +89,17 @@ function TimeLineChart() {
     return yScale(d.category);
   }
 
-  const formatDateWindow = d => ({ time: new Date(d) });
+  const formatDateWindow = (d) => ({ time: new Date(d) });
 
   function updateXScale(data) {
     if (xScale) {
-      const e = extent([...data, ...dateWindow], d => d.time);
+      const e = extent([...data, ...dateWindow], (d) => d.time);
       xScale.domain(e);
     }
   }
 
   function moveListener(hover) {
-    return function() {
+    return function () {
       const coords = mouse(this);
       hover
         .attr('cx', xScale(invertXScale(coords[0] - margin.left)))
@@ -115,18 +115,18 @@ function TimeLineChart() {
   }
 
   function moveEnterLeaveListener(type, hover) {
-    return function() {
+    return function () {
       hover.classed('hover--off', type === 'leave');
     };
   }
 
   function clickListener() {
-    return function() {
+    return function () {
       const coords = mouse(this);
       // check if we need to add an hour before
       const updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(
         xScale.domain(),
-        coords
+        coords,
       );
       if (updateAfter) {
         dateWindow = updateAfter.map(formatDateWindow);
@@ -135,7 +135,7 @@ function TimeLineChart() {
       // check if we need to add an hour after
       const updateBefore = addHourBefore(margin.left, timeInc)(
         xScale.domain(),
-        coords
+        coords,
       );
       if (updateBefore) {
         dateWindow = updateBefore.map(formatDateWindow);
@@ -147,7 +147,7 @@ function TimeLineChart() {
         margin,
         chartWidth,
         invertXScale,
-        invertYScale
+        invertYScale,
       )(coords, dataIndex++);
       if (newPoint && newPoint.category) {
         data.push(newPoint);
@@ -161,24 +161,15 @@ function TimeLineChart() {
 
   function addTransitions(selection) {
     if (useTransitions) {
-      return selection
-        .transition()
-        .duration(duration)
-        .ease(ease);
+      return selection.transition().duration(duration).ease(ease);
     }
     return selection;
   }
 
   function updatePoints(data) {
     // update
-    const update = svg
-      .select('.all')
-      .selectAll('.point')
-      .data(data, identity);
-    addTransitions(update)
-      .attr('cx', X)
-      .attr('cy', Y)
-      .attr('r', pointRadius);
+    const update = svg.select('.all').selectAll('.point').data(data, identity);
+    addTransitions(update).attr('cx', X).attr('cy', Y).attr('r', pointRadius);
 
     // enter
     addTransitions(
@@ -188,13 +179,11 @@ function TimeLineChart() {
         .attr('class', 'point')
         .attr('cx', X)
         .attr('cy', Y)
-        .attr('r', 0)
+        .attr('r', 0),
     ).attr('r', pointRadius);
 
     // exit
-    addTransitions(update.exit())
-      .attr('r', 0)
-      .remove();
+    addTransitions(update.exit()).attr('r', 0).remove();
   }
 
   function updateScales() {
@@ -202,7 +191,7 @@ function TimeLineChart() {
     addTransitions(
       svg
         .select('.x.axis')
-        .attr('transform', 'translate(0,' + chartHeight + ')')
+        .attr('transform', 'translate(0,' + chartHeight + ')'),
     ).call(xAxis);
 
     // update y axis
@@ -215,25 +204,18 @@ function TimeLineChart() {
 
   // constructor
   function chart(selection) {
-    selection.each(function() {
-      xScale = scaleTime()
-        .range([0, chartWidth])
-        .clamp(true);
+    selection.each(function () {
+      xScale = scaleTime().range([0, chartWidth]).clamp(true);
       updateXScale(data);
-      yScale = scalePoint()
-        .domain(categories)
-        .rangeRound([chartHeight, 0]);
+      yScale = scalePoint().domain(categories).rangeRound([chartHeight, 0]);
 
       xAxis = axisBottom(xScale)
         .ticks(timeMinute.every(15))
-        .tickFormat(function(d) {
+        .tickFormat(function (d) {
           return getMinutes(d) === 0 ? format(d, 'hh') : '';
         });
       yAxis = axisLeft(yScale).tickFormat(formatCategory);
-      chartLine = line()
-        .x(X)
-        .y(Y)
-        .curve(curveStepAfter);
+      chartLine = line().x(X).y(Y).curve(curveStepAfter);
       invertYScale = invertY(yScale);
       invertXScale = invertX(xScale);
 
@@ -282,7 +264,7 @@ function TimeLineChart() {
     });
   }
 
-  chart.data = function(_) {
+  chart.data = function (_) {
     if (!arguments.length) return data;
 
     data = cleanData(_);
@@ -296,63 +278,63 @@ function TimeLineChart() {
    * Provide a function that gets called when data is updated.
    * @param {function} _ the provided function is called and given the chart object.
    */
-  chart.notifyOnUpdate = function(_) {
+  chart.notifyOnUpdate = function (_) {
     if (!arguments.length) return _notifyOnUpdate;
     _notifyOnUpdate = _;
     return chart;
   };
 
-  chart.timesByCategory = function() {
+  chart.timesByCategory = function () {
     return timesByCategory(data);
   };
 
-  chart.margin = function(_) {
+  chart.margin = function (_) {
     if (!arguments.length) return margin;
     margin = _;
     return chart;
   };
 
-  chart.width = function(_) {
+  chart.width = function (_) {
     if (!arguments.length) return width;
     width = _;
     return chart;
   };
 
-  chart.height = function(_) {
+  chart.height = function (_) {
     if (!arguments.length) return height;
     height = _;
     return chart;
   };
 
-  chart.categories = function(_) {
+  chart.categories = function (_) {
     if (!arguments.length) return categories;
     categories = _;
     updateCategories();
     return chart;
   };
 
-  chart.useTransitions = function(_) {
+  chart.useTransitions = function (_) {
     if (!arguments.length) return useTransitions;
     useTransitions = _;
     return chart;
   };
 
-  chart.reset = function(dateStr) {
+  chart.reset = function (dateStr) {
     const dt = parseISO(
-      typeof dateStr === 'string' ? dateStr : format(dateStr, 'yyyy-MM-dd')
+      typeof dateStr === 'string' ? dateStr : format(dateStr, 'yyyy-MM-dd'),
     );
     dateWindow = [
       { time: set(dt, { hours: 7, minutes: 0, seconds: 0, milliseconds: 0 }) },
-      { time: set(dt, { hours: 18, minutes: 0, seconds: 0, milliseconds: 0 }) }
+      { time: set(dt, { hours: 18, minutes: 0, seconds: 0, milliseconds: 0 }) },
     ];
   };
 
-  chart.debug = function() {
+  chart.debug = function () {
     return {
       yScale,
       xScale,
       categories,
-      data
+      data,
     };
   };
 

@@ -3,18 +3,18 @@ export default {
   props: {
     times: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    total: function() {
+    total: function () {
       let total = 0;
       for (const key in this.times) {
         total = total + this.times[key];
       }
       return total;
-    }
-  }
+    },
+  },
 };
 </script>
 

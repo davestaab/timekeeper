@@ -5,18 +5,18 @@ import Entries from './Entries.vue';
 export default {
   components: {
     ByCategory,
-    Entries
+    Entries,
   },
   props: {
     times: {
       type: Object,
-      required: true
+      required: true,
     },
     data: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 
