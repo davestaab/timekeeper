@@ -1,16 +1,11 @@
 <template>
   <div id="app">
-    <Timeline></Timeline>
+    <Timeline />
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Timeline from '@/components/Timeline.vue';
-
-export default {
-  name: 'App',
-  components: { Timeline },
-};
 </script>
 
 <style>

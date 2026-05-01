@@ -1,29 +1,23 @@
-<script>
+<script setup lang="ts">
 import ByCategory from './ByCategory.vue';
 import Entries from './Entries.vue';
 
-export default {
-  components: {
-    ByCategory,
-    Entries,
-  },
-  props: {
-    times: {
-      type: Object,
-      required: true,
-    },
-    data: {
-      type: Array,
-      required: true,
-    },
-  },
-};
+interface Entry {
+  id: number;
+  time: Date | string | null;
+  category: string;
+}
+
+defineProps<{
+  times: Record<string, number>;
+  data: Entry[];
+}>();
 </script>
 
 <template>
   <div>
     <div class="text-3xl my-4">Time Summary</div>
-    <by-category :times="times" />
-    <entries :entries="data" />
+    <ByCategory :times="times" />
+    <Entries :entries="data" />
   </div>
 </template>

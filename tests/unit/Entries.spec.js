@@ -20,10 +20,10 @@ describe('Entries', () => {
     expect(result).toMatch(/\d{2}:\d{2}/);
   });
 
-  it('returns the value unchanged when time is falsy', () => {
+  it('returns null when time is falsy', () => {
     const wrapper = shallowMount(Entries, { props: { entries: [] } });
     expect(wrapper.vm.formatDate(null)).toBeNull();
-    expect(wrapper.vm.formatDate('')).toBe('');
+    expect(wrapper.vm.formatDate('')).toBeNull();
   });
 
   it('renders nothing in the list when entries is empty', () => {

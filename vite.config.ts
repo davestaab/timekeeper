@@ -19,7 +19,8 @@ export default defineConfig({
         'src/main.ts',
         'src/registerServiceWorker.js',
         'src/timeline/TimeLineChart.js',
-        'src/components/TimeLineChart.vue'
+        'src/components/TimeLineChart.vue',
+        'src/App.vue'
       ],
       thresholds: { lines: 70 }
     }

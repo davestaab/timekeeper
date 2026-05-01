@@ -1,19 +1,19 @@
-<script>
+<script setup lang="ts">
 import { format } from 'date-fns';
 
-export default {
-  props: {
-    entries: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    formatDate(value) {
-      return value ? format(new Date(value), 'hh:mm aaa') : value;
-    },
-  },
-};
+interface Entry {
+  id: number;
+  time: Date | string | null;
+  category: string;
+}
+
+defineProps<{ entries: Entry[] }>();
+
+function formatDate(value: Date | string | null): string | null {
+  return value ? format(new Date(value), 'hh:mm aaa') : null;
+}
+
+defineExpose({ formatDate });
 </script>
 
 <template>

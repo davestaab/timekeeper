@@ -1,70 +1,69 @@
-<script>
-import TimeLineChart from '@/timeline/TimeLineChart.js';
+<script setup lang="ts">
+import { ref, watch, onMounted } from 'vue';
+import TimeLineChartFactory from '@/timeline/TimeLineChart.js';
 import { select } from 'd3';
 
-/**
- * Inflate the date object from a string (as stored in local storage) to a date object
- * @param  {[type]} d [description]
- * @return {[type]}   [description]
- */
-function inflate(d) {
+interface Entry {
+  id: number;
+  time: Date | string;
+  category: string;
+}
+
+const props = withDefaults(
+  defineProps<{
+    categories: string[];
+    timeData: Entry[];
+    currentDate: Date | null;
+  }>(),
+  { categories: () => [], timeData: () => [], currentDate: null }
+);
+
+const emit = defineEmits<{
+  onUpdate: [times: Record<string, number>, data: Entry[]];
+}>();
+
+function inflate(d: Entry): Entry {
   d.time = new Date(d.time);
   return d;
 }
 
-export default {
-  name: 'TimelineChart',
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-    timeData: {
-      type: Array,
-      default: () => [],
-    },
-    currentDate: {
-      type: Date,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      chart: TimeLineChart(),
-      cachedCurrentDate: null,
-    };
-  },
-  watch: {
-    categories() {
-      this.chart.categories(this.categories);
-    },
-    timeData() {
-      if (this.currentDate !== this.cachedCurrentDate) {
-        this.cachedCurrentDate = this.currentDate;
-        this.chart.reset(this.currentDate);
-      }
-      this.chart.data(this.timeData.map(inflate));
-    },
-  },
-  mounted() {
-    this.chart.categories(this.categories).data(this.timeData.map(inflate));
-    select(this.$el).call(this.chart);
-    this.onUpdate(this.chart);
-    this.chart.notifyOnUpdate(this.onUpdate);
-  },
-  methods: {
-    onUpdate(chart) {
-      this.$emit('onUpdate', chart.timesByCategory(), chart.data());
-    },
-  },
-};
+const chart = TimeLineChartFactory();
+const cachedCurrentDate = ref<Date | null>(null);
+const container = ref<HTMLElement | null>(null);
+
+function onUpdate(c: typeof chart) {
+  emit('onUpdate', c.timesByCategory(), c.data());
+}
+
+watch(
+  () => props.categories,
+  () => chart.categories(props.categories)
+);
+
+watch(
+  () => props.timeData,
+  () => {
+    if (props.currentDate !== cachedCurrentDate.value) {
+      cachedCurrentDate.value = props.currentDate;
+      chart.reset(props.currentDate);
+    }
+    chart.data(props.timeData.map(inflate));
+  }
+);
+
+onMounted(() => {
+  chart.categories(props.categories).data(props.timeData.map(inflate));
+  select(container.value!).call(chart);
+  onUpdate(chart);
+  chart.notifyOnUpdate(onUpdate);
+});
 </script>
 
 <template>
-  <div class="chart-container" />
+  <div ref="container" class="chart-container" />
 </template>
 
-// can't scope this. has to style the d3 chart
+<!-- can't scope this — has to style the d3 chart -->
 <style>
 .chart-container {
   margin: 0 auto;
@@ -85,28 +84,23 @@ export default {
   display: block;
   max-height: 200px;
 }
-
 .tick line {
   stroke: black;
 }
-
 .axis line,
 .axis path {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-
 .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-
 .point {
   stroke: blueviolet;
   fill: rgba(33, 33, 33, 0.1);
 }
-
 .hover {
   stroke: blueviolet;
   fill: rgba(66, 66, 66, 0.3);

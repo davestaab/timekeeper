@@ -1,40 +1,36 @@
-<script>
-export default {
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data: function () {
-    return {
-      newCat: '',
-    };
-  },
-  methods: {
-    onDelete: function (cat) {
-      this.$emit('deleteCategory', cat);
-    },
-    createCategory: function (cat) {
-      this.$emit('createCategory', cat);
-      this.newCat = '';
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const props = withDefaults(defineProps<{ categories: string[] }>(), {
+  categories: () => [],
+});
+
+const emit = defineEmits<{
+  deleteCategory: [cat: string];
+  createCategory: [cat: string];
+}>();
+
+const newCat = ref('');
+
+function onDelete(cat: string) {
+  emit('deleteCategory', cat);
+}
+
+function createCategory(cat: string) {
+  emit('createCategory', cat);
+  newCat.value = '';
+}
+
+defineExpose({ newCat });
 </script>
 
 <template>
   <div class="group flex flex-col">
     <div class="text-3xl py-4">Categories</div>
     <ul class="flex flex-col">
-      <li v-for="cat in categories" :key="cat" class="m-1 flex-auto flex">
-        <span class="flex-1">
-          {{ cat }}
-        </span>
-        <button
-          class="invisible group-hover:visible flex-none"
-          @click="onDelete(cat)"
-        >
+      <li v-for="cat in props.categories" :key="cat" class="m-1 flex-auto flex">
+        <span class="flex-1">{{ cat }}</span>
+        <button class="invisible group-hover:visible flex-none" @click="onDelete(cat)">
           ✖
         </button>
       </li>

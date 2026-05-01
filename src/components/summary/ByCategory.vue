@@ -1,21 +1,11 @@
-<script>
-export default {
-  props: {
-    times: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    total: function () {
-      let total = 0;
-      for (const key in this.times) {
-        total = total + this.times[key];
-      }
-      return total;
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps<{ times: Record<string, number> }>();
+
+const total = computed(() =>
+  Object.values(props.times).reduce((sum, v) => sum + v, 0)
+);
 </script>
 
 <template>
