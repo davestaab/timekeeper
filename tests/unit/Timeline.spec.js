@@ -3,7 +3,7 @@ import Timeline from '../../src/components/Timeline.vue';
 import * as storage from '../../src/utils';
 import moment from 'moment';
 
-jest.mock('../../src/utils');
+vi.mock('../../src/utils');
 
 const today = moment().format('YYYY-MM-DD');
 const yesterday = moment()
@@ -24,7 +24,7 @@ function mountTimeline() {
 
 describe('Timeline', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('findToday', () => {
