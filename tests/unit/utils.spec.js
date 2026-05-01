@@ -76,11 +76,35 @@ describe('utils', () => {
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  describe('invertX', () => {});
+  describe('invertX', () => {
+    it('should invert pixels to a date rounded to nearest 15 minutes', () => {
+      const base = moment().hours(8).minutes(0).seconds(0).milliseconds(0).toDate();
+      const later = moment().hours(8).minutes(17).seconds(0).milliseconds(0).toDate();
+      const mockScale = x => (x === 0 ? base : later);
+      mockScale.invert = x => (x === 0 ? base : later);
+      const invert = util.invertX(mockScale);
+      const result = invert(0);
+      expect(result.getMinutes() % 15).toBe(0);
+    });
 
-  /*eslint @typescript-eslint/no-empty-function:0*/
-  describe('invertY', () => {});
+    it('should return a Date', () => {
+      const d = moment().hours(9).minutes(7).seconds(0).milliseconds(0).toDate();
+      const mockScale = { invert: () => d };
+      const invert = util.invertX(mockScale);
+      expect(invert(0) instanceof Date).toBe(true);
+    });
+  });
+
+  describe('invertY', () => {
+    it('should return the nearest category to the given y pixel', () => {
+      const mockScale = d => ({ one: 10, two: 50, three: 90 }[d]);
+      mockScale.domain = () => ['one', 'two', 'three'];
+      const invert = util.invertY(mockScale);
+      expect(invert(12)).toBe('one');
+      expect(invert(48)).toBe('two');
+      expect(invert(88)).toBe('three');
+    });
+  });
 
   describe('identity', () => {
     it('should return the id of the object', () => {
@@ -312,6 +336,45 @@ describe('utils', () => {
       expect(util.formatCategory('super duper long one')).toBe('super dupe');
       expect(util.formatCategory('short')).toBe('short');
       expect(util.formatCategory('')).toBe('');
+    });
+  });
+
+  describe('addPoint', () => {
+    const margin = { left: 50, top: 20 };
+    const chartWidth = 400;
+    const mockInvertX = x => new Date(x);
+    const mockInvertY = () => 'work';
+
+    it('should return a data point when click is inside the chart area', () => {
+      const result = util.addPoint(
+        margin,
+        chartWidth,
+        mockInvertX,
+        mockInvertY
+      )([100, 50], 1);
+      expect(result).toBeDefined();
+      expect(result.category).toBe('work');
+      expect(result.id).toBe(1);
+    });
+
+    it('should return undefined when click is left of the chart', () => {
+      const result = util.addPoint(
+        margin,
+        chartWidth,
+        mockInvertX,
+        mockInvertY
+      )([10, 50], 1);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when click is right of the chart', () => {
+      const result = util.addPoint(
+        margin,
+        chartWidth,
+        mockInvertX,
+        mockInvertY
+      )([500, 50], 1);
+      expect(result).toBeUndefined();
     });
   });
 });
