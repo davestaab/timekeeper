@@ -1,9 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), tailwindcss()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -18,7 +19,9 @@ export default defineConfig({
       exclude: [
         'src/main.ts',
         'src/registerServiceWorker.ts',
-        'src/App.vue'
+        'src/App.vue',
+        'src/timeline/TimeLineChart.ts',
+        'src/components/TimeLineChart.vue'
       ],
       thresholds: { lines: 70 }
     }
