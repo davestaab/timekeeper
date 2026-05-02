@@ -74,7 +74,7 @@ onMounted(() => {
   background: lightcyan;
   border: thin solid darkcyan;
   display: block;
-  max-height: 200px;
+  max-height: 400px;
 }
 .tick line {
   stroke: black;
