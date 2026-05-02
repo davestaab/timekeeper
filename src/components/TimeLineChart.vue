@@ -55,14 +55,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="container" class="chart-container" />
+  <div ref="container" class="justify-items-center" />
 </template>
 
 <!-- can't scope this — has to style the d3 chart -->
 <style>
-.chart-container {
-  margin: 0 auto;
-}
 .line {
   stroke: blueviolet;
   fill: none;
