@@ -122,6 +122,11 @@ describe('utils', () => {
       expect(domain).toEqual(copy);
     });
 
+    it('should return undefined when click is not past the right edge', () => {
+      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
+      expect(util.addHourAfter(500, 60)(domain, [400, 0])).toBeUndefined();
+    });
+
     it('should increment by the given value', () => {
       const domain = [makeDate(6, 0, 0), makeDate(23, 0, 0)];
       const tester = {
@@ -152,9 +157,15 @@ describe('utils', () => {
     it('should not add time if days are different', () => {
       const domain = [makeDate(0, 0, 0), makeDate(23, 59, 0)];
       const copy = domain.slice();
-      const update = util.addHourAfter(100, 1)(domain, [50, 0]);
+      const update = util.addHourBefore(100, 60)(domain, [50, 0]);
       expect(update).toBeUndefined();
       expect(domain).toEqual(copy);
+    });
+
+    it('should return undefined when click is not before the left edge', () => {
+      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
+      const update = util.addHourBefore(100, 60)(domain, [150, 0]);
+      expect(update).toBeUndefined();
     });
   });
 

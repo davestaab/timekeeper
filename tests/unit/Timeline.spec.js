@@ -94,6 +94,14 @@ describe('Timeline', () => {
       wrapper.vm.createCategory('deep work');
       expect(wrapper.vm.currentData.categories).toContain('deep work');
     });
+
+    it('replaces the array so watchers fire', () => {
+      const wrapper = mountTimeline();
+      wrapper.vm.current = 0;
+      const before = wrapper.vm.currentData.categories;
+      wrapper.vm.createCategory('deep work');
+      expect(wrapper.vm.currentData.categories).not.toBe(before);
+    });
   });
 
   describe('chartUpdated', () => {

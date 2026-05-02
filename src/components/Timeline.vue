@@ -44,7 +44,7 @@ function deleteCategory(category: string) {
 }
 
 function createCategory(category: string) {
-  currentData.value.categories.push(category);
+  currentData.value.categories = [...currentData.value.categories, category];
 }
 
 defineExpose({ data, current, currentData, times, findToday, nextDate, chartUpdated, deleteCategory, createCategory });
