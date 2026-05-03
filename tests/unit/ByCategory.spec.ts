@@ -16,13 +16,13 @@ describe('ByCategory', () => {
     const wrapper = shallowMount(ByCategory, {
       props: { times: { work: 2, lunch: 0.5, meeting: 1 } }
     });
-    expect(wrapper.vm.total).toBe(3.5);
+    expect((wrapper.vm as any).total).toBe(3.5);
     expect(wrapper.text()).toContain('3.5: Total');
   });
 
   it('shows zero total for empty times', () => {
     const wrapper = shallowMount(ByCategory, { props: { times: {} } });
-    expect(wrapper.vm.total).toBe(0);
+    expect((wrapper.vm as any).total).toBe(0);
     expect(wrapper.text()).toContain('0: Total');
   });
 });

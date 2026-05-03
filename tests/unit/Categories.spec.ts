@@ -4,7 +4,7 @@ import Categories from '../../src/components/Categories.vue';
 describe('Categories', () => {
   const categories = ['work', 'personal', 'lunch'];
 
-  function mountCategories(cats = categories) {
+  function mountCategories(cats: string[] = categories) {
     return shallowMount(Categories, { props: { categories: cats } });
   }
 
@@ -29,7 +29,7 @@ describe('Categories', () => {
     await input.setValue('deep work');
     await input.trigger('keyup.enter');
     expect(wrapper.emitted('createCategory')).toEqual([['deep work']]);
-    expect(wrapper.vm.newCat).toBe('');
+    expect((wrapper.vm as any).newCat).toBe('');
   });
 
   it('renders with empty categories list', () => {

@@ -47,7 +47,6 @@ function createCategory(category: string) {
   currentData.value.categories = [...currentData.value.categories, category];
 }
 
-defineExpose({ data, current, currentData, times, findToday, nextDate, chartUpdated, deleteCategory, createCategory });
 </script>
 
 <template>

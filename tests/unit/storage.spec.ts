@@ -1,8 +1,9 @@
 import { getData, saveData } from '../../src/utils';
+import type { DayData } from '../../src/types';
 
 const STORAGE_KEY = 'timeline-data-v2';
 
-const DEMO = [
+const DEMO: DayData[] = [
   {
     date: '2018-08-04',
     categories: ['personal', 'scrum', 'dev'],
@@ -21,7 +22,7 @@ describe('storage utils', () => {
     });
 
     it('should parse and return stored data', () => {
-      const stored = [{ date: '2024-01-01', categories: ['work'], data: [] }];
+      const stored: DayData[] = [{ date: '2024-01-01', categories: ['work'], data: [] }];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
       expect(getData()).toEqual(stored);
     });
@@ -29,7 +30,7 @@ describe('storage utils', () => {
 
   describe('saveData', () => {
     it('should serialize and store data', () => {
-      const data = [{ date: '2024-01-01', categories: ['work'], data: [] }];
+      const data: DayData[] = [{ date: '2024-01-01', categories: ['work'], data: [] }];
       saveData(data);
       expect(localStorage.getItem(STORAGE_KEY)).toBe(JSON.stringify(data));
     });

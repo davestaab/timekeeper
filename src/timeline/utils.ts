@@ -28,19 +28,19 @@ function sortByTime(a: TimelineEntry, b: TimelineEntry): number {
   return isBefore(new Date(a.time), new Date(b.time)) ? -1 : 1;
 }
 
-function removeDupTimes(result: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
+export function removeDupTimes(result: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
   const foundIndex = result.findIndex((elem) =>
     isEqual(startOfMinute(new Date(elem.time)), startOfMinute(new Date(d.time)))
   );
   if (foundIndex === -1) {
     result.push(d);
   } else if (result[foundIndex].id < d.id) {
-    result.splice(foundIndex, 1, d);
+    result[foundIndex] = d;
   }
   return result;
 }
 
-function removeDupCategories(results: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
+export function removeDupCategories(results: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
   if (results.length === 0) {
     results.push(d);
     return results;
@@ -56,22 +56,22 @@ function removeDupCategories(results: TimelineEntry[], d: TimelineEntry): Timeli
   return results;
 }
 
-function removeUnknownCategories(data: TimelineEntry[], categories: string[]): TimelineEntry[] {
+export function removeUnknownCategories(data: TimelineEntry[], categories: string[]): TimelineEntry[] {
   return data.reduce<TimelineEntry[]>((result, d) => {
     if (categories.indexOf(d.category) >= 0) result.push(d);
     return result;
   }, []);
 }
 
-function cleanData(data: TimelineEntry[]): TimelineEntry[] {
+export function cleanData(data: TimelineEntry[]): TimelineEntry[] {
   return data.sort(sortByTime).reduce(removeDupTimes, []).reduce(removeDupCategories, []);
 }
 
-function invertX(xScale: XScale): (x: number) => Date {
+export function invertX(xScale: XScale): (x: number) => Date {
   return (x) => roundToNearestMinutes(new Date(xScale.invert(x)), { nearestTo: 15 });
 }
 
-function invertY(yScale: YScale): (y: number) => string {
+export function invertY(yScale: YScale): (y: number) => string {
   return (y) => {
     let min = Infinity;
     let minData = '';
@@ -86,17 +86,17 @@ function invertY(yScale: YScale): (y: number) => string {
   };
 }
 
-function dataFormat(time: Date | null, category: string, id?: number): TimelineEntry {
+export function dataFormat(time: Date | null, category: string, id?: number): TimelineEntry {
   return { time: time as Date, category, id: id ?? 0 };
 }
 
-function noop(): void {}
+export function noop(): void {}
 
-function identity(d: TimelineEntry): number {
+export function identity(d: TimelineEntry): number {
   return d.id;
 }
 
-function addHourAfter(
+export function addHourAfter(
   rightEdge: number,
   inc: number
 ): (domain: Domain, clickCoords: Coords) => Domain | undefined {
@@ -110,7 +110,7 @@ function addHourAfter(
   };
 }
 
-function addHourBefore(
+export function addHourBefore(
   leftEdge: number,
   inc: number
 ): (domain: Domain, clickCoords: Coords) => Domain | undefined {
@@ -124,7 +124,7 @@ function addHourBefore(
   };
 }
 
-function addPoint(
+export function addPoint(
   margin: Margin,
   chartWidth: number,
   invertXScale: (x: number) => Date,
@@ -143,11 +143,11 @@ function addPoint(
   };
 }
 
-function minutesToDecimalHours(minutes: number): number {
+export function minutesToDecimalHours(minutes: number): number {
   return Math.round((minutes / 60) * 100) / 100;
 }
 
-function timesByCategory(data: TimelineEntry[]): Record<string, number> {
+export function timesByCategory(data: TimelineEntry[]): Record<string, number> {
   let lastCategory: string | undefined;
   let lastTime: Date | string | undefined;
 
@@ -166,27 +166,10 @@ function timesByCategory(data: TimelineEntry[]): Record<string, number> {
   return totals;
 }
 
-function findStartIndex(data: Array<{ id: number }>): number {
+export function findStartIndex(data: Array<{ id: number }>): number {
   return data.reduce((result, d) => (d.id > result ? d.id : result), 0) + 1;
 }
 
-function formatCategory(d: string): string {
+export function formatCategory(d: string): string {
   return d.length > CAT_DISPLAY_LENGTH ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
 }
-
-export {
-  cleanData,
-  invertX,
-  invertY,
-  dataFormat,
-  noop,
-  identity,
-  addHourAfter,
-  addHourBefore,
-  addPoint,
-  removeUnknownCategories,
-  timesByCategory,
-  minutesToDecimalHours,
-  findStartIndex,
-  formatCategory,
-};

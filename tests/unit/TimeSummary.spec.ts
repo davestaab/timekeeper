@@ -1,8 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import TimeSummary from '../../src/components/summary/TimeSummary.vue';
+import type { TimelineEntry } from '../../src/types';
 
 describe('TimeSummary', () => {
-  function mountSummary(times = {}, data = []) {
+  function mountSummary(times: Record<string, number> = {}, data: TimelineEntry[] = []) {
     return shallowMount(TimeSummary, { props: { times, data } });
   }
 
@@ -18,7 +19,7 @@ describe('TimeSummary', () => {
   });
 
   it('passes data to entries', () => {
-    const data = [{ id: 1, time: new Date(), category: 'work' }];
+    const data: TimelineEntry[] = [{ id: 1, time: new Date(), category: 'work' }];
     const wrapper = mountSummary({}, data);
     expect(wrapper.findComponent({ name: 'Entries' }).props('entries')).toEqual(data);
   });

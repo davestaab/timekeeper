@@ -1,7 +1,7 @@
-import { set, addMinutes, subMinutes } from 'date-fns';
+import { set, addMinutes } from 'date-fns';
 import * as util from '../../src/timeline/utils';
 
-function makeDate(hours, minutes = 0, seconds = 0) {
+function makeDate(hours: number, minutes = 0, seconds = 0): Date {
   return set(new Date(), { hours, minutes, seconds, milliseconds: 0 });
 }
 
@@ -13,12 +13,10 @@ describe('utils', () => {
 
     it('should sort data by time', () => {
       const start = makeDate(8, 0, 0);
-      const data = [
-        util.dataFormat(start, 'three', 1),
-        util.dataFormat(addMinutes(start, 20), 'one', 2),
-        util.dataFormat(addMinutes(start, 80), 'two', 3)
-      ];
-      const clean = util.cleanData(data);
+      const three = util.dataFormat(start, 'three', 1);
+      const one = util.dataFormat(addMinutes(start, 20), 'one', 2);
+      const two = util.dataFormat(addMinutes(start, 80), 'two', 3);
+      const clean = util.cleanData([one, two, three]);
       expect(clean[0].category).toBe('three');
       expect(clean[1].category).toBe('one');
       expect(clean[2].category).toBe('two');
@@ -28,7 +26,7 @@ describe('utils', () => {
       const base = set(new Date(), { seconds: 0, milliseconds: 0 });
       const data = [
         { time: base, category: 'first', id: 1 },
-        { time: set(base, { seconds: 15 }), category: 'second', id: 2 }
+        { time: set(base, { seconds: 15 }), category: 'second', id: 2 },
       ];
       const clean = util.cleanData(data);
       expect(clean.length).toBe(1);
@@ -40,7 +38,7 @@ describe('utils', () => {
       const data = [
         util.dataFormat(makeDate(8), 'one', (id += 1)),
         util.dataFormat(makeDate(9), 'one', (id += 1)),
-        util.dataFormat(makeDate(10), 'two', (id += 1))
+        util.dataFormat(makeDate(10), 'two', (id += 1)),
       ];
       const clean = util.cleanData(data);
       expect(clean.length).toBe(2);
@@ -55,8 +53,9 @@ describe('utils', () => {
     it('should invert pixels to a date rounded to nearest 15 minutes', () => {
       const base = makeDate(8, 0, 0);
       const later = makeDate(8, 17, 0);
-      const mockScale = x => (x === 0 ? base : later);
-      mockScale.invert = x => (x === 0 ? base : later);
+      const mockScale = {
+        invert: (x: number): Date => (x === 0 ? base : later),
+      };
       const invert = util.invertX(mockScale);
       const result = invert(0);
       expect(result.getMinutes() % 15).toBe(0);
@@ -64,7 +63,7 @@ describe('utils', () => {
 
     it('should return a Date', () => {
       const d = makeDate(9, 7, 0);
-      const mockScale = { invert: () => d };
+      const mockScale = { invert: (): Date => d };
       const invert = util.invertX(mockScale);
       expect(invert(0) instanceof Date).toBe(true);
     });
@@ -72,8 +71,10 @@ describe('utils', () => {
 
   describe('invertY', () => {
     it('should return the nearest category to the given y pixel', () => {
-      const mockScale = d => ({ one: 10, two: 50, three: 90 }[d]);
-      mockScale.domain = () => ['one', 'two', 'three'];
+      const lookup: Record<string, number> = { one: 10, two: 50, three: 90 };
+      const mockScale = Object.assign((d: string): number => lookup[d], {
+        domain: (): string[] => ['one', 'two', 'three'],
+      });
       const invert = util.invertY(mockScale);
       expect(invert(12)).toBe('one');
       expect(invert(48)).toBe('two');
@@ -83,9 +84,9 @@ describe('utils', () => {
 
   describe('identity', () => {
     it('should return the id of the object', () => {
-      let data = { id: 1 };
+      let data = { id: 1, time: new Date(), category: '' };
       expect(util.identity(data)).toBe(1);
-      data = { id: 2 };
+      data = { id: 2, time: new Date(), category: '' };
       expect(util.identity(data)).toBe(2);
     });
   });
@@ -96,26 +97,24 @@ describe('utils', () => {
       expect(util.dataFormat(time, 'one', 1)).toEqual({
         time,
         category: 'one',
-        id: 1
+        id: 1,
       });
     });
   });
 
   describe('addHourAfter', () => {
-    function dateToString(d) {
-      return d.toString();
-    }
     it('should add an hour if clicked past the right edge', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       const copy = domain.slice();
-      expect(domain).toEqual(copy);
       const update = util.addHourAfter(500, 60)(domain, [501, 0]);
-      expect(update[1].toString()).toEqual(makeDate(18, 0, 0).toString());
-      expect(domain.map(dateToString)).toEqual(copy.map(dateToString));
+      expect(update![1].toString()).toEqual(makeDate(18, 0, 0).toString());
+      expect(domain.map((d) => d.toString())).toEqual(
+        copy.map((d) => d.toString()),
+      );
     });
 
     it('should not add time if days are different', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(23, 59, 0)];
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(23, 59, 0)];
       const copy = domain.slice();
       const update = util.addHourAfter(500, 60)(domain, [501, 0]);
       expect(update).toBeUndefined();
@@ -123,19 +122,19 @@ describe('utils', () => {
     });
 
     it('should return undefined when click is not past the right edge', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       expect(util.addHourAfter(500, 60)(domain, [400, 0])).toBeUndefined();
     });
 
     it('should increment by the given value', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(23, 0, 0)];
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(23, 0, 0)];
       const tester = {
-        asymmetricMatch(actual) {
+        asymmetricMatch(actual: Date[]) {
           return (
             actual[0].toString() === domain[0].toString() &&
             actual[1].toString() === makeDate(23, 1, 0).toString()
           );
-        }
+        },
       };
       const update = util.addHourAfter(500, 1)(domain, [501, 0]);
       expect(update).toEqual(tester);
@@ -144,18 +143,18 @@ describe('utils', () => {
 
   describe('addHourBefore', () => {
     it('should add an hour if clicked before left edge', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
-      const update = util.addHourBefore(100, 60)(domain, [50, 0]);
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       const tester = {
-        asymmetricMatch(actual) {
+        asymmetricMatch(actual: Date) {
           return actual.toString() === makeDate(5, 0, 0).toString();
-        }
+        },
       };
-      expect(update[0]).toEqual(tester);
+      const update = util.addHourBefore(100, 60)(domain, [50, 0]);
+      expect(update![0]).toEqual(tester);
     });
 
     it('should not add time if days are different', () => {
-      const domain = [makeDate(0, 0, 0), makeDate(23, 59, 0)];
+      const domain: [Date, Date] = [makeDate(0, 0, 0), makeDate(23, 59, 0)];
       const copy = domain.slice();
       const update = util.addHourBefore(100, 60)(domain, [50, 0]);
       expect(update).toBeUndefined();
@@ -163,7 +162,7 @@ describe('utils', () => {
     });
 
     it('should return undefined when click is not before the left edge', () => {
-      const domain = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
+      const domain: [Date, Date] = [makeDate(6, 0, 0), makeDate(17, 0, 0)];
       const update = util.addHourBefore(100, 60)(domain, [150, 0]);
       expect(update).toBeUndefined();
     });
@@ -176,7 +175,7 @@ describe('utils', () => {
         util.dataFormat(null, 'one'),
         util.dataFormat(null, 'two'),
         util.dataFormat(null, 'three'),
-        util.dataFormat(null, 'two')
+        util.dataFormat(null, 'two'),
       ];
       const results = util.removeUnknownCategories(data, categories);
       expect(results.length).toBe(4);
@@ -197,7 +196,7 @@ describe('utils', () => {
         util.dataFormat(base, 'one'),
         util.dataFormat(addMinutes(base, 20), 'two'),
         util.dataFormat(addMinutes(base, 140), 'three'),
-        util.dataFormat(addMinutes(base, 155), 'one')
+        util.dataFormat(addMinutes(base, 155), 'one'),
       ];
       const output = util.timesByCategory(input);
       expect(output.one).toEqual(0.33);
@@ -229,7 +228,9 @@ describe('utils', () => {
       expect(util.findStartIndex([])).toBe(1);
     });
     it('should return max id + 1', () => {
-      expect(util.findStartIndex([{ id: 1 }, { id: 2 }, { id: 500 }])).toBe(501);
+      expect(util.findStartIndex([{ id: 1 }, { id: 2 }, { id: 500 }])).toBe(
+        501,
+      );
     });
   });
 
@@ -242,21 +243,21 @@ describe('utils', () => {
   });
 
   describe('addPoint', () => {
-    const margin = { left: 50, top: 20 };
+    const margin = { left: 50, top: 20, right: 0, bottom: 0 };
     const chartWidth = 400;
-    const mockInvertX = x => new Date(x);
-    const mockInvertY = () => 'work';
+    const mockInvertX = (x: number): Date => new Date(x);
+    const mockInvertY = (): string => 'work';
 
     it('should return a data point when click is inside the chart area', () => {
       const result = util.addPoint(
         margin,
         chartWidth,
         mockInvertX,
-        mockInvertY
+        mockInvertY,
       )([100, 50], 1);
       expect(result).toBeDefined();
-      expect(result.category).toBe('work');
-      expect(result.id).toBe(1);
+      expect(result!.category).toBe('work');
+      expect(result!.id).toBe(1);
     });
 
     it('should return undefined when click is left of the chart', () => {
@@ -264,7 +265,7 @@ describe('utils', () => {
         margin,
         chartWidth,
         mockInvertX,
-        mockInvertY
+        mockInvertY,
       )([10, 50], 1);
       expect(result).toBeUndefined();
     });
@@ -274,7 +275,7 @@ describe('utils', () => {
         margin,
         chartWidth,
         mockInvertX,
-        mockInvertY
+        mockInvertY,
       )([500, 50], 1);
       expect(result).toBeUndefined();
     });
