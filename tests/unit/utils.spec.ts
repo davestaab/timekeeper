@@ -33,6 +33,28 @@ describe('utils', () => {
       expect(clean[0].category).toBe('second');
     });
 
+    it('keeps the existing entry when the duplicate has a lower id', () => {
+      const base = set(new Date(), { seconds: 0, milliseconds: 0 });
+      const data = [
+        { time: set(base, { seconds: 15 }), category: 'newer', id: 5 },
+        { time: base, category: 'older', id: 2 },
+      ];
+      const clean = util.cleanData(data);
+      expect(clean.length).toBe(1);
+      expect(clean[0].category).toBe('newer');
+    });
+
+    it('keeps the existing entry when the duplicate has an equal id', () => {
+      const base = set(new Date(), { seconds: 0, milliseconds: 0 });
+      const data = [
+        { time: base, category: 'first', id: 3 },
+        { time: set(base, { seconds: 15 }), category: 'second', id: 3 },
+      ];
+      const clean = util.cleanData(data);
+      expect(clean.length).toBe(1);
+      expect(clean[0].category).toBe('first');
+    });
+
     it('should remove duplicate categories', () => {
       let id = 0;
       const data = [
@@ -46,6 +68,24 @@ describe('utils', () => {
       expect(clean[0].id).toBe(2);
       expect(clean[1].category).toBe('two');
       expect(clean[1].id).toBe(3);
+    });
+
+    it('keeps the existing entry when a same-category duplicate has a lower id', () => {
+      const data = [
+        util.dataFormat(makeDate(8), 'one', 5),
+        util.dataFormat(makeDate(9), 'one', 2),
+      ];
+      const clean = util.cleanData(data);
+      expect(clean.length).toBe(1);
+      expect(clean[0].id).toBe(5);
+    });
+
+    it('keeps the existing entry when a same-category duplicate has an equal id', () => {
+      const first = util.dataFormat(makeDate(8), 'one', 3);
+      const second = util.dataFormat(makeDate(9), 'one', 3);
+      const clean = util.cleanData([first, second]);
+      expect(clean.length).toBe(1);
+      expect(clean[0].time).toEqual(makeDate(8));
     });
   });
 

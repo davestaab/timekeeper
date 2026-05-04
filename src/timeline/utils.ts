@@ -24,7 +24,7 @@ interface YScale {
 type Domain = [Date, Date];
 type Coords = [number, number];
 
-function sortByTime(a: TimelineEntry, b: TimelineEntry): number {
+export function sortByTime(a: TimelineEntry, b: TimelineEntry): number {
   return isBefore(new Date(a.time), new Date(b.time)) ? -1 : 1;
 }
 
@@ -35,7 +35,7 @@ export function removeDupTimes(result: TimelineEntry[], d: TimelineEntry): Timel
   if (foundIndex === -1) {
     result.push(d);
   } else if (result[foundIndex].id < d.id) {
-    result[foundIndex] = d;
+    result.splice(foundIndex, 1, d);
   }
   return result;
 }
@@ -72,18 +72,14 @@ export function invertX(xScale: XScale): (x: number) => Date {
 }
 
 export function invertY(yScale: YScale): (y: number) => string {
-  return (y) => {
-    let min = Infinity;
-    let minData = '';
-    yScale.domain().forEach((d) => {
-      const minDistance = Math.abs(yScale(d) - y);
-      if (minDistance < min) {
-        min = minDistance;
-        minData = d;
-      }
-    });
-    return minData;
-  };
+  return (y) =>
+    yScale.domain().reduce<{ min: number; data: string }>(
+      (acc, d) => {
+        const dist = Math.abs(yScale(d) - y);
+        return dist < acc.min ? { min: dist, data: d } : acc;
+      },
+      { min: Infinity, data: '' }
+    ).data;
 }
 
 export function dataFormat(time: Date | null, category: string, id?: number): TimelineEntry {
