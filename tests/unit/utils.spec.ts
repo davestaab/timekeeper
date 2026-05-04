@@ -268,9 +268,7 @@ describe('utils', () => {
       expect(util.findStartIndex([])).toBe(1);
     });
     it('should return max id + 1', () => {
-      expect(util.findStartIndex([{ id: 1 }, { id: 2 }, { id: 500 }])).toBe(
-        501,
-      );
+      expect(util.findStartIndex([{ id: 1 }, { id: 500 }, { id: 2 }])).toBe(501);
     });
   });
 

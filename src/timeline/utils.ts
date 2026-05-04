@@ -28,9 +28,15 @@ export function sortByTime(a: TimelineEntry, b: TimelineEntry): number {
   return isBefore(new Date(a.time), new Date(b.time)) ? -1 : 1;
 }
 
-export function removeDupTimes(result: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
+export function removeDupTimes(
+  result: TimelineEntry[],
+  d: TimelineEntry,
+): TimelineEntry[] {
   const foundIndex = result.findIndex((elem) =>
-    isEqual(startOfMinute(new Date(elem.time)), startOfMinute(new Date(d.time)))
+    isEqual(
+      startOfMinute(new Date(elem.time)),
+      startOfMinute(new Date(d.time)),
+    ),
   );
   if (foundIndex === -1) {
     result.push(d);
@@ -40,7 +46,10 @@ export function removeDupTimes(result: TimelineEntry[], d: TimelineEntry): Timel
   return result;
 }
 
-export function removeDupCategories(results: TimelineEntry[], d: TimelineEntry): TimelineEntry[] {
+export function removeDupCategories(
+  results: TimelineEntry[],
+  d: TimelineEntry,
+): TimelineEntry[] {
   if (results.length === 0) {
     results.push(d);
     return results;
@@ -56,7 +65,10 @@ export function removeDupCategories(results: TimelineEntry[], d: TimelineEntry):
   return results;
 }
 
-export function removeUnknownCategories(data: TimelineEntry[], categories: string[]): TimelineEntry[] {
+export function removeUnknownCategories(
+  data: TimelineEntry[],
+  categories: string[],
+): TimelineEntry[] {
   return data.reduce<TimelineEntry[]>((result, d) => {
     if (categories.indexOf(d.category) >= 0) result.push(d);
     return result;
@@ -64,11 +76,15 @@ export function removeUnknownCategories(data: TimelineEntry[], categories: strin
 }
 
 export function cleanData(data: TimelineEntry[]): TimelineEntry[] {
-  return data.sort(sortByTime).reduce(removeDupTimes, []).reduce(removeDupCategories, []);
+  return data
+    .sort(sortByTime)
+    .reduce(removeDupTimes, [])
+    .reduce(removeDupCategories, []);
 }
 
 export function invertX(xScale: XScale): (x: number) => Date {
-  return (x) => roundToNearestMinutes(new Date(xScale.invert(x)), { nearestTo: 15 });
+  return (x) =>
+    roundToNearestMinutes(new Date(xScale.invert(x)), { nearestTo: 15 });
 }
 
 export function invertY(yScale: YScale): (y: number) => string {
@@ -78,11 +94,15 @@ export function invertY(yScale: YScale): (y: number) => string {
         const dist = Math.abs(yScale(d) - y);
         return dist < acc.min ? { min: dist, data: d } : acc;
       },
-      { min: Infinity, data: '' }
+      { min: Infinity, data: '' },
     ).data;
 }
 
-export function dataFormat(time: Date | null, category: string, id?: number): TimelineEntry {
+export function dataFormat(
+  time: Date | null,
+  category: string,
+  id?: number,
+): TimelineEntry {
   return { time: time as Date, category, id: id ?? 0 };
 }
 
@@ -94,7 +114,7 @@ export function identity(d: TimelineEntry): number {
 
 export function addHourAfter(
   rightEdge: number,
-  inc: number
+  inc: number,
 ): (domain: Domain, clickCoords: Coords) => Domain | undefined {
   return (domain, clickCoords) => {
     if (clickCoords[0] > rightEdge) {
@@ -108,12 +128,13 @@ export function addHourAfter(
 
 export function addHourBefore(
   leftEdge: number,
-  inc: number
+  inc: number,
 ): (domain: Domain, clickCoords: Coords) => Domain | undefined {
   return (domain, clickCoords) => {
     if (clickCoords[0] < leftEdge) {
       const earlierTime = subMinutes(new Date(domain[0]), inc);
-      if (getDate(new Date(domain[0])) !== getDate(earlierTime)) return undefined;
+      if (getDate(new Date(domain[0])) !== getDate(earlierTime))
+        return undefined;
       return [earlierTime, domain[1]];
     }
     return undefined;
@@ -124,7 +145,7 @@ export function addPoint(
   margin: Margin,
   chartWidth: number,
   invertXScale: (x: number) => Date,
-  invertYScale: (y: number) => string
+  invertYScale: (y: number) => string,
 ): (clickCoords: Coords, dataId: number) => TimelineEntry | undefined {
   return (clickCoords, dataId) => {
     const x = clickCoords[0];
@@ -132,7 +153,7 @@ export function addPoint(
       return dataFormat(
         invertXScale(clickCoords[0] - margin.left),
         invertYScale(clickCoords[1] - margin.top),
-        dataId
+        dataId,
       );
     }
     return undefined;
@@ -149,7 +170,9 @@ export function timesByCategory(data: TimelineEntry[]): Record<string, number> {
 
   const totals = data.reduce<Record<string, number>>((result, d) => {
     if (lastCategory !== undefined && lastTime !== undefined) {
-      result[lastCategory] = (result[lastCategory] ?? 0) + differenceInMinutes(new Date(d.time), new Date(lastTime));
+      result[lastCategory] =
+        (result[lastCategory] ?? 0) +
+        differenceInMinutes(new Date(d.time), new Date(lastTime));
     }
     lastCategory = d.category;
     lastTime = d.time;
