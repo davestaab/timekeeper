@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue';
 import TimeLineChartFactory from '@/timeline/TimeLineChart';
 import { select } from 'd3';
-import type { TimelineTimelineEntry } from '@/types';
+import type { TimelineEntry } from '@/types';
 
 const props = withDefaults(
   defineProps<{
@@ -40,7 +40,7 @@ watch(
   () => {
     if (props.currentDate !== cachedCurrentDate.value) {
       cachedCurrentDate.value = props.currentDate;
-      chart.reset(props.currentDate);
+      if (props.currentDate !== null) chart.reset(props.currentDate);
     }
     chart.data(props.timeData.map(inflate));
   }

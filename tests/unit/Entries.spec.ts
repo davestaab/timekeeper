@@ -6,7 +6,7 @@ describe('Entries', () => {
   it('renders a row for each entry', () => {
     const entries: TimelineEntry[] = [
       { id: 1, time: new Date('2024-01-01T09:00:00'), category: 'work' },
-      { id: 2, time: new Date('2024-01-01T11:30:00'), category: 'lunch' }
+      { id: 2, time: new Date('2024-01-01T11:30:00'), category: 'lunch' },
     ];
     const wrapper = shallowMount(Entries, { props: { entries } });
     const items = wrapper.findAll('li');
@@ -16,9 +16,11 @@ describe('Entries', () => {
   });
 
   it('formats entry times as hh:mm am/pm', () => {
-    const entries: TimelineEntry[] = [{ id: 1, time: new Date('2024-01-01T09:00:00'), category: 'work' }];
+    const entries: TimelineEntry[] = [
+      { id: 1, time: new Date('2024-01-01T09:00:00'), category: 'work' },
+    ];
     const wrapper = shallowMount(Entries, { props: { entries } });
-    expect(wrapper.text()).toContain('09:00 am');
+    expect(wrapper.text()).toContain('09:00 am - work');
   });
 
   it('renders nothing for the time when time is falsy', () => {

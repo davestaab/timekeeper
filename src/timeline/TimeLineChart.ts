@@ -97,7 +97,7 @@ function TimeLineChart(): Chart {
 
   function updateXScale(entries: TimelineEntry[]): void {
     if (xScale) {
-      const e = extent([...entries, ...dateWindow], (d) => d.time);
+      const e = extent([...entries, ...dateWindow], (d) => d.time as Date);
       xScale.domain(e);
     }
   }
@@ -191,7 +191,7 @@ function TimeLineChart(): Chart {
       xAxis = axisBottom(xScale)
         .ticks(timeMinute.every(15))
         .tickFormat((d) => (getMinutes(d as Date) === 0 ? format(d as Date, 'hh') : ''));
-      yAxis = axisLeft(yScale).tickFormat(formatCategory);
+      yAxis = axisLeft(yScale).tickFormat((d) => formatCategory(d as string));
       chartLine = line<TimelineEntry>().x(X).y(Y).curve(curveStepAfter);
       invertYScale = invertY(yScale);
       invertXScale = invertX(xScale);
