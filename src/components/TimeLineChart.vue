@@ -10,7 +10,7 @@ const props = withDefaults(
     timeData: TimelineEntry[];
     currentDate: Date | null;
   }>(),
-  { categories: () => [], timeData: () => [], currentDate: null }
+  { categories: () => [], timeData: () => [], currentDate: null },
 );
 
 const emit = defineEmits<{
@@ -32,7 +32,7 @@ function onUpdate(c: typeof chart) {
 
 watch(
   () => props.categories,
-  () => chart.categories(props.categories)
+  () => chart.categories(props.categories),
 );
 
 watch(
@@ -43,7 +43,7 @@ watch(
       if (props.currentDate !== null) chart.reset(props.currentDate);
     }
     chart.data(props.timeData.map(inflate));
-  }
+  },
 );
 
 onMounted(() => {

@@ -30,7 +30,10 @@ defineExpose({ newCat });
     <ul class="flex flex-col">
       <li v-for="cat in props.categories" :key="cat" class="m-1 flex-auto flex">
         <span class="flex-1">{{ cat }}</span>
-        <button class="invisible group-hover:visible flex-none" @click="onDelete(cat)">
+        <button
+          class="invisible group-hover:visible flex-none"
+          @click="onDelete(cat)"
+        >
           ✖
         </button>
       </li>

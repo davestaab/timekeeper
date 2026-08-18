@@ -51,7 +51,12 @@ export interface Chart {
   useTransitions(): boolean;
   useTransitions(val: boolean): Chart;
   reset(dateStr: string | Date): void;
-  debug(): { yScale: unknown; xScale: unknown; categories: string[]; data: TimelineEntry[] };
+  debug(): {
+    yScale: unknown;
+    xScale: unknown;
+    categories: string[];
+    data: TimelineEntry[];
+  };
 }
 
 function TimeLineChart(): Chart {
@@ -83,7 +88,8 @@ function TimeLineChart(): Chart {
   let dateWindow: DateWindow[] = [];
 
   let updateCategories: () => void = noop;
-  let updateChart: (data: TimelineEntry[], opts: { notify?: boolean }) => void = noop;
+  let updateChart: (data: TimelineEntry[], opts: { notify?: boolean }) => void =
+    noop;
 
   function X(d: TimelineEntry): number {
     return xScale(d.time);
@@ -129,7 +135,7 @@ function TimeLineChart(): Chart {
       const coords = pointer(event) as [number, number];
       const updateAfter = addHourAfter(margin.left + chartWidth, timeInc)(
         xScale.domain() as [Date, Date],
-        coords
+        coords,
       );
       if (updateAfter) {
         dateWindow = updateAfter.map(formatDateWindow);
@@ -137,16 +143,18 @@ function TimeLineChart(): Chart {
       }
       const updateBefore = addHourBefore(margin.left, timeInc)(
         xScale.domain() as [Date, Date],
-        coords
+        coords,
       );
       if (updateBefore) {
         dateWindow = updateBefore.map(formatDateWindow);
         xScale.domain(updateBefore);
       }
-      const newPoint = addPoint(margin, chartWidth, invertXScale, invertYScale)(
-        coords,
-        dataIndex++
-      );
+      const newPoint = addPoint(
+        margin,
+        chartWidth,
+        invertXScale,
+        invertYScale,
+      )(coords, dataIndex++);
       if (newPoint?.category) {
         data.push(newPoint);
         data = cleanData(data);
@@ -163,17 +171,28 @@ function TimeLineChart(): Chart {
   }
 
   function updatePoints(entries: TimelineEntry[]): void {
-    const update = svg.select('.all').selectAll('.point').data(entries, identity);
+    const update = svg
+      .select('.all')
+      .selectAll('.point')
+      .data(entries, identity);
     addTransitions(update).attr('cx', X).attr('cy', Y).attr('r', pointRadius);
     addTransitions(
-      update.enter().append('circle').attr('class', 'point').attr('cx', X).attr('cy', Y).attr('r', 0)
+      update
+        .enter()
+        .append('circle')
+        .attr('class', 'point')
+        .attr('cx', X)
+        .attr('cy', Y)
+        .attr('r', 0),
     ).attr('r', pointRadius);
     addTransitions(update.exit()).attr('r', 0).remove();
   }
 
   function updateScales(): void {
     addTransitions(
-      svg.select('.x.axis').attr('transform', 'translate(0,' + chartHeight + ')')
+      svg
+        .select('.x.axis')
+        .attr('transform', 'translate(0,' + chartHeight + ')'),
     ).call(xAxis);
     addTransitions(svg.select('.y.axis')).call(yAxis);
   }
@@ -182,7 +201,9 @@ function TimeLineChart(): Chart {
     addTransitions(svg.select('.line').data([entries])).attr('d', chartLine);
   }
 
-  function chart(selection: Selection<HTMLElement, unknown, null, undefined>): void {
+  function chart(
+    selection: Selection<HTMLElement, unknown, null, undefined>,
+  ): void {
     selection.each(function () {
       xScale = scaleTime().range([0, chartWidth]).clamp(true);
       updateXScale(data);
@@ -190,7 +211,9 @@ function TimeLineChart(): Chart {
 
       xAxis = axisBottom(xScale)
         .ticks(timeMinute.every(15))
-        .tickFormat((d) => (getMinutes(d as Date) === 0 ? format(d as Date, 'hh') : ''));
+        .tickFormat((d) =>
+          getMinutes(d as Date) === 0 ? format(d as Date, 'hh') : '',
+        );
       yAxis = axisLeft(yScale).tickFormat((d) => formatCategory(d as string));
       chartLine = line<TimelineEntry>().x(X).y(Y).curve(curveStepAfter);
       invertYScale = invertY(yScale);
@@ -227,7 +250,7 @@ function TimeLineChart(): Chart {
 
       function liveUpdateChart(
         entries: TimelineEntry[],
-        { notify = false }: { notify?: boolean }
+        { notify = false }: { notify?: boolean },
       ): void {
         updatePoints(entries);
         updateScales();
@@ -293,7 +316,7 @@ function TimeLineChart(): Chart {
 
   (chart as any).reset = function (dateStr: string | Date): void {
     const dt = parseISO(
-      typeof dateStr === 'string' ? dateStr : format(dateStr, 'yyyy-MM-dd')
+      typeof dateStr === 'string' ? dateStr : format(dateStr, 'yyyy-MM-dd'),
     );
     dateWindow = [
       { time: set(dt, { hours: 7, minutes: 0, seconds: 0, milliseconds: 0 }) },

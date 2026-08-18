@@ -20,7 +20,11 @@ function findToday() {
   const today = format(new Date(), 'yyyy-MM-dd');
   const i = data.value.findIndex((d) => d.date === today);
   if (i < 0) {
-    data.value.push({ categories: ['one', 'two', 'three', 'four'], data: [], date: today });
+    data.value.push({
+      categories: ['one', 'two', 'three', 'four'],
+      data: [],
+      date: today,
+    });
     current.value = data.value.length - 1;
   } else {
     current.value = i;
@@ -29,30 +33,39 @@ function findToday() {
 
 function nextDate(amount: number) {
   const next = current.value + amount;
-  current.value = next < 0 ? data.value.length - 1 : next >= data.value.length ? 0 : next;
+  current.value =
+    next < 0 ? data.value.length - 1 : next >= data.value.length ? 0 : next;
   times.value = timesByCategory(data.value[current.value].data);
 }
 
-function chartUpdated(newTimes: Record<string, number>, chartData: TimelineEntry[]) {
+function chartUpdated(
+  newTimes: Record<string, number>,
+  chartData: TimelineEntry[],
+) {
   times.value = newTimes;
   currentData.value.data = chartData;
   saveData(data.value);
 }
 
 function deleteCategory(category: string) {
-  currentData.value.categories = currentData.value.categories.filter((c) => c !== category);
+  currentData.value.categories = currentData.value.categories.filter(
+    (c) => c !== category,
+  );
 }
 
 function createCategory(category: string) {
   currentData.value.categories = [...currentData.value.categories, category];
 }
-
 </script>
 
 <template>
   <div class="container mx-auto px-4 pb-6">
     <div class="text-4xl text-center py-4">Time Keeper 🕰</div>
-    <DatePicker :current-date="currentDate" @nextDate="nextDate" @findToday="findToday" />
+    <DatePicker
+      :current-date="currentDate"
+      @nextDate="nextDate"
+      @findToday="findToday"
+    />
     <TimeLineChart
       :categories="currentData.categories"
       :current-date="currentDate"
@@ -66,7 +79,11 @@ function createCategory(category: string) {
         @deleteCategory="deleteCategory"
         @createCategory="createCategory"
       />
-      <TimeSummary :times="times" :data="currentData.data" class="flex-1 px-6" />
+      <TimeSummary
+        :times="times"
+        :data="currentData.data"
+        class="flex-1 px-6"
+      />
     </div>
   </div>
 </template>

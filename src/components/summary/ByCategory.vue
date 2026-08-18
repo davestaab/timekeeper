@@ -4,7 +4,7 @@ import { computed } from 'vue';
 const props = defineProps<{ times: Record<string, number> }>();
 
 const total = computed(() =>
-  Object.values(props.times).reduce((sum, v) => sum + v, 0)
+  Object.values(props.times).reduce((sum, v) => sum + v, 0),
 );
 </script>
 

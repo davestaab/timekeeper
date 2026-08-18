@@ -7,7 +7,6 @@ defineProps<{ entries: TimelineEntry[] }>();
 function formatDate(value: Date | string | null): string | null {
   return value ? format(new Date(value), 'hh:mm aaa') : null;
 }
-
 </script>
 
 <template>

@@ -1,0 +1,9 @@
+allowBuilds:
+  esbuild: true
+onlyBuiltDependencies:
+  - core-js
+  - deasync
+  - ejs
+  - esbuild
+  - fsevents
+  - yorkie
