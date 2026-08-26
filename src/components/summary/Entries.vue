@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
 import type { TimelineEntry } from '@/types';
+import { categoryLabel } from '@/timeline/utils';
 
 defineProps<{ entries: TimelineEntry[] }>();
 
@@ -14,7 +15,7 @@ function formatDate(value: Date | string | null): string | null {
     <div class="text-xl my-2">Entries</div>
     <ul>
       <li v-for="e in entries" :key="e.id" class="m-1">
-        {{ formatDate(e.time) }} - {{ e.category }}
+        {{ formatDate(e.time) }} - {{ categoryLabel(e.category) }}
       </li>
     </ul>
   </div>

@@ -32,6 +32,15 @@ describe('Categories', () => {
     expect((wrapper.vm as any).newCat).toBe('');
   });
 
+  it('blocks creating a category named deadTime', async () => {
+    const wrapper = mountCategories();
+    const input = wrapper.find('input');
+    await input.setValue('deadTime');
+    await input.trigger('keyup.enter');
+    expect(wrapper.emitted('createCategory')).toBeUndefined();
+    expect((wrapper.vm as any).newCat).toBe('');
+  });
+
   it('renders with empty categories list', () => {
     const wrapper = mountCategories([]);
     expect(wrapper.findAll('li').length).toBe(0);

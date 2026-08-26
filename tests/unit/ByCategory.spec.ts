@@ -25,4 +25,28 @@ describe('ByCategory', () => {
     expect((wrapper.vm as any).total).toBe(0);
     expect(wrapper.text()).toContain('0: Total');
   });
+
+  it('excludes deadTime from the total', () => {
+    const wrapper = shallowMount(ByCategory, {
+      props: { times: { work: 2, deadTime: 1.5 } }
+    });
+    expect((wrapper.vm as any).total).toBe(2);
+    expect(wrapper.text()).toContain('2: Total');
+  });
+
+  it('shows deadTime below the total with an em dash label', () => {
+    const wrapper = shallowMount(ByCategory, {
+      props: { times: { work: 2, deadTime: 1.5 } }
+    });
+    const items = wrapper.findAll('li');
+    expect(items.length).toBe(3); // work + total + deadTime
+    expect(items[items.length - 1].text()).toBe('1.5 hr(s): —');
+  });
+
+  it('does not show a deadTime row when absent', () => {
+    const wrapper = shallowMount(ByCategory, {
+      props: { times: { work: 2 } }
+    });
+    expect(wrapper.text()).not.toContain('—');
+  });
 });

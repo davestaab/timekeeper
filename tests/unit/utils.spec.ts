@@ -278,6 +278,86 @@ describe('utils', () => {
       expect(util.formatCategory('short')).toBe('short');
       expect(util.formatCategory('')).toBe('');
     });
+
+    it('should return an empty label for dead time', () => {
+      expect(util.formatCategory(util.DEAD_TIME)).toBe('');
+    });
+  });
+
+  describe('withDeadTime', () => {
+    it('should prepend deadTime to the categories list', () => {
+      expect(util.withDeadTime(['one', 'two'])).toEqual([
+        'deadTime',
+        'one',
+        'two',
+      ]);
+    });
+
+    it('should dedupe an existing deadTime entry rather than duplicate it', () => {
+      expect(util.withDeadTime(['one', 'deadTime', 'two'])).toEqual([
+        'deadTime',
+        'one',
+        'two',
+      ]);
+    });
+
+    it('should return just deadTime for an empty list', () => {
+      expect(util.withDeadTime([])).toEqual(['deadTime']);
+    });
+  });
+
+  describe('categoryLabel', () => {
+    it('should return an em dash for deadTime', () => {
+      expect(util.categoryLabel(util.DEAD_TIME)).toBe('—');
+    });
+
+    it('should pass through any other category unchanged', () => {
+      expect(util.categoryLabel('work')).toBe('work');
+    });
+  });
+
+  describe('toHorizontalSegments', () => {
+    it('should return an empty array for no entries', () => {
+      expect(util.toHorizontalSegments([])).toEqual([]);
+    });
+
+    it('should return an empty array for a single entry', () => {
+      const entries = [util.dataFormat(makeDate(8), 'one', 1)];
+      expect(util.toHorizontalSegments(entries)).toEqual([]);
+    });
+
+    it('should return one segment per consecutive pair, keyed off the earlier entry', () => {
+      const one = util.dataFormat(makeDate(8), 'one', 1);
+      const two = util.dataFormat(makeDate(9), 'two', 2);
+      const three = util.dataFormat(makeDate(10), 'three', 3);
+      const segments = util.toHorizontalSegments([one, two, three]);
+
+      expect(segments.length).toBe(2);
+      expect(segments[0]).toEqual({ from: one, to: two, isDead: false });
+      expect(segments[1]).toEqual({ from: two, to: three, isDead: false });
+    });
+
+    it('should mark a segment dead when it starts on a deadTime entry', () => {
+      const one = util.dataFormat(makeDate(8), 'one', 1);
+      const dead = util.dataFormat(makeDate(9), 'deadTime', 2);
+      const two = util.dataFormat(makeDate(10), 'two', 3);
+      const segments = util.toHorizontalSegments([one, dead, two]);
+
+      expect(segments.length).toBe(2);
+      expect(segments[0].isDead).toBe(false);
+      expect(segments[1].from).toBe(dead);
+      expect(segments[1].to).toBe(two);
+      expect(segments[1].isDead).toBe(true);
+    });
+
+    it('should not mark a segment dead just because it ends on a deadTime entry', () => {
+      const one = util.dataFormat(makeDate(8), 'one', 1);
+      const dead = util.dataFormat(makeDate(9), 'deadTime', 2);
+      const segments = util.toHorizontalSegments([one, dead]);
+
+      expect(segments.length).toBe(1);
+      expect(segments[0].isDead).toBe(false);
+    });
   });
 
   describe('addPoint', () => {

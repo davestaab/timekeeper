@@ -12,6 +12,8 @@ import type { TimelineEntry, Margin } from '../types';
 
 const CAT_DISPLAY_LENGTH = 10;
 
+export const DEAD_TIME = 'deadTime';
+
 interface XScale {
   invert(x: number): Date;
 }
@@ -23,6 +25,12 @@ interface YScale {
 
 type Domain = [Date, Date];
 type Coords = [number, number];
+
+export interface HorizontalSegment {
+  from: TimelineEntry;
+  to: TimelineEntry;
+  isDead: boolean;
+}
 
 export function sortByTime(a: TimelineEntry, b: TimelineEntry): number {
   return isBefore(new Date(a.time), new Date(b.time)) ? -1 : 1;
@@ -190,5 +198,34 @@ export function findStartIndex(data: Array<{ id: number }>): number {
 }
 
 export function formatCategory(d: string): string {
+  if (d === DEAD_TIME) return '';
   return d.length > CAT_DISPLAY_LENGTH ? d.substring(0, CAT_DISPLAY_LENGTH) : d;
+}
+
+// DEAD_TIME must be first: scalePoint maps domain[0] to the bottom of the
+// chart (see TimeLineChart.ts), so this is what keeps it the bottom row.
+export function withDeadTime(categories: string[]): string[] {
+  return [DEAD_TIME, ...categories.filter((c) => c !== DEAD_TIME)];
+}
+
+export function categoryLabel(category: string): string {
+  return category === DEAD_TIME ? '—' : category;
+}
+
+// One horizontal segment per pair of consecutive entries, drawn at the
+// row of the earlier entry (`from`) — no vertical connector to the next
+// row. This is what makes each category run render as an isolated
+// horizontal line rather than a connected step-line across rows.
+export function toHorizontalSegments(
+  entries: TimelineEntry[],
+): HorizontalSegment[] {
+  const segments: HorizontalSegment[] = [];
+  for (let i = 0; i < entries.length - 1; i++) {
+    segments.push({
+      from: entries[i],
+      to: entries[i + 1],
+      isDead: entries[i].category === DEAD_TIME,
+    });
+  }
+  return segments;
 }

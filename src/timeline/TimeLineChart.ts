@@ -3,10 +3,8 @@ import {
   pointer,
   axisBottom,
   axisLeft,
-  line,
   scaleTime,
   scalePoint,
-  curveStepAfter,
   timeMinute,
   easeCubicOut,
   extent,
@@ -25,6 +23,10 @@ import {
   timesByCategory,
   findStartIndex,
   formatCategory,
+  withDeadTime,
+  toHorizontalSegments,
+  DEAD_TIME,
+  type HorizontalSegment,
 } from './utils';
 import { getMinutes, format, parseISO, set } from 'date-fns';
 import type { TimelineEntry, Margin } from '../types';
@@ -62,7 +64,7 @@ export interface Chart {
 function TimeLineChart(): Chart {
   let width = 760;
   let height = 200;
-  let categories = ['red', 'blue', 'one', 'two'];
+  let categories = withDeadTime(['red', 'blue', 'one', 'two']);
   let margin: Margin = { top: 50, right: 50, bottom: 50, left: 75 };
   let data: TimelineEntry[] = [];
   let _notifyOnUpdate: (chart: Chart) => void = noop;
@@ -79,10 +81,10 @@ function TimeLineChart(): Chart {
   let xScale: any;
   let xAxis: any;
   let yAxis: any;
-  let chartLine: any;
   let invertYScale: (y: number) => string;
   let invertXScale: (x: number) => Date;
   let chartGrp: any;
+  let lineGrp: any;
   let hover: any;
   let useTransitions = true;
   let dateWindow: DateWindow[] = [];
@@ -170,22 +172,59 @@ function TimeLineChart(): Chart {
     return selection;
   }
 
+  function pointClass(d: TimelineEntry): string {
+    return d.category === DEAD_TIME ? 'point point--dead' : 'point';
+  }
+
+  // Every entry gets a circle at the start of its segment, except the very
+  // last one — it has no outgoing segment yet, so it's drawn as a thin
+  // vertical line instead of a point.
   function updatePoints(entries: TimelineEntry[]): void {
     const update = svg
       .select('.all')
       .selectAll('.point')
-      .data(entries, identity);
-    addTransitions(update).attr('cx', X).attr('cy', Y).attr('r', pointRadius);
+      .data(entries.slice(0, -1), identity);
+    addTransitions(update)
+      .attr('class', pointClass)
+      .attr('cx', X)
+      .attr('cy', Y)
+      .attr('r', pointRadius);
     addTransitions(
       update
         .enter()
         .append('circle')
-        .attr('class', 'point')
+        .attr('class', pointClass)
         .attr('cx', X)
         .attr('cy', Y)
         .attr('r', 0),
     ).attr('r', pointRadius);
     addTransitions(update.exit()).attr('r', 0).remove();
+  }
+
+  function updateMarker(entries: TimelineEntry[]): void {
+    const last = entries.length > 0 ? [entries[entries.length - 1]] : [];
+    const update = svg.select('.all').selectAll('.marker').data(last, identity);
+    addTransitions(update)
+      .attr('x1', X)
+      .attr('x2', X)
+      .attr('y1', 0)
+      .attr('y2', chartHeight);
+    addTransitions(
+      update
+        .enter()
+        .append('line')
+        .attr('class', 'marker')
+        .attr('x1', X)
+        .attr('x2', X)
+        .attr('y1', chartHeight / 2)
+        .attr('y2', chartHeight / 2),
+    )
+      .attr('y1', 0)
+      .attr('y2', chartHeight);
+    addTransitions(update.exit())
+      .attr('y1', chartHeight / 2)
+      .attr('y2', chartHeight / 2)
+      .remove();
   }
 
   function updateScales(): void {
@@ -197,8 +236,21 @@ function TimeLineChart(): Chart {
     addTransitions(svg.select('.y.axis')).call(yAxis);
   }
 
+  function segmentClass(s: HorizontalSegment): string {
+    return s.isDead ? 'segment segment--dead' : 'segment';
+  }
+
   function updateLine(entries: TimelineEntry[]): void {
-    addTransitions(svg.select('.line').data([entries])).attr('d', chartLine);
+    const segments = toHorizontalSegments(entries);
+    const lines = lineGrp.selectAll('line.segment').data(segments);
+    lines.exit().remove();
+    const merged = lines.enter().append('line').merge(lines);
+    merged.attr('class', segmentClass);
+    addTransitions(merged)
+      .attr('x1', (s: HorizontalSegment) => X(s.from))
+      .attr('y1', (s: HorizontalSegment) => Y(s.from))
+      .attr('x2', (s: HorizontalSegment) => X(s.to))
+      .attr('y2', (s: HorizontalSegment) => Y(s.from));
   }
 
   function chart(
@@ -215,7 +267,6 @@ function TimeLineChart(): Chart {
           getMinutes(d as Date) === 0 ? format(d as Date, 'hh') : '',
         );
       yAxis = axisLeft(yScale).tickFormat((d) => formatCategory(d as string));
-      chartLine = line<TimelineEntry>().x(X).y(Y).curve(curveStepAfter);
       invertYScale = invertY(yScale);
       invertXScale = invertX(xScale);
 
@@ -228,7 +279,7 @@ function TimeLineChart(): Chart {
         .append('g')
         .attr('class', 'all')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-      chartGrp.append('path').attr('class', 'line');
+      lineGrp = chartGrp.append('g').attr('class', 'lines');
       chartGrp.append('g').attr('class', 'x axis');
       chartGrp.append('g').attr('class', 'y axis');
       hover = chartGrp
@@ -253,6 +304,7 @@ function TimeLineChart(): Chart {
         { notify = false }: { notify?: boolean },
       ): void {
         updatePoints(entries);
+        updateMarker(entries);
         updateScales();
         updateLine(entries);
         if (notify) _notifyOnUpdate(chart as Chart);
@@ -303,7 +355,7 @@ function TimeLineChart(): Chart {
 
   (chart as any).categories = function (_?: string[]) {
     if (!arguments.length) return categories;
-    categories = _!;
+    categories = withDeadTime(_!);
     updateCategories();
     return chart;
   };

@@ -60,12 +60,18 @@ onMounted(() => {
 
 <!-- can't scope this — has to style the d3 chart -->
 <style>
-.line {
+.segment {
   stroke: blueviolet;
-  fill: none;
-  stroke-linejoin: round;
   stroke-width: 5px;
   stroke-linecap: round;
+}
+.segment--dead {
+  stroke: #f87171; /* tailwind red-400 */
+}
+.marker {
+  stroke: #d1d5db; /* tailwind gray-300 */
+  stroke-width: 1px;
+  stroke-dasharray: 4 3;
 }
 .chart {
   margin: 0 auto;
@@ -92,6 +98,10 @@ onMounted(() => {
 .point {
   stroke: blueviolet;
   fill: rgba(33, 33, 33, 0.1);
+}
+.point--dead {
+  stroke: #f87171; /* tailwind red-400 */
+  fill: rgba(248, 113, 113, 0.15);
 }
 .hover {
   stroke: blueviolet;

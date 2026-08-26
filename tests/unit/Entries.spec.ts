@@ -33,4 +33,12 @@ describe('Entries', () => {
     const wrapper = shallowMount(Entries, { props: { entries: [] } });
     expect(wrapper.findAll('li').length).toBe(0);
   });
+
+  it('renders deadTime entries with an em dash label', () => {
+    const entries: TimelineEntry[] = [
+      { id: 1, time: new Date('2024-01-01T09:00:00'), category: 'deadTime' },
+    ];
+    const wrapper = shallowMount(Entries, { props: { entries } });
+    expect(wrapper.find('li').text()).toBe('09:00 am - —');
+  });
 });

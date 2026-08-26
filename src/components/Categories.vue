@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { DEAD_TIME } from '@/timeline/utils';
 
 const props = withDefaults(defineProps<{ categories: string[] }>(), {
   categories: () => [],
@@ -17,6 +18,10 @@ function onDelete(cat: string) {
 }
 
 function createCategory(cat: string) {
+  if (cat === DEAD_TIME) {
+    newCat.value = '';
+    return;
+  }
   emit('createCategory', cat);
   newCat.value = '';
 }
